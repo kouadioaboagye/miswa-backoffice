@@ -3,27 +3,15 @@
 # dependencies
 /node_modules
 /.pnp
-<<<<<<< HEAD
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-=======
 .pnp.js
 .yarn/install-state.gz
->>>>>>> 6487097 (first commit)
 
 # testing
 /coverage
 
 # next.js
 /.next/
-<<<<<<< HEAD
-=======
 /.vscode/
->>>>>>> 6487097 (first commit)
 /out/
 
 # production
@@ -37,17 +25,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-=======
 
 # local env files
 .env*.local
 .env
->>>>>>> 6487097 (first commit)
 
 # vercel
 .vercel
@@ -55,8 +36,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-<<<<<<< HEAD
-=======
 node_modules/
 /test-results/
 /playwright-report/
@@ -68,4 +47,3 @@ node_modules/
 # local env files
 .env*
 !.env.example
->>>>>>> 6487097 (first commit)
