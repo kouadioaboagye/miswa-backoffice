@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+import { createEnv } from './src/config/env';
+createEnv();
+const nextConfig = {
+    reactStrictMode: true,
+    output: 'standalone',
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                port: '',
+                pathname: '/**'
+            }
+        ]
+    }
 };
 
 export default nextConfig;
