@@ -175,6 +175,23 @@ span {
     }
 }
 
+hr {
+    border: none;
+    border-top: 1px solid #a0aec0;
+    color: #718096;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+}
+
+hr::after {
+    background: #f6f7fe;
+    content: 'or';
+    padding: 0 9px;
+    position: relative;
+    top: -13px;
+}
+
 @layer utilities {
     .scrollbar-hide {
         -ms-overflow-style: none; /* IE and Edge */

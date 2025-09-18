@@ -1,9 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
+import * as React from 'react';
 
 import {
     Sheet,
@@ -13,23 +13,23 @@ import {
     SheetTitle
 } from './sheet';
 
+import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { cn } from '@/shared/lib/utils';
+import { MynauiPanelLeftOpenSolid } from '../../../../public/assets/icons/panel-open';
 import { Button } from './button';
 import { Input } from './input';
-import { Skeleton } from './skeleton';
 import { Separator } from './separator';
+import { Skeleton } from './skeleton';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger
 } from './tooltip';
-import { useIsMobile } from '@/shared/hooks/use-mobile';
-import { MynauiPanelLeftOpenSolid } from '../../../../public/assets/icons/panel-open';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = '25rem';
+const SIDEBAR_WIDTH = '26rem';
 const SIDEBAR_WIDTH_MOBILE = '21rem';
 const SIDEBAR_WIDTH_ICON = '9rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
@@ -269,7 +269,7 @@ const Sidebar = React.forwardRef<
                             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
                         // Adjust the padding for floating and inset variants.
                         variant === 'floating' || variant === 'inset'
-                            ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
+                            ? 'p-8 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
                             : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-none group-data-[side=right]:border-l',
                         className
                     )}
@@ -277,10 +277,10 @@ const Sidebar = React.forwardRef<
                 >
                     <div
                         data-sidebar="sidebar"
-                        className="group-data-[variant=floating]:border-sidebar-border relative flex size-full flex-col overflow-hidden bg-white group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
+                        className="group-data-[variant=floating]:border-sidebar-border relative flex size-full flex-col overflow-hidden bg-[#14385C] group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
                         style={{
-                            backgroundImage:
-                                'url(/assets/images/sidebar_image.svg)',
+                            // backgroundImage:
+                            //     'url(/assets/images/sidebar_image.svg)',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'bottom center',
                             backgroundSize: 'contain'
@@ -359,7 +359,7 @@ const SidebarInset = React.forwardRef<
             ref={ref}
             className={cn(
                 'relative flex w-full flex-1 flex-col bg-background',
-                'md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow',
+                'md:peer-data-[variant=inset]:m-5 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-5 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-md',
                 className
             )}
             {...props}
@@ -457,10 +457,7 @@ const SidebarGroup = React.forwardRef<
         <div
             ref={ref}
             data-sidebar="group"
-            className={cn(
-                'relative flex w-full min-w-0 flex-col p-2',
-                className
-            )}
+            className={cn('relative flex w-full min-w-0 flex-col', className)}
             {...props}
         />
     );

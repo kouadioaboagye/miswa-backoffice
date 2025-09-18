@@ -1,113 +1,75 @@
 // import { HugeiconsComplaint } from '../../../public/assets/icons/claims';
-import { DashboardIcon } from '../../../public/assets/icons/dashboard-icon';
+import { MageDashboardFill } from '../../../public/assets/icons/dashboard-icon';
 // import { TablerLogs } from '../../../public/assets/icons/logs';
 import { paths } from '@/config/app-route.config';
-import { TransactionIcon } from '../../../public/assets/icons/transaction-icon';
-import { BeneficiaireIcon } from '../../../public/assets/icons/beneficiaire-icon';
-import { DocumentsIcon } from '../../../public/assets/icons/documents-icon';
+import { LucideShoppingCart } from 'lucide-react';
+import { TablerCalendarFilled } from '../../../public/assets/icons/beneficiaire-icon';
 import { ConversionIcon } from '../../../public/assets/icons/conversion-icon';
+import { GravityUiSquareListUl } from '../../../public/assets/icons/documents-icon';
+import { IconParkOutlineSettingOne } from '../../../public/assets/icons/setting';
 
 export const menus = {
-    particular_nav_menu: [
+    main_nav: [
         {
-            label: 'Tableau de bord',
+            label: 'Dashboard',
             icon: (
-                <DashboardIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.dashboard
+            href: paths.admin.dashboard
         },
 
         {
-            label: 'Bénéficiaires',
+            label: 'Biens',
             icon: (
-                <BeneficiaireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.beneficiaires
+            href: paths.admin.property
         },
         {
-            label: 'Transactions',
+            label: 'Paiements',
             icon: (
-                <TransactionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.transactions
+            href: paths.admin.payments
         },
         {
-            label: 'Documents',
+            label: 'Contrats',
             icon: (
-                <DocumentsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.documents
+            href: paths.admin.contracts
         },
         {
-            label: 'Conversions',
+            label: 'Interventions',
             icon: (
                 <ConversionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.conversions
+            href: paths.admin.interventions
         }
     ],
-    business_nav_menu: [
+    config: [
         {
-            label: 'Tableau de bord',
+            label: 'Configurations',
             icon: (
-                <DashboardIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.business.dashboard
-        },
-        {
-            label: 'Bénéficiaires',
-            icon: (
-                <BeneficiaireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.business.beneficiaires
-        },
-        {
-            label: 'Transactions',
-            icon: (
-                <TransactionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.business.transactions
-        },
-
-        {
-            label: 'Documents',
-            icon: (
-                <DocumentsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.business.documents
-        },
-        {
-            label: 'Conversions',
-            icon: (
-                <ConversionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.business.conversions
+            href: paths.admin.config.root,
+            items: [
+                {
+                    label: 'Utilisateurs',
+                    icon: (
+                        <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                    ),
+                    href: paths.admin.config.users
+                },
+                {
+                    label: 'Blog',
+                    icon: (
+                        <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                    ),
+                    href: paths.admin.config.blog
+                }
+            ]
         }
     ]
-    // administration: [
-    //     {
-    //         label: 'Administration',
-    //         icon: (
-    //             <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //         ),
-    //         href: '/administration',
-    //         items: [
-    //             {
-    //                 label: 'Utilisateurs',
-    //                 icon: (
-    //                     <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //                 ),
-    //                 href: paths.particular.users
-    //             },
-    //             {
-    //                 label: 'Paramètres',
-    //                 icon: (
-    //                     <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //                 ),
-    //                 href: paths.particular.settings
-    //             }
-
-    //         ]
-    //     }
-    // ]
 };

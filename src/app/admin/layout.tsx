@@ -1,11 +1,20 @@
-import type { ReactNode } from 'react';
+import { AppSidebar } from '@/shared/components/organisms/sections/app-sidebar';
+import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
 
-import AppLayout from '@/shared/components/layouts/app-layout';
-
-export default async function RootLayout({
+export default function DashboardLayout({
     children
-}: Readonly<{
-    children: ReactNode;
-}>) {
-    return <AppLayout>{children}</AppLayout>;
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <SidebarProvider className="bg-[#14385C]">
+            <AppSidebar variant="inset" />
+            <SidebarInset>
+                <main>
+                    {/* <SidebarTrigger /> */}
+                    {children}
+                </main>
+            </SidebarInset>
+        </SidebarProvider>
+    );
 }
