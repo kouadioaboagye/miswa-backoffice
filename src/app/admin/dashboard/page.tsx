@@ -1,5 +1,7 @@
+import DashboardView from '@/features/admin/views/dashboard-view';
+
 const DashboardPage = () => {
-    return <div></div>;
+    return <DashboardView />;
 };
 
 export default DashboardPage;

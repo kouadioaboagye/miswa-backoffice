@@ -28,6 +28,13 @@ export const paths = {
             root: `${ROOTS.ADMIN}/configs`,
             users: `${ROOTS.ADMIN}/configs/users`,
             blog: `${ROOTS.ADMIN}/configs/blog`
+        },
+        module: {
+            root: `${ROOTS.ADMIN}/module`,
+            advertisements: `${ROOTS.ADMIN}/module/advertisements`,
+            owner: `${ROOTS.ADMIN}/module/owner`,
+            tenant: `${ROOTS.ADMIN}/module/tenant`,
+            property: `${ROOTS.ADMIN}/module/property`
         }
     }
 };

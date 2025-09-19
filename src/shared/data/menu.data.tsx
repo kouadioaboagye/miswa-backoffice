@@ -4,9 +4,13 @@ import { MageDashboardFill } from '../../../public/assets/icons/dashboard-icon';
 import { paths } from '@/config/app-route.config';
 import { LucideShoppingCart } from 'lucide-react';
 import { TablerCalendarFilled } from '../../../public/assets/icons/beneficiaire-icon';
-import { ConversionIcon } from '../../../public/assets/icons/conversion-icon';
+import ChatDotsIcon from '../../../public/assets/icons/chat-dots-icon';
 import { GravityUiSquareListUl } from '../../../public/assets/icons/documents-icon';
-import { IconParkOutlineSettingOne } from '../../../public/assets/icons/setting';
+import { HomeHouseIcon } from '../../../public/assets/icons/home-house';
+import { LocataireIcon } from '../../../public/assets/icons/locataire';
+import MicrophoneIcon from '../../../public/assets/icons/microphone';
+import { ProprioIcon } from '../../../public/assets/icons/proprio';
+import { LetsIconsSettingLine } from '../../../public/assets/icons/setting';
 
 export const menus = {
     main_nav: [
@@ -42,7 +46,7 @@ export const menus = {
         {
             label: 'Interventions',
             icon: (
-                <ConversionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <ChatDotsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
             href: paths.admin.interventions
         }
@@ -51,25 +55,51 @@ export const menus = {
         {
             label: 'Configurations',
             icon: (
-                <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LetsIconsSettingLine className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
             href: paths.admin.config.root,
             items: [
                 {
                     label: 'Utilisateurs',
-                    icon: (
-                        <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-                    ),
+                    icon: '',
                     href: paths.admin.config.users
                 },
                 {
                     label: 'Blog',
-                    icon: (
-                        <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-                    ),
+                    icon: '',
                     href: paths.admin.config.blog
                 }
             ]
+        }
+    ],
+    module_nav: [
+        {
+            label: 'Biens',
+            icon: (
+                <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.property
+        },
+        {
+            label: 'Propriétaires',
+            icon: (
+                <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner
+        },
+        {
+            label: 'Locataires',
+            icon: (
+                <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.tenant
+        },
+        {
+            label: 'Annonces',
+            icon: (
+                <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisements
         }
     ]
 };
