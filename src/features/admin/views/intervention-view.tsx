@@ -51,7 +51,7 @@ const InterventionView = () => {
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">
-                                NOUVEAU INTERVENTION
+                                NOUVELLE INTERVENTION
                             </span>
                         </Button>
                     )
