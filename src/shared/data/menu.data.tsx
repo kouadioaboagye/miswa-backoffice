@@ -1,113 +1,105 @@
 // import { HugeiconsComplaint } from '../../../public/assets/icons/claims';
-import { DashboardIcon } from '../../../public/assets/icons/dashboard-icon';
+import { MageDashboardFill } from '../../../public/assets/icons/dashboard-icon';
 // import { TablerLogs } from '../../../public/assets/icons/logs';
 import { paths } from '@/config/app-route.config';
-import { TransactionIcon } from '../../../public/assets/icons/transaction-icon';
-import { BeneficiaireIcon } from '../../../public/assets/icons/beneficiaire-icon';
-import { DocumentsIcon } from '../../../public/assets/icons/documents-icon';
-import { ConversionIcon } from '../../../public/assets/icons/conversion-icon';
+import { LucideShoppingCart } from 'lucide-react';
+import { TablerCalendarFilled } from '../../../public/assets/icons/beneficiaire-icon';
+import ChatDotsIcon from '../../../public/assets/icons/chat-dots-icon';
+import { GravityUiSquareListUl } from '../../../public/assets/icons/documents-icon';
+import { HomeHouseIcon } from '../../../public/assets/icons/home-house';
+import { LocataireIcon } from '../../../public/assets/icons/locataire';
+import MicrophoneIcon from '../../../public/assets/icons/microphone';
+import { ProprioIcon } from '../../../public/assets/icons/proprio';
+import { LetsIconsSettingLine } from '../../../public/assets/icons/setting';
 
 export const menus = {
-    particular_nav_menu: [
+    main_nav: [
         {
-            label: 'Tableau de bord',
+            label: 'Dashboard',
             icon: (
-                <DashboardIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.dashboard
+            href: paths.admin.dashboard
         },
 
         {
-            label: 'Bénéficiaires',
+            label: 'Biens',
             icon: (
-                <BeneficiaireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.beneficiaires
+            href: paths.admin.property
         },
         {
-            label: 'Transactions',
+            label: 'Paiements',
             icon: (
-                <TransactionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.transactions
+            href: paths.admin.payments
         },
         {
-            label: 'Documents',
+            label: 'Contrats',
             icon: (
-                <DocumentsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.documents
+            href: paths.admin.contracts
         },
         {
-            label: 'Conversions',
+            label: 'Interventions',
             icon: (
-                <ConversionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <ChatDotsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.particular.conversions
+            href: paths.admin.interventions
         }
     ],
-    business_nav_menu: [
+    config: [
         {
-            label: 'Tableau de bord',
+            label: 'Configurations',
             icon: (
-                <DashboardIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LetsIconsSettingLine className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.business.dashboard
+            href: paths.admin.config.root,
+            items: [
+                {
+                    label: 'Utilisateurs',
+                    icon: '',
+                    href: paths.admin.config.users
+                },
+                {
+                    label: 'Blog',
+                    icon: '',
+                    href: paths.admin.config.blog
+                }
+            ]
+        }
+    ],
+    module_nav: [
+        {
+            label: 'Biens',
+            icon: (
+                <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.property
         },
         {
-            label: 'Bénéficiaires',
+            label: 'Propriétaires',
             icon: (
-                <BeneficiaireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.business.beneficiaires
+            href: paths.admin.module.owner
         },
         {
-            label: 'Transactions',
+            label: 'Locataires',
             icon: (
-                <TransactionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.business.transactions
-        },
-
-        {
-            label: 'Documents',
-            icon: (
-                <DocumentsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.business.documents
+            href: paths.admin.module.tenant
         },
         {
-            label: 'Conversions',
+            label: 'Annonces',
             icon: (
-                <ConversionIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.business.conversions
+            href: paths.admin.module.advertisements
         }
     ]
-    // administration: [
-    //     {
-    //         label: 'Administration',
-    //         icon: (
-    //             <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //         ),
-    //         href: '/administration',
-    //         items: [
-    //             {
-    //                 label: 'Utilisateurs',
-    //                 icon: (
-    //                     <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //                 ),
-    //                 href: paths.particular.users
-    //             },
-    //             {
-    //                 label: 'Paramètres',
-    //                 icon: (
-    //                     <IconParkOutlineSettingOne className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-    //                 ),
-    //                 href: paths.particular.settings
-    //             }
-
-    //         ]
-    //     }
-    // ]
 };

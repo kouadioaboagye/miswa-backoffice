@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuth } from '../context/auth.context';
-import { paths } from '@/config/app-route.config';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -11,7 +10,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
-            router.push(paths.auth.particular);
+            router.push('');
         }
     }, [isAuthenticated, isLoading, router]);
 
