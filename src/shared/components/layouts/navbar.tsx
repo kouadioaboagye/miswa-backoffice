@@ -18,14 +18,14 @@ const Navbar = ({ activeLink = 'louer' }: NavbarProps) => {
     const router = useRouter();
 
     const navigationLinks = [
-        { id: 'louer', label: 'Louer', href: '#' },
+        { id: 'louer', label: 'Louer', href: '/' },
         { id: 'proprietaire', label: 'Propriétaire', href: '/proprietaire' },
         { id: 'actualites', label: 'Actualités', href: '/actualites' },
-        { id: 'apropos', label: 'A Propos', href: '/apropos' }
+        { id: 'apropos', label: 'A Propos', href: '/a-propos' }
     ];
 
     return (
-        <nav className="h-[84px] rounded-2xl bg-white shadow-sm sm:w-[95%] md:w-[90%]">
+        <nav className="h-[84px] rounded-2xl bg-white sm:w-[95%] md:w-[90%]">
             <div className="flex h-full items-center justify-between px-5">
                 {/* Logo */}
                 <div className="flex items-center gap-3">
@@ -67,24 +67,6 @@ const Navbar = ({ activeLink = 'louer' }: NavbarProps) => {
                         <ChevronDownIcon className="size-4" />
                     </Button>
 
-                    {/* Dropdown Menu */}
-                    {/* {isAccountOpen && (
-                        <div className="absolute right-0 top-full mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
-                            <button className="w-full px-4 py-2 text-left text-sm text-[#1a1a1a] hover:bg-[#f8fafc]">
-                                Mon profil
-                            </button>
-                            <button className="w-full px-4 py-2 text-left text-sm text-[#1a1a1a] hover:bg-[#f8fafc]">
-                                Mes biens
-                            </button>
-                            <button className="w-full px-4 py-2 text-left text-sm text-[#1a1a1a] hover:bg-[#f8fafc]">
-                                Paramètres
-                            </button>
-                            <hr className="my-2" />
-                            <button className="w-full px-4 py-2 text-left text-sm text-[#DC3545] hover:bg-[#f8fafc]">
-                                Se déconnecter
-                            </button>
-                        </div>
-                    )} */}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -105,24 +87,7 @@ const Navbar = ({ activeLink = 'louer' }: NavbarProps) => {
                 </button>
             </div>
 
-            {/* Mobile Navigation */}
-            {/* <div className="md:hidden">
-                <div className="border-t bg-white px-5 py-4">
-                    {navigationLinks.map((link) => (
-                        <button
-                            key={link.id}
-                            className={`block w-full py-3 text-left text-lg font-medium transition-colors hover:text-[#1ea64a] ${
-                                activeLink === link.id
-                                    ? 'text-[#1ea64a]'
-                                    : 'text-[#1a1a1a]'
-                            }`}
-                            // onClick={() => router.push(link.href)}
-                        >
-                            {link.label}
-                        </button>
-                    ))}
-                </div>
-            </div> */}
+            
         </nav>
     );
 };

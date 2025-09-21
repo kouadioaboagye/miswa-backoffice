@@ -94,7 +94,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
                         {leftIcon}
                         {props.children}
                         {rightIcon}
