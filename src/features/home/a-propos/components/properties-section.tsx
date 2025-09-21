@@ -77,7 +77,7 @@ const PropertiesSection = () => {
 
     return (
         <section className="bg-white py-16 sm:py-20 md:py-24">
-            <div className="mx-auto flex max-w-[90%] flex-col gap-12 mt-32">
+            <div className="mx-auto flex max-w-[75%] flex-col gap-12">
                 {/* Titre et sous-titre */}
                 <div className="mb-12 flex flex-col  gap-2 text-start">
                     <h2 className="mb-4 text-4xl font-bold text-[#14385C] md:text-5xl lg:text-6xl">
@@ -134,8 +134,6 @@ const PropertiesSection = () => {
             {/* Container pour la superposition */}
             <div className="relative">
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
-
-                {/* Cartes de propriétés - Scroll infini avec superposition */}
                 <div className="relative z-10 -mb-36">
                     <div className="relative overflow-hidden">
                         <div className="animate-scroll-infinite flex gap-6">
@@ -158,9 +156,8 @@ const PropertiesSection = () => {
                     </div>
                 </div>
 
-
                 {/* Newsletter avec espace pour la superposition */}
-                <div className="relative z-0 mx-auto flex flex-col items-center justify-center gap-6 bg-white p-8 pt-20 text-white md:px-12 md:py-20">
+                <div className="relative z-0 mx-auto flex flex-col items-center justify-center gap-6 bg-[#14385C] p-8 pt-20 text-white md:px-12 md:py-20">
                     {/* Bouton Voir les annonces */}
                     <div className="mb-8 text-center mt-48">
                         <Button
@@ -172,7 +169,40 @@ const PropertiesSection = () => {
                         </Button>
                     </div>
 
-                    
+                    {/* Layout en deux colonnes */}
+                    <div className="flex max-w-[75%] flex-col items-center justify-between gap-8 lg:flex-row lg:items-center">
+                        {/* Colonne gauche - Texte */}
+                        <div className="flex max-w-[50%] flex-col gap-3 text-center lg:text-left">
+                            <h3 className="mb-2 text-lg font-bold opacity-60 md:text-2xl">
+                                Rejoignez-notre newsletter
+                            </h3>
+                            <h4 className="mb-4 text-2xl font-bold md:text-6xl">
+                                Abonnez-vous à notre newsletter
+                            </h4>
+                            <p className="opacity-40 md:text-3xl">
+                                Restez informé de l&apos;avancement de la
+                                feuille de route, des annonces et des remises
+                                exclusives, n&apos;hésitez pas à vous inscrire
+                                avec votre e-mail
+                            </p>
+                        </div>
+
+                        {/* Colonne droite - Formulaire */}
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                            <Input
+                                type="email"
+                                placeholder="Entrer votre email"
+                                className="w-full rounded-[12px] border border-gray-300 bg-white px-4 py-4 h-[5rem] text-gray-700 focus:border-[#1ea64a] focus:outline-none sm:w-80"
+                            />
+                            <Button
+                                variant="secondary"
+                                size="default"
+                                className="px-8"
+                            >
+                                S&apos;inscrire
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

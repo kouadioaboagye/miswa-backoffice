@@ -35,30 +35,30 @@ const Footer = () => {
                             {/* Colonne gauche */}
                             <div className="flex w-full justify-around gap-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="hidden h-4 w-px bg-[#1ea64a] sm:block"></div>
+                                    <div className="hidden h-10 w-1 bg-[#1ea64a] sm:block"></div>
                                     <Link
                                         href="/"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         Accueil
                                     </Link>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <div className="hidden h-4 w-px bg-[#1ea64a] sm:block"></div>
+                                    <div className="hidden h-10 w-1 bg-[#1ea64a] sm:block"></div>
                                     <Link
                                         href="/louer"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         Louer
                                     </Link>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <div className="hidden h-4 w-px bg-[#1ea64a] sm:block"></div>
+                                    <div className="hidden h-10 w-1 bg-[#1ea64a] sm:block"></div>
                                     <Link
                                         href="/proprietaire"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         Propriétaire
                                     </Link>
@@ -66,20 +66,20 @@ const Footer = () => {
                             </div>
 
                             {/* Séparateur vertical */}
-                            <div className="hidden h-24 w-px bg-[#1ea64a] sm:block"></div>
+                            <div className="hidden h-24 w-2 bg-[#1ea64a] sm:block"></div>
 
                             {/* Colonne droite */}
                             <div className="flex w-full justify-around gap-4">
                                 <div className="flex flex-col items-start gap-3">
                                     <Link
                                         href="/blog"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         Blog
                                     </Link>
                                     <Link
                                         href="/se-connecter"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         Se connecter
                                     </Link>
@@ -87,13 +87,13 @@ const Footer = () => {
                                 <div className="flex flex-col items-start gap-3">
                                     <Link
                                         href="/a-propos"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         A propos
                                     </Link>
                                     <Link
                                         href="/s-inscrire"
-                                        className="text-sm text-gray-600 transition-colors hover:text-[#1ea64a]"
+                                        className="text-md text-gray-600 transition-colors hover:text-[#1ea64a]"
                                     >
                                         S&apos;inscrire
                                     </Link>
