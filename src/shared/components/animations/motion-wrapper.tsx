@@ -1,8 +1,8 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import type { Variants } from 'framer-motion';
-import { motion } from 'framer-motion';
+import { easeOut, motion } from 'framer-motion';
+import type { ReactNode } from 'react';
 
 // Types d'animation prédéfinis
 export type AnimationType =
@@ -101,7 +101,7 @@ export const MotionWrapper = ({
     const transition = {
         duration,
         delay,
-        ease: 'easeOut'
+        ease: [easeOut]
     };
 
     return (

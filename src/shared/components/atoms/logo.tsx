@@ -5,18 +5,19 @@ import type { HTMLAttributes } from 'react';
 interface LogoProps extends HTMLAttributes<HTMLImageElement> {
     width?: number;
     height?: number;
+    src?: string;
 }
 
-const Logo = ({ width, height }: LogoProps) => {
+const Logo = ({ width, height, src }: LogoProps) => {
     return (
-        <h2 style={{ width, height }}>
+        <h2>
             <Link href="#">
                 <div className="flex items-center gap-4">
                     <Image
-                        src="/assets/logos/miswa-logo.png"
+                        src={src ?? '/assets/logos/miswa-logo.png'}
                         alt="logo"
-                        width={100}
-                        height={100}
+                        width={width ?? 100}
+                        height={height ?? 100}
                     />
                 </div>
             </Link>

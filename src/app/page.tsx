@@ -5,16 +5,18 @@ import SupportSection from '@/features/home/location/components/support-section'
 import PartnersSection from '@/features/home/location/components/partners-section';
 import PropertiesSection from '@/features/home/location/components/properties-section';
 import Footer from '@/shared/components/layouts/footer';
+import SectionColor from '@/features/home/location/components/section-color';
 
 const HomePage = () => {
     return (
         <div className="min-h-screen bg-white">
             <HeroSection />
-            <VisionSection />
-            <FeaturesSection />
-            <SupportSection />
-            <PartnersSection />
+            {/* <VisionSection /> */}
+            {/* <FeaturesSection /> */}
+            {/* <SupportSection /> */}
+            {/* <PartnersSection /> */}
             <PropertiesSection />
+            <SectionColor />
             <Footer />
         </div>
     );

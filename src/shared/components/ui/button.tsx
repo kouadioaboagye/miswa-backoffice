@@ -24,17 +24,22 @@ const buttonVariants = cva(
                 outline:
                     'border-2 border-[#14385c] bg-transparent text-[#14385c] shadow-sm hover:bg-[#14385c] hover:text-white',
                 // Bouton ghost
-                ghost: 'text-[#14385c] hover:bg-[#f8fafc] hover:text-[#14385c]',
+                ghost: 'text-[#14385c] hover:bg-gray-200 hover:text-accent-foreground',
                 // Bouton de lien
                 link: 'text-[#14385c] underline-offset-4 hover:underline',
                 // Bouton de validation (vert)
                 success:
                     'bg-[#28A745] text-white shadow-sm hover:bg-[#28A745]/90',
+                add: 'bg-[#28A745] text-white  shadow-[0_8px_20px_0px_#11928F66] hover:bg-[#28A745]/90',
+                refresh:
+                    'bg-[#14385c] text-white shadow-[0_8px_20px_0px_#11928F66] hover:bg-[#14385c]/90',
                 // Bouton d'avertissement (jaune)
                 warning:
                     'bg-[#FFC107] text-[#1a1a1a] shadow-sm hover:bg-[#FFC107]/90',
                 // Bouton info (bleu cyan)
-                info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90'
+                info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
+                outline_header:
+                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground'
             },
             size: {
                 default:
@@ -42,7 +47,10 @@ const buttonVariants = cva(
                 sm: 'h-[40px] rounded-[8px] px-[20px] py-[12px] text-xs',
                 lg: 'h-[64px] rounded-[16px] p-[20px] md:px-[40px] [&_svg]:size-8',
                 pill: 'h-[54px] rounded-[40px] px-[20px] py-[16px] md:px-[30px]',
-                icon: 'size-[56px] rounded-[12px]'
+                icon: 'size-[56px] rounded-[12px]',
+                outline_header: 'size-14 rounded-2xl',
+                ghost_header: 'size-14 rounded-2xl',
+                add: 'h-[4.5rem] rounded-3xl px-8 py-2'
             }
         },
         defaultVariants: {
@@ -86,7 +94,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
                         {leftIcon}
                         {props.children}
                         {rightIcon}

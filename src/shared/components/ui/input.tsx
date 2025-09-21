@@ -1,8 +1,8 @@
 'use client';
 import { cn } from '@/shared/lib/utils';
 import * as React from 'react';
-import { IconamoonEyeOffLight } from '../../../../public/assets/icons/eye-off-icon-password';
 import { PrimeEye } from '../../../../public/assets/icons/eye-icon';
+import { IconamoonEyeOffLight } from '../../../../public/assets/icons/eye-off-icon-password';
 
 export interface InputProps
     extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -32,7 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return (
             <div
                 className={cn(
-                    'flex h-[4.5rem] w-full items-center rounded-xl bg-[#F3F9FF] text-[1.4rem] ring-offset-background gap-3 px-3 py-6 [&_svg]:size-5 [&_svg]:cursor-pointer focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-none',
+                    'flex h-[56px] w-full items-center rounded-xl bg-[#F3F9FF] border-none text-[1.4rem] ring-offset-background gap-3 px-3 py-6 [&_svg]:size-5 [&_svg]:cursor-pointer focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]',
                     className
                 )}
             >

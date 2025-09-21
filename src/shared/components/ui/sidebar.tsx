@@ -1,9 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
+import * as React from 'react';
 
 import {
     Sheet,
@@ -13,23 +13,23 @@ import {
     SheetTitle
 } from './sheet';
 
+import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { cn } from '@/shared/lib/utils';
+import { MynauiPanelLeftOpenSolid } from '../../../../public/assets/icons/panel-open';
 import { Button } from './button';
 import { Input } from './input';
-import { Skeleton } from './skeleton';
 import { Separator } from './separator';
+import { Skeleton } from './skeleton';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger
 } from './tooltip';
-import { useIsMobile } from '@/shared/hooks/use-mobile';
-import { MynauiPanelLeftOpenSolid } from '../../../../public/assets/icons/panel-open';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = '25rem';
+const SIDEBAR_WIDTH = '27rem';
 const SIDEBAR_WIDTH_MOBILE = '21rem';
 const SIDEBAR_WIDTH_ICON = '9rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
@@ -269,7 +269,7 @@ const Sidebar = React.forwardRef<
                             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
                         // Adjust the padding for floating and inset variants.
                         variant === 'floating' || variant === 'inset'
-                            ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
+                            ? 'p-8 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
                             : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-none group-data-[side=right]:border-l',
                         className
                     )}
@@ -277,10 +277,10 @@ const Sidebar = React.forwardRef<
                 >
                     <div
                         data-sidebar="sidebar"
-                        className="group-data-[variant=floating]:border-sidebar-border relative flex size-full flex-col overflow-hidden bg-white group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
+                        className="group-data-[variant=floating]:border-sidebar-border relative flex size-full flex-col overflow-hidden bg-[#14385C] group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
                         style={{
-                            backgroundImage:
-                                'url(/assets/images/sidebar_image.svg)',
+                            // backgroundImage:
+                            //     'url(/assets/images/sidebar_image.svg)',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'bottom center',
                             backgroundSize: 'contain'
@@ -359,7 +359,7 @@ const SidebarInset = React.forwardRef<
             ref={ref}
             className={cn(
                 'relative flex w-full flex-1 flex-col bg-background',
-                'md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow',
+                'md:peer-data-[variant=inset]:m-5 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-5 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-md',
                 className
             )}
             {...props}
@@ -394,7 +394,7 @@ const SidebarHeader = React.forwardRef<
         <div
             ref={ref}
             data-sidebar="header"
-            className={cn('flex flex-col gap-2 p-2', className)}
+            className={cn('flex flex-col gap-2', className)}
             {...props}
         />
     );
@@ -457,10 +457,7 @@ const SidebarGroup = React.forwardRef<
         <div
             ref={ref}
             data-sidebar="group"
-            className={cn(
-                'relative flex w-full min-w-0 flex-col p-2',
-                className
-            )}
+            className={cn('relative flex w-full min-w-0 flex-col', className)}
             {...props}
         />
     );
@@ -478,7 +475,7 @@ const SidebarGroupLabel = React.forwardRef<
             ref={ref}
             data-sidebar="group-label"
             className={cn(
-                'flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
+                'flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-9 [&>svg]:shrink-0',
                 'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
                 className
             )}
@@ -499,7 +496,7 @@ const SidebarGroupAction = React.forwardRef<
             ref={ref}
             data-sidebar="group-action"
             className={cn(
-                'absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
+                'absolute right-3 top-2 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
                 // Increases the hit area of the button on mobile.
                 'after:absolute after:-inset-2 after:md:hidden',
                 'group-data-[collapsible=icon]:hidden',
@@ -551,12 +548,12 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = 'SidebarMenuItem';
 
 const sidebarMenuButtonVariants = cva(
-    'peer/menu-button ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground mx-0 flex w-full items-center gap-2 overflow-hidden rounded-none from-[#1675BA] to-[#28D0FE] px-0 py-2 text-left text-sm text-[#A1A1A1] outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-gradient-to-r data-[active=true]:font-bold data-[active=true]:text-[#125D93] group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-8 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+    'peer/menu-button ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground mx-0 flex w-full items-center gap-2 overflow-hidden rounded-none from-[#1675BA] to-[#28D0FE] px-0 py-2 text-left text-sm text-white outline-none transition-[width,height,padding] focus-visible:ring-2 active:bg-[#1EA64A] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-[#1EA64A] data-[active=true]:font-bold data-[active=true]:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-8 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
     {
         variants: {
             variant: {
                 default:
-                    'hover:text-sidebar-accent-foreground from-[#e3effb] to-[#FFF] hover:bg-gradient-to-r',
+                    'hover:text-sidebar-accent-foreground hover:bg-[#1EA64A]/70 active:bg-[#1EA64A] active:text-white',
                 outline:
                     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]'
             },
