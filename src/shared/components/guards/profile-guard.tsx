@@ -49,9 +49,9 @@ export function ProfileGuard({
 
             // Rediriger vers le dashboard approprié pour le type de compte
             if (accountType === 'BUSINESS') {
-                router.push(paths.business.dashboard);
+                router.push(paths.admin.dashboard);
             } else if (accountType === 'PARTICULAR') {
-                router.push(paths.particular.dashboard);
+                router.push(paths.admin.dashboard);
             } else {
                 // Fallback si le type n'est pas reconnu
                 router.push(redirectPath || '/');
