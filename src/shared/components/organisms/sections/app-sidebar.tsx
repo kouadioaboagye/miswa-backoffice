@@ -1,8 +1,9 @@
 'use client';
+import { paths } from '@/config/app-route.config';
 import { menus } from '@/shared/data/menu.data';
 import { ChevronDown, Plus } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { TablerChevronRight } from '../../../../../public/assets/icons/chevron-right-icon';
 import LogoutIcon from '../../../../../public/assets/icons/logout-icon';
 import Logo from '../../atoms/logo';
@@ -40,6 +41,7 @@ import {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
+    const router = useRouter();
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -213,6 +215,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         variant={'success'}
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
                         leftIcon={<LogoutIcon className="mr-2" />}
+                        onClick={() => router.push(paths.auth.login)}
                     >
                         Se déconnecter
                     </Button>
