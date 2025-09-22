@@ -41,10 +41,7 @@ import {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
-<<<<<<< HEAD
-=======
     const router = useRouter();
->>>>>>> b1458fe09a5c1a0d23529328841ef494cd9a6932
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -218,10 +215,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         variant={'success'}
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
                         leftIcon={<LogoutIcon className="mr-2" />}
-<<<<<<< HEAD
-=======
                         onClick={() => router.push(paths.auth.login)}
->>>>>>> b1458fe09a5c1a0d23529328841ef494cd9a6932
                     >
                         Se déconnecter
                     </Button>
