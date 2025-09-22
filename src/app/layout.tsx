@@ -11,6 +11,9 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './styles/globals.css';
 import { Provider } from './provider';
 import GlobalModal from '@/shared/components/atoms/global-modal';
+import { createEnv } from "@/config/env";
+
+createEnv();
 
 export const metadata: Metadata = siteConfig.meta;
 
