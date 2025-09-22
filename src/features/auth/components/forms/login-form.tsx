@@ -86,6 +86,14 @@ const LoginForm = () => {
                 >
                     <LogosFacebook /> Continuer avec Facebook
                 </Button>
+                <div className="flex justify-center mt-6">
+                    <Link
+                        href={''}
+                        className="text-[1.3rem] font-semibold text-[#1C4532] underline"
+                    >
+                        Retour au site
+                    </Link>
+                </div>
             </div>
         </form>
     );
