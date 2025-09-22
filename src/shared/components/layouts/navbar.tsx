@@ -12,9 +12,10 @@ import { paths } from '@/config/app-route.config';
 
 interface NavbarProps {
     activeLink?: 'louer' | 'proprietaire' | 'actualites' | 'apropos';
+    backgroundColor?: string;
 }
 
-const Navbar = ({ activeLink = 'louer' }: NavbarProps) => {
+const Navbar = ({ activeLink = 'louer', backgroundColor = 'white' }: NavbarProps) => {
     const router = useRouter();
 
     const navigationLinks = [
@@ -25,7 +26,7 @@ const Navbar = ({ activeLink = 'louer' }: NavbarProps) => {
     ];
 
     return (
-        <nav className="h-[84px] rounded-2xl bg-white sm:w-[95%] md:w-[90%]">
+        <nav className={`h-[84px] rounded-2xl ${backgroundColor === 'white' ? 'bg-white' : 'bg-[#F6FFF9]'} sm:w-[95%] md:w-[90%]`}>
             <div className="flex h-full items-center justify-between px-5">
                 {/* Logo */}
                 <div className="flex items-center gap-3">
