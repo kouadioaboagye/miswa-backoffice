@@ -6,6 +6,7 @@ import PartnersSection from '@/features/home/location/components/partners-sectio
 import PropertiesSection from '@/features/home/location/components/properties-section';
 import Footer from '@/shared/components/layouts/footer';
 import SectionColor from '@/features/home/location/components/section-color';
+import ActualitesSection from '@/features/home/location/components/actualites-section';
 
 const HomePage = () => {
     return (
@@ -14,8 +15,9 @@ const HomePage = () => {
             {/* <VisionSection /> */}
             {/* <FeaturesSection /> */}
             {/* <SupportSection /> */}
-            {/* <PartnersSection /> */}
             <PropertiesSection />
+            <PartnersSection />
+            <ActualitesSection />
             <SectionColor />
             <Footer />
         </div>
