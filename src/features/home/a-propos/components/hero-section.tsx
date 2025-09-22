@@ -5,7 +5,7 @@ import { ArrowRightIcon } from '../../../../../public/assets/icons/arrow-right-i
 const HeroSection = () => {
     return (
         <div className="flex h-[540px] w-full flex-col items-center justify-between bg-[#14385C] pt-10 sm:px-4 md:px-8">
-            <Navbar activeLink="apropos" />
+            <Navbar activeLink="apropos"/>
             <div className="flex text-center  text-6xl font-bold leading-tight text-white sm:max-w-[90%]  md:max-w-[70%] lg:text-7xl">
                 Miswa, une plateforme complète qui simplifie les relations entre
                 propriétaires, locataires et gestionnaires immobiliers.
