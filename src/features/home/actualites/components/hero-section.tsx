@@ -7,7 +7,7 @@ const HeroSection = () => {
     return (
         <div className="flex h-[600px] w-full flex-col items-center justify-between bg-[#14385C] pt-10 sm:px-4 md:px-8">
             <Navbar activeLink="actualites" />
-            <div className="mx-auto max-w-[70%] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
+            <div className="mx-auto max-w-[70%] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-10">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
                     <div className="order-1 lg:order-2">
                         <div className="relative">
