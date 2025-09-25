@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/shared/components/ui/calendar';
 import { format } from 'date-fns';
+import { Plus } from 'lucide-react';
 
 const formSchema = z.object({
   typePersonne: z.string().min(1, { message: 'Sélectionnez un type' }),
@@ -105,7 +106,7 @@ function DashboardPage() {
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
         <section>
-          <h2 className="text-2xl font-semibold text-blue-900 mb-4">1. Identification</h2>
+          <h2 className="text-[22px] font-semibold text-[#14385C] mb-4">1. Identification</h2>
 
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div>
@@ -136,7 +137,8 @@ function DashboardPage() {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    variant="outline"
+                    variant="date_picker"
+                    size="date_picker"
                     className={cn(
                       'w-full justify-start text-left font-normal',
                       !dateNaissance && 'text-muted-foreground'
@@ -176,14 +178,20 @@ function DashboardPage() {
           <div>
             <Label htmlFor="bienProprietaire">Sélectionner le bien du propriétaire</Label>
             <div className="relative">
-              <Input id="bienProprietaire" placeholder="Sélectionner le bien du propriétaire" {...form.register('bienProprietaire')} />
-              <Button type="button" className="absolute right-0 top-0 h-full px-4 bg-green-500 text-white rounded-r-md">+</Button>
+              <Input
+                id="bienProprietaire"
+                placeholder="Sélectionner le bien du propriétaire"
+                {...form.register("bienProprietaire")}
+              />
+              <Plus
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-green-500 text-white rounded-full p-2"
+              />
             </div>
           </div>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold text-blue-900 mb-4">2. Document D&apos;Identification</h2>
+          <h2 className="text-[22px] font-semibold text-[#14385C] mb-4">2. Document D&apos;Identification</h2>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
@@ -207,7 +215,8 @@ function DashboardPage() {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    variant="outline"
+                                        variant="date_picker"
+                    size="date_picker"
                     className={cn(
                       'w-full justify-start text-left font-normal'
                     )}

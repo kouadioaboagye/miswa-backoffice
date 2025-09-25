@@ -39,7 +39,9 @@ const buttonVariants = cva(
                 // Bouton info (bleu cyan)
                 info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
                 outline_header:
-                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground'
+                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
+                //Bouton for date picker in a form
+                date_picker: 'bg-[#F3F9FF] text-[1.4rem] focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]'
             },
             size: {
                 default:
@@ -50,7 +52,8 @@ const buttonVariants = cva(
                 icon: 'size-[56px] rounded-[12px]',
                 outline_header: 'size-14 rounded-2xl',
                 ghost_header: 'size-14 rounded-2xl',
-                add: 'h-[4.5rem] rounded-3xl px-8 py-2'
+                add: 'h-[4.5rem] rounded-3xl px-8 py-2',
+                date_picker: 'h-[50px] rounded-xl gap-3 px-3 py-6',
             }
         },
         defaultVariants: {
