@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { Calendar } from '@/shared/components/ui/calendar';
 import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
+import { SectionTitle } from '@/shared/components/ui/section-title';
 
 const formSchema = z.object({
   typePersonne: z.string().min(1, { message: 'Sélectionnez un type' }),
@@ -106,8 +107,7 @@ function DashboardPage() {
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
         <section>
-          <h2 className="text-[22px] font-semibold text-[#14385C] mb-4">1. Identification</h2>
-
+          <SectionTitle content="1. Identification"/>
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div>
               <Label htmlFor="typePersonne">Type de personne</Label>
@@ -191,8 +191,7 @@ function DashboardPage() {
         </section>
 
         <section>
-          <h2 className="text-[22px] font-semibold text-[#14385C] mb-4">2. Document D&apos;Identification</h2>
-
+          <SectionTitle content="2. Document D&apos;Identification"/>
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="typePiece">Type de pièce</Label>
