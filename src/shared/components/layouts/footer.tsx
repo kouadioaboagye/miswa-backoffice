@@ -5,7 +5,7 @@ import Logo from '../atoms/logo';
 
 const Footer = () => {
     return (
-        <footer className="bg-white px-4 py-20">
+        <footer className="bg-white px-4 py-32">
             <div className="mx-auto flex max-w-[75%] flex-col gap-20">
                 {/* Tagline */}
                 <div className="mb-8 text-start">
