@@ -2,11 +2,11 @@
 
 // import { MapPinIcon } from 'lucide-react';
 import Image from 'next/image';
-import { ShowerIcon } from '../../../../public/assets/icons/shower-icon';
-import { LargeIcon } from '../../../../public/assets/icons/large-icon';
-import { HomeIcon } from '../../../../public/assets/icons/home-icon';
 import { CarIcon } from '../../../../public/assets/icons/car-icon';
+import { HomeIcon } from '../../../../public/assets/icons/home-icon';
+import { LargeIcon } from '../../../../public/assets/icons/large-icon';
 import { MapIcon } from '../../../../public/assets/icons/map-icon';
+import { ShowerIcon } from '../../../../public/assets/icons/shower-icon';
 
 export interface PropertyCardProps {
     id: number;
@@ -58,35 +58,28 @@ const PropertyCard = ({
                             {title}
                         </h3>
 
-                        
-
                         {/* Property Features Grid */}
                         <div className="grid grid-cols-4 gap-2 text-sm text-gray-600">
                             {/* Rooms */}
                             <div className="flex items-center justify-center  gap-1">
-                                    <HomeIcon
-                                        className="size-8 text-green-600"
-                                    />
-                                    <span className="text-[1.2rem]">{rooms}</span>
+                                <HomeIcon className="size-8 text-green-600" />
+                                <span className="text-[1.2rem]">{rooms}</span>
                             </div>
 
                             {/* Bathrooms */}
                             <div className="flex items-center justify-center gap-2">
                                 <div className="flex size-8 items-center justify-center">
-                                    <ShowerIcon
-                                            className="size-8 text-green-600 [&_svg]:size-8"
-                                    />
-                                    
+                                    <ShowerIcon className="size-8 text-green-600 [&_svg]:size-8" />
                                 </div>
-                                <span className="text-[1.2rem]">{bathrooms}</span>
+                                <span className="text-[1.2rem]">
+                                    {bathrooms}
+                                </span>
                             </div>
 
                             {/* Area */}
                             <div className="flex items-center justify-center gap-2">
                                 <div className="flex size-8 items-center justify-center">
-                                    <LargeIcon
-                                        className="size-8 text-green-600 [&_svg]:size-8"
-                                    />
+                                    <LargeIcon className="size-8 text-green-600 [&_svg]:size-8" />
                                 </div>
                                 <span className="text-[1.2rem]">{area}</span>
                             </div>
@@ -94,9 +87,7 @@ const PropertyCard = ({
                             {/* Parking */}
                             <div className="flex items-center justify-center gap-2">
                                 <div className="flex size-8 items-center justify-center">
-                                    <CarIcon
-                                        className="size-8 text-green-600 [&_svg]:size-8"
-                                    />
+                                    <CarIcon className="size-8 text-green-600 [&_svg]:size-8" />
                                 </div>
                                 <span className="text-[1.2rem]">{parking}</span>
                             </div>
