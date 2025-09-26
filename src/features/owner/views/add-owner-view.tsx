@@ -23,6 +23,7 @@ function AddOwnerView() {
   ];
   const [dateNaissance, setDateNaissance] = useState<Date | undefined>(new Date(1995, 5, 12));
   const [dateExpiration, setDateExpiration] = useState<Date | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<addOwnerFormData>({
     resolver: zodResolver(addOwnerFormSchema),
@@ -81,12 +82,13 @@ function AddOwnerView() {
   };
 
   function onSubmit(values: addOwnerFormData) {
+    setIsSubmitting(true)
     console.log(values);
   }
 
   return (
     <div className='p-4'>
-        <Loading/>
+        {isSubmitting && <Loading/>}
       <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau propriétaire</h1>
       <div className="flex items-center mb-12">
         <div className="border flex flex-row">
