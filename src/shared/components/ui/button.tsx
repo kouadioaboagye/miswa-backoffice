@@ -23,6 +23,7 @@ const buttonVariants = cva(
                 // Bouton outline avec bordure
                 outline:
                     'border-2 border-[#14385c] bg-transparent text-[#14385c] shadow-sm hover:bg-[#14385c] hover:text-white',
+                outline_success : 'border-2 border-[#28A745] bg-transparent text-[#28A745] shadow-sm hover:bg-[#28A745] hover:text-white',
                 // Bouton ghost
                 ghost: 'text-[#14385c] hover:bg-gray-200 hover:text-accent-foreground',
                 // Bouton de lien

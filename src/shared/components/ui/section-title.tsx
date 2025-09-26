@@ -32,7 +32,7 @@ export function SectionTitle({
   return (
     <h2
       className={clsx(
-        "font-semibold mb-4",
+        "font-semibold my-4",
         variantStyles[variant],
         sizeStyles[size],
         className

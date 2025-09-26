@@ -7,28 +7,11 @@ import { ArrowRightIcon } from '../../../../public/assets/icons/arrow-right-icon
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Label } from '@/shared/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
-import { Input } from '@/shared/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { Calendar } from '@/shared/components/ui/calendar';
-import { format } from 'date-fns';
-import { Plus } from 'lucide-react';
-import { SectionTitle } from '@/shared/components/ui/section-title';
+import StepOneForm from '@/features/owner/components/forms/addOwner/StepOneForm';
+import { addOwnerFormData, addOwnerFormSchema } from '@/features/owner/components/forms/addOwner/schemas';
+import StepTwoForm from '@/features/owner/components/forms/addOwner/StepTwoForm';
+import StepThreeForm from '@/features/owner/components/forms/addOwner/StepThreeForm';
 
-const formSchema = z.object({
-  typePersonne: z.string().min(1, { message: 'Sélectionnez un type' }),
-  nom: z.string().min(1, { message: 'Nom requis' }),
-  prenom: z.string().min(1, { message: 'Prénom requis' }),
-  dateNaissance: z.date().optional(),
-  lieuNaissance: z.string().optional(),
-  situationFamiliale: z.string().optional(),
-  bienProprietaire: z.string().optional(),
-  typePiece: z.string().min(1, { message: 'Sélectionnez un type' }),
-  numeroCNI: z.string().min(1, { message: 'Numéro requis' }),
-  dateExpiration: z.string().min(1, { message: 'Date requise' }),
-});
 
 function DashboardPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,8 +23,8 @@ function DashboardPage() {
   const [dateNaissance, setDateNaissance] = useState<Date | undefined>(new Date(1995, 5, 12));
   const [dateExpiration, setDateExpiration] = useState<Date | undefined>(undefined);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<addOwnerFormData>({
+    resolver: zodResolver(addOwnerFormSchema),
     defaultValues: {
       typePersonne: 'Particulier',
       nom: '',
@@ -53,10 +36,50 @@ function DashboardPage() {
       typePiece: 'CNI',
       numeroCNI: '',
       dateExpiration: undefined,
+      telephonePrincipal: '',
+      email: '',
+      adressePostale: '',
+      commune: '',
+      quartier: '',
+      paysResidence: '',
+      profession:'',
+      employeur: '',
+      revenuMensuel: '',
+      modeReception: '',
+      banque: '',
+      titulaireCompte: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleNext = () => {
+    console.log("fgdf")
+    if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <StepOneForm form={form} dateNaissance={dateNaissance} setDateNaissance={setDateNaissance} dateExpiration={dateExpiration} setDateExpiration={setDateExpiration} />;
+      case 2:
+        return <StepTwoForm form={form} />;
+      case 3:
+        return <StepThreeForm form={form} />;
+      default:
+        return null;
+    }
+  };
+
+  function onSubmit(values: addOwnerFormData) {
     console.log(values);
   }
 
@@ -93,6 +116,8 @@ function DashboardPage() {
             variant={'ghost'}
             className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
             leftIcon={<ArrowLeftIcon className="mr-2" />}
+            onClick={handlePrevious}
+            disabled={currentStep === 1}
           >
             Retour
           </Button>
@@ -100,141 +125,14 @@ function DashboardPage() {
             variant={'success'}
             className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
             rightIcon={<ArrowRightIcon className="mr-2" />}
+            onClick={handleNext}
           >
-            Suivant
+            {currentStep === 3 ? 'Sauvegarder' : 'Suivant'}
           </Button>
         </div>
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-        <section>
-          <SectionTitle content="1. Identification"/>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div>
-              <Label htmlFor="typePersonne">Type de personne</Label>
-              <Select defaultValue="Particulier" {...form.register('typePersonne')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Particulier">Particulier</SelectItem>
-                  {/* Add more options as needed */}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="nom">Nom</Label>
-              <Input id="nom" placeholder="exemple@gmail.com" {...form.register('nom')} />
-            </div>
-            <div>
-              <Label htmlFor="prenom">Prénom</Label>
-              <Input id="prenom" placeholder="exemple@gmail.com" {...form.register('prenom')} />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div>
-              <Label htmlFor="dateNaissance">Date de naissance</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="date_picker"
-                    size="date_picker"
-                    className={cn(
-                      'w-full justify-start text-left font-normal',
-                      !dateNaissance && 'text-muted-foreground'
-                    )}
-                  >
-                    {dateNaissance ? format(dateNaissance, 'dd/MM/yyyy') : <span>12/06/1995</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={dateNaissance}
-                    onSelect={setDateNaissance}
-                    {...form.register('dateNaissance')}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div>
-              <Label htmlFor="lieuNaissance">Lieu de naissance</Label>
-              <Input id="lieuNaissance" placeholder="Grand Bassam" {...form.register('lieuNaissance')} />
-            </div>
-            <div>
-              <Label htmlFor="situationFamiliale">Situation familiale</Label>
-              <Select defaultValue="Grand Bassam" {...form.register('situationFamiliale')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Grand Bassam">Grand Bassam</SelectItem>
-                  {/* Add real options, e.g., Célibataire, Marié, etc. */}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="bienProprietaire">Sélectionner le bien du propriétaire</Label>
-            <div className="relative">
-              <Input
-                id="bienProprietaire"
-                placeholder="Sélectionner le bien du propriétaire"
-                {...form.register("bienProprietaire")}
-              />
-              <Plus
-                className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-green-500 text-white rounded-full p-2"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <SectionTitle content="2. Document D&apos;Identification"/>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <Label htmlFor="typePiece">Type de pièce</Label>
-              <Select defaultValue="CNI" {...form.register('typePiece')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="CNI">CNI</SelectItem>
-                  {/* Add more options as needed */}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="numeroCNI">Numéro de la carte CNI</Label>
-              <Input id="numeroCNI" placeholder="exemple@gmail.com" {...form.register('numeroCNI')} />
-            </div>
-            <div>
-              <Label htmlFor="dateExpiration">Date d'expiration</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                                        variant="date_picker"
-                    size="date_picker"
-                    className={cn(
-                      'w-full justify-start text-left font-normal'
-                    )}
-                  >
-                    {dateExpiration ? format(dateExpiration, 'dd/MM/yyyy') : <span>Choisir une date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={dateExpiration}
-                    onSelect={setDateExpiration}
-                    {...form.register('dateExpiration')}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
-        </section>
+        {renderStep()}
       </form>
     </div>
   )
