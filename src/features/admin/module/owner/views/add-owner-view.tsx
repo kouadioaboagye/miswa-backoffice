@@ -13,6 +13,7 @@ import StepTwoForm from '@/features/admin/module/owner/components/forms/addOwner
 import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwner/StepThreeForm';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
+import SuccessModal from '@/shared/components/ui/success-modal';
 
 function AddOwnerView() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -22,42 +23,20 @@ function AddOwnerView() {
     { id: 3, title: "Documents", active: false }
   ];
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successModalOpen, setSuccessModalOpen] = useState(false)
 
   const form = useForm<addOwnerFormData>({
     resolver: zodResolver(addOwnerFormSchema),
-    defaultValues: {
-      typePersonne: 'Particulier',
-      nom: '',
-      prenom: '',
-      dateNaissance: undefined,
-      lieuNaissance: 'Grand Bassam',
-      situationFamiliale: 'Grand Bassam',
-      bienProprietaire: 'Sélectionner le bien du propriétaire',
-      typePiece: 'CNI',
-      numeroCNI: '',
-      dateExpiration: undefined,
-      telephonePrincipal: '',
-      email: '',
-      adressePostale: '',
-      commune: '',
-      quartier: '',
-      paysResidence: '',
-      profession:'',
-      employeur: '',
-      revenuMensuel: '',
-      modeReception: '',
-      banque: '',
-      titulaireCompte: '',
-    },
   });
 
   const handleNext = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
-    } else {
-      if (!form.formState.isValid) {
-            toast.warning("Assurez vous que tous les champs obligatoires ont été renseignés!")
-      }
+    } else if (!form.formState.isValid) {
+      toast.warning("Assurez vous que tous les champs obligatoires ont été renseignés!")
+      form.handleSubmit(onSubmit)();
+    }
+    else {
       console.log(form.getValues(), form.formState.isValid)
       form.handleSubmit(onSubmit)();
     }
@@ -72,7 +51,7 @@ function AddOwnerView() {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <StepOneForm form={form}/>;
+        return <StepOneForm form={form} />;
       case 2:
         return <StepTwoForm form={form} />;
       case 3:
@@ -83,15 +62,29 @@ function AddOwnerView() {
   };
 
   function onSubmit(values: addOwnerFormData) {
-    setIsSubmitting(true)
-    setTimeout(()=>{
-      setIsSubmitting(false)
-    }, 3000)
+    if (!form.formState.isValid) {
+      return;
+    } else {
+      setIsSubmitting(true)
+      setTimeout(() => {
+        setIsSubmitting(false)
+        setSuccessModalOpen(true)
+      }, 3000)
+    }
   }
 
   return (
     <div className='p-4'>
-        {isSubmitting && <Loading/>}
+      {isSubmitting && <Loading />}
+      <SuccessModal
+        isOpen={successModalOpen}
+        title='Propriétaire #id_propriétaire créé avec succès'
+        description='Le propriétaire #Nom_complet_du_propriétaire à été créé avec succès, 
+          vous pouvez consulter la liste des propriétaire pour apporter des modifications'
+        confirmText='Liste des proprietaire'
+        onClose={() => setSuccessModalOpen(false)}
+        onConfirm={() => console.log("liste")}
+      />
       <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau propriétaire</h1>
       <div className="flex items-center mb-12">
         <div className="border flex flex-row">
