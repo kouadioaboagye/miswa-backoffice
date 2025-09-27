@@ -4,7 +4,7 @@ export const addOwnerFormSchema = z.object({
     typePersonne: z.string().min(1, { message: 'Sélectionnez un type' }),
     nom: z.string().min(1, { message: 'Nom requis' }),
     prenom: z.string().min(1, { message: 'Prénom requis' }),
-    dateNaissance: z.date().optional(),
+    dateNaissance: z.string().optional(),
     lieuNaissance: z.string().optional(),
     situationFamiliale: z.string().optional(),
     bienProprietaire: z.string().optional(),

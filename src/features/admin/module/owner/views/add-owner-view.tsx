@@ -2,17 +2,17 @@
 
 import { Button } from '@/shared/components/ui/button'
 import React, { useState } from 'react'
-import { ArrowLeftIcon } from '../../../../public/assets/icons/arrow-left-icon';
-import { ArrowRightIcon } from '../../../../public/assets/icons/arrow-right-icon';
+import { ArrowLeftIcon } from '../../../../../../public/assets/icons/arrow-left-icon';
+import { ArrowRightIcon } from '../../../../../../public/assets/icons/arrow-right-icon';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import StepOneForm from '@/features/owner/components/forms/addOwner/StepOneForm';
-import { addOwnerFormData, addOwnerFormSchema } from '@/features/owner/components/forms/addOwner/schemas';
-import StepTwoForm from '@/features/owner/components/forms/addOwner/StepTwoForm';
-import StepThreeForm from '@/features/owner/components/forms/addOwner/StepThreeForm';
+import StepOneForm from '@/features/admin/module/owner/components/forms/addOwner/StepOneForm';
+import { addOwnerFormData, addOwnerFormSchema } from '@/features/admin/module/owner/components/forms/addOwner/schemas';
+import StepTwoForm from '@/features/admin/module/owner/components/forms/addOwner/StepTwoForm';
+import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwner/StepThreeForm';
 import Loading from '@/app/loading';
-
+import { toast } from 'sonner';
 
 function AddOwnerView() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,8 +21,6 @@ function AddOwnerView() {
     { id: 2, title: "Coordonnées", active: false },
     { id: 3, title: "Documents", active: false }
   ];
-  const [dateNaissance, setDateNaissance] = useState<Date | undefined>(new Date(1995, 5, 12));
-  const [dateExpiration, setDateExpiration] = useState<Date | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<addOwnerFormData>({
@@ -54,10 +52,13 @@ function AddOwnerView() {
   });
 
   const handleNext = () => {
-    console.log("fgdf")
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
+      if (!form.formState.isValid) {
+            toast.warning("Assurez vous que tous les champs obligatoires ont été renseignés!")
+      }
+      console.log(form.getValues(), form.formState.isValid)
       form.handleSubmit(onSubmit)();
     }
   };
@@ -71,7 +72,7 @@ function AddOwnerView() {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <StepOneForm form={form} dateNaissance={dateNaissance} setDateNaissance={setDateNaissance} dateExpiration={dateExpiration} setDateExpiration={setDateExpiration} />;
+        return <StepOneForm form={form}/>;
       case 2:
         return <StepTwoForm form={form} />;
       case 3:
@@ -83,7 +84,9 @@ function AddOwnerView() {
 
   function onSubmit(values: addOwnerFormData) {
     setIsSubmitting(true)
-    console.log(values);
+    setTimeout(()=>{
+      setIsSubmitting(false)
+    }, 3000)
   }
 
   return (

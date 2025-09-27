@@ -4,9 +4,9 @@ import { Upload, Trash2, Trash } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { addOwnerFormData } from './schemas';
-import { X } from '../../../../../../public/assets/icons/X';
-import { UploadGroup } from '../../../../../../public/assets/icons/upload-group';
-import { BiFileEarmarkImage } from '../../../../../../public/assets/icons/bi_file-earmark-image';
+import { X } from '../../../../../../../../public/assets/icons/X';
+import { UploadGroup } from '../../../../../../../../public/assets/icons/upload-group';
+import { BiFileEarmarkImage } from '../../../../../../../../public/assets/icons/bi_file-earmark-image';
 
 interface StepThreeFormProps {
     form: UseFormReturn<addOwnerFormData>;
