@@ -2,8 +2,8 @@
 
 import { Button } from '@/shared/components/ui/button'
 import React, { useState } from 'react'
-import { ArrowLeftIcon } from '../../../../../../public/assets/icons/arrow-left-icon';
-import { ArrowRightIcon } from '../../../../../../public/assets/icons/arrow-right-icon';
+import { ArrowLeftIcon } from '../../../../../../../public/assets/icons/arrow-left-icon';
+import { ArrowRightIcon } from '../../../../../../../public/assets/icons/arrow-right-icon';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

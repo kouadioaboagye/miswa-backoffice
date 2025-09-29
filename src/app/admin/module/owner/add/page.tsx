@@ -1,4 +1,4 @@
-import AddOwnerView from '@/features/admin/module/owner/views/add-owner-view'
+import AddOwnerView from '@/features/admin/module/owner/views/owner/add-owner-view'
 import React from 'react'
 
 function page() {
