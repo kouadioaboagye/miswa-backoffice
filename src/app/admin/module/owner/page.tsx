@@ -1,5 +1,7 @@
+import ListOwnerView from "@/features/admin/module/owner/views/list-owner-view";
+
 const page = () => {
-    return <div>page</div>;
+    return <ListOwnerView/>;
 };
 
 export default page;
