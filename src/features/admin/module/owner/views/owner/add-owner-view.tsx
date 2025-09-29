@@ -7,10 +7,10 @@ import { ArrowRightIcon } from '../../../../../../../public/assets/icons/arrow-r
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import StepOneForm from '@/features/admin/module/owner/components/forms/addOwner/StepOneForm';
+import StepOneForm from '@/features/admin/module/owner/components/forms/addOwner/step-one-form';
 import { addOwnerFormData, addOwnerFormSchema } from '@/features/admin/module/owner/components/forms/addOwner/schemas';
-import StepTwoForm from '@/features/admin/module/owner/components/forms/addOwner/StepTwoForm';
-import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwner/StepThreeForm';
+import StepTwoForm from '@/features/admin/module/owner/components/forms/addOwner/step-two-form';
+import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwner/step-three-form';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
