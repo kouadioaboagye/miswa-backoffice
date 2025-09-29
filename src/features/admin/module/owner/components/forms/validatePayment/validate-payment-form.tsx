@@ -4,27 +4,24 @@ import { Label } from '@/shared/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
-import { PaymentFormData } from './schemas';
 import { Plus, Trash } from 'lucide-react';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
 import { UploadGroup } from '../../../../../../../../public/assets/icons/upload-group';
 import { BiFileEarmarkImage } from '../../../../../../../../public/assets/icons/bi_file-earmark-image';
+import { ValidatePaymentFormData } from './schemas';
 
 type AddPaymentFormProps = {
     onClose: () => void,
-    setLoading: (value: boolean) => void,
-    setSuccessModalOpen: (value: boolean) => void
 }
 
-function AddPaymentForm({ onClose, setLoading, setSuccessModalOpen }: Readonly<AddPaymentFormProps>) {
+function ValidatePaymentForm({ onClose }: Readonly<AddPaymentFormProps>) {
     const {
         register,
         handleSubmit,
         setValue,
         watch,
-        control,
-        formState: { errors, isValid },
-    } = useForm<PaymentFormData>();
+        formState: { errors },
+    } = useForm<ValidatePaymentFormData>();
 
     const files = watch('files') || [];
 
@@ -44,79 +41,35 @@ function AddPaymentForm({ onClose, setLoading, setSuccessModalOpen }: Readonly<A
         setValue('files', updatedFiles);
     };
 
-    const onSubmit = (data: PaymentFormData) => {
-        console.log(data);
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-            setSuccessModalOpen(true)
-        }, 3000)
+    const onSubmit = (data: ValidatePaymentFormData) => {
+        console.log(data)
     };
 
     return (
         <div className='w-full'>
             <div className='mb-6'>
-                <p className='font-bold'>Initier un nouveau paiement</p>
+                <p className='font-bold'>Valider un paiement pour le propriétaire</p>
                 <p>Remplissez le formulaire pour initier le paiement</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="flex space-x-4">
-                    <div className="flex-1 space-y-2">
-                        <Label htmlFor="proprietor">Sélectionner le propriétaire</Label>
-                        <div className="relative">
-                            <Input
-                                id="proprietor"
-                                placeholder="Sélectionner le bien du propriétaire"
-                                {...register('proprietor')}
-                            />
-                            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-green-500 text-white rounded-full p-2" />
-                            <InputErrorMessage message={errors.proprietor?.message} />
-                        </div>
-                    </div>
-                    <div className="flex-[0.5] space-y-2">
-                        <Label htmlFor="username">Username</Label>
-                        <div className="relative">
-                            <Input
-                                id="username"
-                                placeholder="Entrez username de l'utilisateur"
-                                {...register('username')}
-                            />
-                            <InputErrorMessage message={errors.username?.message} />
-                        </div>
-                    </div>
-                </div>
-
                 <div className="space-y-2">
                     <Label htmlFor="paymentType">Type de paiement</Label>
                     <Input
                         id="paymentType"
                         {...register("paymentType")}
                         placeholder="Facture"
+                        disabled
                     />
                     <InputErrorMessage message={errors.paymentType?.message} />
                 </div>
-
                 <div className="space-y-2">
-                    <Label htmlFor="property">Sélectionner le bien</Label>
-                    <Controller
-                        name="property"
-                        control={control}
-                        rules={{ required: 'Sélectionnez un bien' }}
-                        render={({ field, fieldState: { error } }) => (
-                            <div>
-                                <Select value={field.value} onValueChange={field.onChange}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Sélectionnez" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="bien01">Bien 01</SelectItem>
-                                        <SelectItem value="bien02">Bien 02</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <InputErrorMessage message={error?.message} />
-                            </div>
-                        )}
+                    <Label htmlFor="property">Biens</Label>
+                    <Input
+                        id="property"
+                        {...register("property")}
+                        disabled
                     />
+                    <InputErrorMessage message={errors.property?.message} />
                 </div>
 
                 <div className="space-y-2">
@@ -191,4 +144,4 @@ function AddPaymentForm({ onClose, setLoading, setSuccessModalOpen }: Readonly<A
     )
 }
 
-export default AddPaymentForm
+export default ValidatePaymentForm
