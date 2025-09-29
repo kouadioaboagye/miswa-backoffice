@@ -9,8 +9,16 @@ import PaymentTable from '../../components/tables/payment/payment-table';
 import { useRouter } from 'next/navigation';
 import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
+import ContentModal from '@/shared/components/ui/content-modal';
+import AddPaymentView from './add-payment-view';
+import { useState } from 'react';
+import SuccessModal from '@/shared/components/ui/success-modal';
+import Loading from '@/app/loading';
 
 const ListPaymentView = () => {
+    const [addPaymentModalOpen, setAddPaymentModalOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
     const router = useRouter();
     const dataItems = [
         {
@@ -35,6 +43,25 @@ const ListPaymentView = () => {
 
     return (
         <div className="flex flex-col gap-16">
+            <ContentModal
+                isOpen={addPaymentModalOpen}
+                onClose={() => setAddPaymentModalOpen(false)}
+            >
+                <AddPaymentView
+                    onClose={() => setAddPaymentModalOpen(false)}
+                    setLoading={(value) => setIsLoading(value)}
+                    setSuccessModalOpen={(value) => setSuccessModalOpen(value)}
+                />
+            </ContentModal>
+            {isLoading && <Loading/>}
+            <SuccessModal
+                isOpen={successModalOpen}
+                title='Paiment #id_propriétaire initié avec succès'
+                description='Le paiement #ref__du_paiement à été intié avec succès, un mail de confirmation à été envoyé au propriétaire afin de procéder au paiement de la facture'
+                confirmText='Liste des paiements'
+                onClose={() => setSuccessModalOpen(false)}
+                onConfirm={() => console.log("liste")}
+            />
             <GlobalDataCard data={dataItems} />
             <DataTableLayout
                 title="Listes des paiements pour et par propriétaire"
@@ -54,7 +81,7 @@ const ListPaymentView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={() => router.push("/admin/module/payment/add")}
+                            onClick={() => setAddPaymentModalOpen(true)}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU PAIEMENT</span>

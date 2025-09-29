@@ -1,9 +1,15 @@
 import React from 'react'
 import AddPaymentForm from '../../components/forms/addPayment/add-payment-form'
 
-function AddPaymentView() {
+type AddPaymentViewProps = {
+    onClose: ()=>void;
+    setLoading : (value: boolean)=>void;
+    setSuccessModalOpen: (value: boolean)=> void;
+}
+
+function AddPaymentView({onClose, setLoading, setSuccessModalOpen}: Readonly<AddPaymentViewProps>) {
   return (
-    <AddPaymentForm/>
+    <AddPaymentForm onClose={onClose} setLoading={setLoading} setSuccessModalOpen={setSuccessModalOpen}/>
   )
 }
 
