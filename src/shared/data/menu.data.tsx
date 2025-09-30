@@ -12,14 +12,78 @@ import MicrophoneIcon from '../../../public/assets/icons/microphone';
 import { ProprioIcon } from '../../../public/assets/icons/proprio';
 import { LetsIconsSettingLine } from '../../../public/assets/icons/setting';
 
-export const menus = {
-    main_nav: [
+const baseMainNav = [
+    {
+        label: 'Dashboard',
+        icon: (
+            <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.dashboard,
+        items: []
+    },
+
+    {
+        label: 'Biens',
+        icon: (
+            <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.property,
+        items: []
+    },
+    {
+        label: 'Paiements',
+        icon: (
+            <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.payments,
+        items: []
+    },
+    {
+        label: 'Contrats',
+        icon: (
+            <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.contracts,
+        items: []
+    },
+    {
+        label: 'Interventions',
+        icon: (
+            <ChatDotsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.interventions,
+        items: []
+    },
+    {
+        label: 'Configurations',
+        icon: (
+            <LetsIconsSettingLine className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        href: paths.admin.config.root,
+        items: [
+            {
+                label: 'Utilisateurs',
+                icon: '',
+                href: paths.admin.config.users
+            },
+            {
+                label: 'Blog',
+                icon: '',
+                href: paths.admin.config.blog
+            }
+        ]
+    }
+]
+
+const moduleNavigations = {
+    property: [
         {
             label: 'Dashboard',
             icon: (
                 <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.dashboard
+            href: paths.admin.dashboard,
+            items: []
         },
 
         {
@@ -27,79 +91,79 @@ export const menus = {
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.property
+            href: paths.admin.property,
+            items: []
         },
+    ],
+
+    owner: [
         {
-            label: 'Paiements',
+            label: 'Dashboard',
             icon: (
-                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.payments
+            href: paths.admin.dashboard,
+            items: []
         },
+    ],
+
+    tenant: [
         {
-            label: 'Contrats',
+            label: 'Dashboard',
             icon: (
-                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.contracts
+            href: paths.admin.dashboard,
+            items: []
         },
+
         {
-            label: 'Interventions',
+            label: 'Tenants',
             icon: (
-                <ChatDotsIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.interventions
+            href: paths.admin.property,
+            items: []
         }
     ],
-    config: [
-        {
-            label: 'Configurations',
-            icon: (
-                <LetsIconsSettingLine className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.config.root,
-            items: [
-                {
-                    label: 'Utilisateurs',
-                    icon: '',
-                    href: paths.admin.config.users
-                },
-                {
-                    label: 'Blog',
-                    icon: '',
-                    href: paths.admin.config.blog
-                }
-            ]
-        }
-    ],
-    module_nav: [
-        {
-            label: 'Biens',
-            icon: (
-                <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.property
-        },
-        {
-            label: 'Propriétaires',
-            icon: (
-                <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.owner
-        },
-        {
-            label: 'Locataires',
-            icon: (
-                <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.tenant
-        },
-        {
-            label: 'Annonces',
-            icon: (
-                <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.advertisements
-        }
-    ]
+}
+
+
+const moduleNav = [
+    {
+        label: 'Biens',
+        icon: (
+            <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        value: "property",
+    },
+    {
+        label: 'Propriétaires',
+        icon: (
+            <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        value: "owner"
+    },
+    {
+        label: 'Locataires',
+        icon: (
+            <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        value: "tenant"
+    },
+    {
+        label: 'Annonces',
+        icon: (
+            <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        ),
+        value: "advertisements"
+    }
+]
+
+export const getMainNav = (activeModule: string) => {
+    return moduleNavigations[activeModule] || baseMainNav;
+};
+
+export const menus = {
+    module_nav: moduleNav
 };

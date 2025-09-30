@@ -1,6 +1,6 @@
 'use client';
 import { paths } from '@/config/app-route.config';
-import { menus } from '@/shared/data/menu.data';
+import { getMainNav, menus } from '@/shared/data/menu.data';
 import { ChevronDown, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -38,10 +38,18 @@ import {
     SidebarMenuItem,
     SidebarMenuSub
 } from '../../ui/sidebar';
+import { useState } from 'react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
     const router = useRouter();
+    const [activeModule, setActiveModule] = useState("default");
+
+    const mainNav = getMainNav(activeModule);
+
+    const handleModuleClick = (moduleValue: string) => {
+        setActiveModule(moduleValue);
+    };
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -90,82 +98,76 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarContent className="mt-12 px-5">
                 <SidebarGroup>
                     <SidebarMenu className="gap-3">
-                        {menus?.main_nav?.map((menu) => (
-                            <SidebarMenuItem key={menu.href}>
-                                <SidebarMenuButton
+                        {mainNav?.map((menu) => (
+                            menu.items?.length > 0 ? (
+                                <Collapsible
+                                    key={menu.label}
                                     asChild
-                                    className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
-                                    isActive={path === menu.href}
+                                    defaultOpen={path.includes(menu.href)}
+                                    className="group/collapsible"
                                 >
-                                    <Link
-                                        href={menu.href}
-                                        className="flex items-center gap-4 [&__svg]:size-9"
-                                        data-collapsible="icon"
-                                    >
-                                        {menu.icon}
-                                        <span className="py-2 text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
-                                            {menu.label}
-                                        </span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarMenu>
-                        {menus.config.map((item) => (
-                            <Collapsible
-                                key={item.label}
-                                asChild
-                                defaultOpen={path.includes(item.href)}
-                                className="group/collapsible"
-                            >
-                                <SidebarMenuItem>
-                                    <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton
-                                            tooltip={item.label}
-                                            className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center [&_svg]:size-8"
-                                            isActive={path.includes(item.href)}
-                                        >
-                                            {item.icon}
-                                            <span className="text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
-                                                {item.label}
-                                            </span>
-                                            <TablerChevronRight className="ml-auto transition-transform duration-200 group-data-[collapsible=icon]:hidden group-data-[state=open]/collapsible:rotate-90" />
-                                        </SidebarMenuButton>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            {item.items?.map((item) => (
-                                                <SidebarMenuItem
-                                                    key={item.label}
-                                                >
-                                                    <SidebarMenuButton
-                                                        asChild
-                                                        className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
-                                                        isActive={path.includes(
-                                                            item.href
-                                                        )}
-                                                        tooltip={item.label}
-                                                    >
-                                                        <Link
-                                                            href={item.href}
-                                                            className="flex items-center gap-4 [&__svg]:size-9"
-                                                            data-collapsible="icon"
+                                    <SidebarMenuItem>
+                                        <CollapsibleTrigger asChild>
+                                            <SidebarMenuButton
+                                                tooltip={menu.label}
+                                                className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center [&_svg]:size-8"
+                                                isActive={path.includes(menu.href)}
+                                            >
+                                                {menu.icon}
+                                                <span className="text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
+                                                    {menu.label}
+                                                </span>
+                                                <TablerChevronRight className="ml-auto transition-transform duration-200 group-data-[collapsible=icon]:hidden group-data-[state=open]/collapsible:rotate-90" />
+                                            </SidebarMenuButton>
+                                        </CollapsibleTrigger>
+                                        <CollapsibleContent>
+                                            <SidebarMenuSub>
+                                                {menu.items?.map((item) => (
+                                                    <SidebarMenuItem key={item.label}>
+                                                        <SidebarMenuButton
+                                                            asChild
+                                                            className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
+                                                            isActive={path.includes(item.href)}
+                                                            tooltip={item.label}
                                                         >
-                                                            {item.icon}
-                                                            <span className="py-1 text-[1.5rem] font-semibold">
-                                                                {item.label}
-                                                            </span>
-                                                        </Link>
-                                                    </SidebarMenuButton>
-                                                </SidebarMenuItem>
-                                            ))}
-                                        </SidebarMenuSub>
-                                    </CollapsibleContent>
+                                                            <Link
+                                                                href={item.href}
+                                                                className="flex items-center gap-4 [&_svg]:size-9"
+                                                                data-collapsible="icon"
+                                                            >
+                                                                {item.icon}
+                                                                <span className="py-1 text-[1.5rem] font-semibold">
+                                                                    {item.label}
+                                                                </span>
+                                                            </Link>
+                                                        </SidebarMenuButton>
+                                                    </SidebarMenuItem>
+                                                ))}
+                                            </SidebarMenuSub>
+                                        </CollapsibleContent>
+                                    </SidebarMenuItem>
+                                </Collapsible>
+                            ) : (
+                                <SidebarMenuItem key={menu.href}>
+                                    <SidebarMenuButton
+                                        asChild
+                                        className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
+                                        isActive={path === menu.href}
+                                        tooltip={menu.label}
+                                    >
+                                        <Link
+                                            href={menu.href}
+                                            className="flex items-center gap-4 [&_svg]:size-9"
+                                            data-collapsible="icon"
+                                        >
+                                            {menu.icon}
+                                            <span className="py-2 text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
+                                                {menu.label}
+                                            </span>
+                                        </Link>
+                                    </SidebarMenuButton>
                                 </SidebarMenuItem>
-                            </Collapsible>
+                            )
                         ))}
                     </SidebarMenu>
                 </SidebarGroup>
@@ -186,16 +188,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroupContent>
                         <SidebarMenu className="gap-3">
                             {menus?.module_nav?.map((menu) => (
-                                <SidebarMenuItem key={menu.href}>
+                                <SidebarMenuItem key={menu.value}>
                                     <SidebarMenuButton
                                         asChild
                                         className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
-                                        isActive={path === menu.href}
+                                        isActive={activeModule === menu.value}
                                     >
                                         <Link
-                                            href={menu.href}
+                                            href=""
                                             className="flex items-center gap-4 [&__svg]:size-9"
                                             data-collapsible="icon"
+                                            onClick={() => handleModuleClick(menu.value)}
                                         >
                                             {menu.icon}
                                             <span className="py-2 text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
