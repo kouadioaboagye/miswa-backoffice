@@ -98,10 +98,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarContent className="mt-12 px-5">
                 <SidebarGroup>
                     <SidebarMenu className="gap-3">
-                        {mainNav?.map((menu) => (
+                        {mainNav?.map((menu, index: number) => (
                             menu.items?.length > 0 ? (
                                 <Collapsible
-                                    key={menu.label}
+                                    key={index + 1}
                                     asChild
                                     defaultOpen={path.includes(menu.href)}
                                     className="group/collapsible"
@@ -148,7 +148,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     </SidebarMenuItem>
                                 </Collapsible>
                             ) : (
-                                <SidebarMenuItem key={menu.href}>
+                                <SidebarMenuItem key={index + 1}>
                                     <SidebarMenuButton
                                         asChild
                                         className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"

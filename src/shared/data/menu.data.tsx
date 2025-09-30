@@ -102,7 +102,31 @@ const moduleNavigations = {
             icon: (
                 <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.dashboard,
+            href: paths.admin.module.owner.root,
+            items: []
+        },
+        {
+            label: 'Liste des propriétaires',
+            icon: (
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner.owners,
+            items: []
+        },
+        {
+            label: 'Paiements',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner.payments,
+            items: []
+        },
+        {
+            label: 'Contrat de gestion',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner.contracts,
             items: []
         },
     ],
