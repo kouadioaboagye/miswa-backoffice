@@ -33,7 +33,7 @@ export const paths = {
             root: `${ROOTS.ADMIN}/module`,
             advertisements: `${ROOTS.ADMIN}/module/advertisements`,
             owner: {
-                root: `${ROOTS.ADMIN}/module/owner/root`,
+                root: `${ROOTS.ADMIN}/module/owner`,
                 owners: `${ROOTS.ADMIN}/module/owner`,
                 payments: `${ROOTS.ADMIN}/module/owner/payment`,
                 contracts: `${ROOTS.ADMIN}/module/owner/contracts`

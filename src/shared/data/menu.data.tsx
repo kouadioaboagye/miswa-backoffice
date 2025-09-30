@@ -97,14 +97,14 @@ const moduleNavigations = {
     ],
 
     owner: [
-        {
-            label: 'Dashboard',
-            icon: (
-                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.owner.root,
-            items: []
-        },
+        // {
+        //     label: 'Dashboard',
+        //     icon: (
+        //         <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+        //     ),
+        //     href: paths.admin.module.owner.root,
+        //     items: []
+        // },
         {
             label: 'Liste des propriétaires',
             icon: (
@@ -159,28 +159,28 @@ const moduleNav = [
         icon: (
             <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        value: "property",
+        defaultHref: paths.admin.module.property
     },
     {
         label: 'Propriétaires',
         icon: (
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        value: "owner"
+         defaultHref: paths.admin.module.owner.root
     },
     {
         label: 'Locataires',
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        value: "tenant"
+         defaultHref: paths.admin.module.tenant
     },
     {
         label: 'Annonces',
         icon: (
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        value: "advertisements"
+        defaultHref: paths.admin.module.advertisements
     }
 ]
 

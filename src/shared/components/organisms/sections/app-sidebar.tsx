@@ -38,18 +38,23 @@ import {
     SidebarMenuItem,
     SidebarMenuSub
 } from '../../ui/sidebar';
-import { useState } from 'react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
     const router = useRouter();
-    const [activeModule, setActiveModule] = useState("default");
+
+    // Determine the active module based on the current pathname
+    const getActiveModule = () => {
+        if (path.includes(paths.admin.module.property)) return 'property';
+        if (path.includes(paths.admin.module.owner.root)) return 'owner';
+        if (path.includes(paths.admin.module.tenant)) return 'tenant';
+        if (path.includes(paths.admin.module.advertisements)) return 'advertisements';
+        return "default";
+    };
+
+    const activeModule = getActiveModule();
 
     const mainNav = getMainNav(activeModule);
-
-    const handleModuleClick = (moduleValue: string) => {
-        setActiveModule(moduleValue);
-    };
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -187,18 +192,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarGroupAction>
                     <SidebarGroupContent>
                         <SidebarMenu className="gap-3">
-                            {menus?.module_nav?.map((menu) => (
-                                <SidebarMenuItem key={menu.value}>
+                            {menus?.module_nav?.map((menu, index) => (
+                                <SidebarMenuItem key={index + 1}>
                                     <SidebarMenuButton
                                         asChild
                                         className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
                                         isActive={activeModule === menu.value}
                                     >
                                         <Link
-                                            href=""
+                                            href={menu.defaultHref}
                                             className="flex items-center gap-4 [&__svg]:size-9"
                                             data-collapsible="icon"
-                                            onClick={() => handleModuleClick(menu.value)}
                                         >
                                             {menu.icon}
                                             <span className="py-2 text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
