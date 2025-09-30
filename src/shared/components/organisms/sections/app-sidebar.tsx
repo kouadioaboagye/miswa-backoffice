@@ -38,6 +38,7 @@ import {
     SidebarMenuItem,
     SidebarMenuSub
 } from '../../ui/sidebar';
+import { menu } from '@/shared/types/menu';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
@@ -54,7 +55,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     const activeModule = getActiveModule();
 
-    const mainNav = getMainNav(activeModule);
+    const mainNav: menu[] = getMainNav(activeModule);
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -187,7 +188,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         className="text-white [&>svg]:size-7"
                         title="Add Project"
                     >
-                        <Plus className="size-7" />{' '}
+                        <Plus className="size-7" onClick={()=> router.push(paths.admin.module.root)}/>{' '}
                         <span className="sr-only">Add Project</span>
                     </SidebarGroupAction>
                     <SidebarGroupContent>

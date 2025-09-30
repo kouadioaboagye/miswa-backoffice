@@ -11,6 +11,7 @@ import { LocataireIcon } from '../../../public/assets/icons/locataire';
 import MicrophoneIcon from '../../../public/assets/icons/microphone';
 import { ProprioIcon } from '../../../public/assets/icons/proprio';
 import { LetsIconsSettingLine } from '../../../public/assets/icons/setting';
+import { module } from '../types/menu';
 
 const baseMainNav = [
     {
@@ -152,35 +153,38 @@ const moduleNavigations = {
     ],
 }
 
-
-const moduleNav = [
+const moduleNav: module[] = [
     {
         label: 'Biens',
         icon: (
             <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.property
+        defaultHref: paths.admin.module.property,
+        value: "property"
     },
     {
         label: 'Propriétaires',
         icon: (
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.owner.root
+         defaultHref: paths.admin.module.owner.root,
+         value: "owner"
     },
     {
         label: 'Locataires',
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.tenant
+         defaultHref: paths.admin.module.tenant,
+         value: "tenant"
     },
     {
         label: 'Annonces',
         icon: (
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.advertisements
+        defaultHref: paths.admin.module.advertisements,
+        value: "advertisements"
     }
 ]
 
