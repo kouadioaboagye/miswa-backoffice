@@ -173,7 +173,7 @@ const PropertiesSection = () => {
                  <div className="relative z-10 -mb-36">
                     <div className="relative overflow-hidden">
                         {properties.length > 0 ? (
-                            <div className="animate-scroll-infinite flex gap-6">
+                            <div className=" flex gap-6">
                                 {/* Premier set de cartes */}
                                 {properties.map((property) => (
                                     <PropertyCard
