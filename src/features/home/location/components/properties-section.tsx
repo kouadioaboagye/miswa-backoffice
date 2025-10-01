@@ -1,3 +1,4 @@
+"use client"
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { PropertyCard } from '@/shared/components/ui/property-card';
@@ -8,10 +9,13 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/shared/components/ui/select';
-import { MapPinIcon, SearchIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
+import { useRouter } from 'next/navigation';
 
 const PropertiesSection = () => {
+
+    const router = useRouter();
     const properties = [
         {
             id: 1,
@@ -92,7 +96,7 @@ const PropertiesSection = () => {
                 {/* Barre de recherche */}
                 <div className="mb-20 flex w-full items-center justify-between gap-8 sm:gap-6">
                     <div className="flex w-[60%] gap-10">
-                        <div className='w-[30%]'>
+                        <div className="w-[30%]">
                             <Select>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Grand-Bassam" />
@@ -101,7 +105,9 @@ const PropertiesSection = () => {
                                     <SelectItem value="grand-bassam">
                                         Grand-Bassam
                                     </SelectItem>
-                                    <SelectItem value="abidjan">Abidjan</SelectItem>
+                                    <SelectItem value="abidjan">
+                                        Abidjan
+                                    </SelectItem>
                                     <SelectItem value="yamoussoukro">
                                         Yamoussoukro
                                     </SelectItem>
@@ -117,7 +123,6 @@ const PropertiesSection = () => {
                                 }
                             />
                         </div>
-
                     </div>
 
                     <Button
@@ -158,21 +163,20 @@ const PropertiesSection = () => {
                     </div>
                 </div>
 
-
                 {/* Newsletter avec espace pour la superposition */}
                 <div className="relative z-0 mx-auto flex flex-col items-center justify-center gap-6 bg-white p-8 pt-20 text-white md:px-12 md:py-20">
                     {/* Bouton Voir les annonces */}
                     <div className="mb-8 text-center mt-48">
                         <Button
+                        
                             variant="secondary"
                             size="default"
                             className="px-8 py-3"
+                             onClick={() => router.push("/recherche")}
                         >
                             Voir les annonces
                         </Button>
                     </div>
-
-                    
                 </div>
             </div>
         </section>
