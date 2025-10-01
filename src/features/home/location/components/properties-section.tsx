@@ -12,72 +12,102 @@ import {
 import { SearchIcon } from 'lucide-react';
 import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+interface Property {
+    id: number;
+    name: string;
+    description: string;
+    cover_url: string;
+    reference: string;
+    street: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+    rooms_count: number;
+    likes_count: number;
+    views_count: number;
+    area_m2: number;
+    monthly_rent_amount: number;
+    is_busy: boolean;
+    photos: string[];
+}
+
+interface ApiResponse {
+    data: Property[];
+    total: number;
+}
 
 const PropertiesSection = () => {
 
     const router = useRouter();
-    const properties = [
-        {
-            id: 1,
-            title: 'Cité AGC, Grand Bassam',
-            location: 'Abidjan, Marcory',
-            rooms: '2 Chambre',
-            bathrooms: '2 douche',
-            area: '200m²',
-            parking: '1 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
-        },
-        {
-            id: 2,
-            title: 'Appartement Marcory zone 4 Netle ci',
-            location: 'Abidjan, Marcory',
-            rooms: '2 Chambre',
-            bathrooms: '2 douche',
-            area: '200m²',
-            parking: '1 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
-        },
-        {
-            id: 3,
-            title: 'Résidence moderne Cocody',
-            location: 'Abidjan, Cocody',
-            rooms: '3 Chambre',
-            bathrooms: '2 douche',
-            area: '250m²',
-            parking: '2 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
-        },
-        {
-            id: 4,
-            title: 'Villa luxueuse Riviera',
-            location: 'Abidjan, Riviera',
-            rooms: '4 Chambre',
-            bathrooms: '3 douche',
-            area: '300m²',
-            parking: '2 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
-        },
-        {
-            id: 5,
-            title: 'Studio moderne Plateau',
-            location: 'Abidjan, Plateau',
-            rooms: '1 Chambre',
-            bathrooms: '1 douche',
-            area: '80m²',
-            parking: '1 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
-        },
-        {
-            id: 6,
-            title: 'Penthouse Cocody Angré',
-            location: 'Abidjan, Cocody',
-            rooms: '5 Chambre',
-            bathrooms: '4 douche',
-            area: '400m²',
-            parking: '3 Parking Lot',
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+  const [properties, setProperties] = useState<Property[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fonction pour récupérer les propriétés depuis l'API
+    const fetchProperties = async () => {
+        try {
+            setLoading(true);
+             const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+            const response = await fetch(`${API_BASE_URL}/properties/public`);
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const data: ApiResponse = await response.json();
+            setProperties(data.data);
+        } catch (err) {
+            console.error('Erreur lors du chargement des propriétés:', err);
+            setError('Impossible de charger les propriétés');
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
+
+    useEffect(() => {
+        fetchProperties();
+    }, []);
+
+    // Fonction pour formater les données de l'API vers le format attendu par PropertyCard
+    const formatPropertyForCard = (property: Property) => {
+        return {
+            id: property.id,
+            title: property.name,
+            location: property.address || property.street,
+            rooms: `${property.rooms_count} Chambre${property.rooms_count > 1 ? 's' : ''}`,
+            bathrooms: 'Aucun', // L'API ne semble pas fournir cette information
+            area: `${property.area_m2}m²`,
+            parking: 'Aucun', // L'API ne semble pas fournir cette information
+            image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center",
+            // image: property.cover_url || (property.photos.length > 0 ? property.photos[0] : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'),
+            price: property.monthly_rent_amount ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois` : 'Prix non disponible'
+        };
+    };
+
+    if (loading) {
+        return (
+            <section className="bg-white py-16 sm:py-20 md:py-24">
+                <div className="mx-auto flex max-w-[90%] flex-col gap-12 mt-32">
+                    <div className="text-center">Chargement des propriétés...</div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="bg-white py-16 sm:py-20 md:py-24">
+                <div className="mx-auto flex max-w-[90%] flex-col gap-12 mt-32">
+                    <div className="text-center text-red-500">{error}</div>
+                    <Button onClick={fetchProperties} className="mx-auto">
+                        Réessayer
+                    </Button>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="bg-white py-16 sm:py-20 md:py-24">
@@ -141,25 +171,31 @@ const PropertiesSection = () => {
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
 
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
-                <div className="relative z-10 -mb-36">
+                 <div className="relative z-10 -mb-36">
                     <div className="relative overflow-hidden">
-                        <div className="animate-scroll-infinite flex gap-6">
-                            {/* Premier set de cartes */}
-                            {properties.map((property) => (
-                                <PropertyCard
-                                    key={`first-${property.id}`}
-                                    {...property}
-                                />
-                            ))}
+                        {properties.length > 0 ? (
+                            <div className=" flex gap-6">
+                                {/* Premier set de cartes */}
+                                {properties.map((property) => (
+                                    <PropertyCard
+                                        key={`first-${property.id}`}
+                                        {...formatPropertyForCard(property)}
+                                    />
+                                ))}
 
-                            {/* Deuxième set de cartes pour l'effet infini */}
-                            {properties.map((property) => (
-                                <PropertyCard
-                                    key={`second-${property.id}`}
-                                    {...property}
-                                />
-                            ))}
-                        </div>
+                                {/* Deuxième set de cartes pour l'effet infini */}
+                                {properties.map((property) => (
+                                    <PropertyCard
+                                        key={`second-${property.id}`}
+                                        {...formatPropertyForCard(property)}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8">
+                                Aucune propriété disponible pour le moment
+                            </div>
+                        )}
                     </div>
                 </div>
 
