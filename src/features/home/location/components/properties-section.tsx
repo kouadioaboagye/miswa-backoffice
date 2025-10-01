@@ -49,7 +49,8 @@ const PropertiesSection = () => {
     const fetchProperties = async () => {
         try {
             setLoading(true);
-            const response = await fetch('http://api.miswa.ci/api/v1/properties/public');
+             const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+            const response = await fetch(`${API_BASE_URL}/api/v1/properties/public`);
             
             if (!response.ok) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
