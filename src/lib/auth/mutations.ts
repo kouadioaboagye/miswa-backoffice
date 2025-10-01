@@ -14,6 +14,12 @@ export const loginMutation = async (username: string, password: string): Promise
             username,
             password,
             login_role: 'admin'
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'x-platform': 'api',
+                'x-platform-token': 'api'
+            }
         })
         if(response.status === 200) {
             setAuthSession({

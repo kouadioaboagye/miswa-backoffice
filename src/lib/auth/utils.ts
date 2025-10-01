@@ -1,3 +1,4 @@
+"use client"
 import { AuthSession } from "./types";
 
 export const getAuthSession = (): AuthSession | null => {
@@ -9,10 +10,16 @@ export const getAuthSession = (): AuthSession | null => {
 }
 
 export const setAuthSession = (session: AuthSession): void => {
+    if(typeof window === 'undefined') {
+        return;
+    }
     localStorage.setItem('session', JSON.stringify(session));
 }
 
 export const removeAuthSession = (): void => {
+    if(typeof window === 'undefined') {
+        return;
+    }
     localStorage.removeItem('session');
 }
 
@@ -31,4 +38,8 @@ export const checkAuthSession = (): boolean => {
         return false;
     }
     return true;
+}
+
+export const logout = () => {
+    removeAuthSession();
 }

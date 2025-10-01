@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAuthSession } from '../auth/utils';
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -10,3 +11,10 @@ const axiosInstance = axios.create({
 });
 
 export const httpClient = axiosInstance;
+export const httpAuthClient = () => {
+    const session = getAuthSession()
+    if(session) {
+        axiosInstance.defaults.headers.common['Authorization'] = session?.token;
+    }
+    return axiosInstance
+}

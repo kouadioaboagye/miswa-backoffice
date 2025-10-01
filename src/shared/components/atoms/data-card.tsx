@@ -13,15 +13,18 @@ const DataCard = ({ title, value, percentageChange, icon }: DataCardProps) => {
                 </span>
                 <div className="flex items-end gap-16">
                     <span className="mt-2 text-2xl font-bold">{value}</span>
-                    <span
-                        className={`text-xl font-bold text-green-500 ${
-                            percentageChange && percentageChange > 0
-                                ? 'text-green-500'
-                                : 'text-red-500'
-                        }`}
-                    >
-                        {percentageChange}%
-                    </span>
+                {
+                    percentageChange ?
+                            <span
+                                className={`text-xl font-bold text-green-500 ${
+                                    percentageChange && percentageChange > 0
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                }`}
+                            >
+                                {percentageChange}%
+                            </span>
+                    : null}
                 </div>
             </div>
             <div className="flex size-16 items-center justify-center rounded-2xl bg-[#1EA64A] p-3">
