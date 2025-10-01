@@ -10,7 +10,7 @@ type LoginResponse = {
 export const loginMutation = async (username: string, password: string): Promise<boolean> => {
     try {
         
-        const response = await httpClient.post<LoginResponse>('api/v1/auth/login/password', {
+        const response = await httpClient.post<LoginResponse>('/auth/login/password', {
             username,
             password,
             login_role: 'admin'
