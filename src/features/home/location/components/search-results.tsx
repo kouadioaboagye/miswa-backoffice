@@ -72,6 +72,7 @@ const SearchResults = () => {
 
     const allArticles = [
         {
+            id: '1',
             title: 'Nouvelle réglementation immobilière : ce qui change en 2024',
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -81,6 +82,7 @@ const SearchResults = () => {
             author: 'Marie Dubois'
         },
         {
+            id: '2',
             title: 'Tendances du marché locatif : hausse des prix dans les grandes villes',
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -90,6 +92,7 @@ const SearchResults = () => {
             author: 'Pierre Martin'
         },
         {
+            id: '3',
             title: 'Innovation : la réalité virtuelle révolutionne les visites immobilières',
             excerpt:
                 "VillaLorem Ipsum has been the industry's standard dummy text ever since the 1500s, Rents in Dubai have Reached an All-Time High",
@@ -99,6 +102,7 @@ const SearchResults = () => {
             author: 'Sophie Laurent'
         },
         {
+            id: '4',
             title: 'Conseils pratiques : optimiser votre dossier de location',
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -108,6 +112,7 @@ const SearchResults = () => {
             author: 'Thomas Bernard'
         },
         {
+            id: '5',
             title: 'Investissement locatif : les zones les plus rentables en 2024',
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -117,6 +122,7 @@ const SearchResults = () => {
             author: 'Claire Moreau'
         },
         {
+            id: '6',
             title: 'Écologie et immobilier : les logements verts ont le vent en poupe',
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -127,6 +133,7 @@ const SearchResults = () => {
         },
         // Dupliquer les articles pour avoir plus de contenu
         ...Array.from({ length: 24 }, (_, i) => ({
+            id: `${i + 7}`,
             title: `Article ${i + 7} : Tendances du marché immobilier`,
             excerpt:
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
@@ -170,10 +177,10 @@ const SearchResults = () => {
         <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
             <div className="w-full px-4 sm:px-6 lg:px-8">
                 {/* Header avec barre de recherche */}
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-20">
                     <div>
                         <h1 className="text-4xl font-bold text-[#1a1a1a] mb-2">
-                            Résultats de recherche
+                            Rechercher des propriétés à louer
                         </h1>
                         <p className="text-gray-600">
                             {filteredArticles.length} propriété
@@ -678,6 +685,7 @@ const SearchResults = () => {
                             {currentArticles.map((article, index) => (
                                 <NewsCard
                                     key={index}
+                                    id={article.id}
                                     title={article.title}
                                     excerpt={article.excerpt}
                                     date={article.date}
