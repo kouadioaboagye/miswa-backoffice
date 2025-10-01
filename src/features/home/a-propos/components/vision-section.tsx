@@ -5,6 +5,7 @@ const VisionSection = () => {
         <section className="py-20 md:py-40">
             <div className="mx-auto max-w-[70%] px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+                    {/* Image du dashboard */}
                     <div className="order-2 lg:order-1">
                         <div className="relative">
                             <Image
@@ -15,6 +16,9 @@ const VisionSection = () => {
                                 className="w-full shadow-2xl"
                                 priority
                             />
+                            {/* Overlay décoratif */}
+                            {/* <div className="absolute -right-4 -top-4 size-24 rounded-full bg-[#1ea64a]/20"></div>
+                            <div className="absolute -bottom-4 -left-4 size-16 rounded-full bg-[#14385c]/20"></div> */}
                         </div>
                     </div>
 
