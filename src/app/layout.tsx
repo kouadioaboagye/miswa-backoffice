@@ -8,12 +8,10 @@ import type { ReactNode } from 'react';
 import { siteConfig } from '@/config';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-import './styles/globals.css';
-import { Provider } from './provider';
 import GlobalModal from '@/shared/components/atoms/global-modal';
-import { createEnv } from "@/config/env";
-
-createEnv();
+import GoogleMapsScript from '@/shared/components/GoogleMapsScript';
+import { Provider } from './provider';
+import './styles/globals.css';
 
 export const metadata: Metadata = siteConfig.meta;
 
@@ -29,6 +27,7 @@ export default async function RootLayout({
                     <GlobalModal />
                     <NuqsAdapter>{children}</NuqsAdapter>
                 </Provider>
+                <GoogleMapsScript />
             </body>
         </html>
     );
