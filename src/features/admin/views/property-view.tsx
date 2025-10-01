@@ -1,28 +1,34 @@
+"use client"
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
 import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
 import PropertyTable from '../components/tables/property/property-table';
+import { useListPropertiesQuery } from '@/lib/data-service/property/property.queries';
+import { columns } from '../components/tables/property/columns';
 
 const PropertyView = () => {
+    const { data: response, isLoading, error } = useListPropertiesQuery()
+    const {data, total} = response || {data: [], total: 0}
+
     const dataItems = [
         {
             title: 'Total Biens',
-            value: '245',
-            percentageChange: +55,
+            value: total,
+            percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
             title: 'Total Batiment',
-            value: '20',
-            percentageChange: +5,
+            value: '2',
+            percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
             title: 'Biens occupés',
-            value: '185',
-            percentageChange: -14,
+            value: '0',
+            percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         }
     ];
@@ -55,7 +61,7 @@ const PropertyView = () => {
                     )
                 }}
             >
-                <PropertyTable />
+                <PropertyTable data={data} columns={columns} />
             </DataTableLayout>
         </div>
     );

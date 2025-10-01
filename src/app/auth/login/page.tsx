@@ -1,3 +1,4 @@
+"use client"
 import LoginForm from '@/features/auth/components/forms/login-form';
 import Link from 'next/link';
 
