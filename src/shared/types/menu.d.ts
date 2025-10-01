@@ -15,3 +15,12 @@ export type module = {
     defaultHref: string,
     value: string
 }
+
+export type MenuItem = {
+  label: string;
+  icon: JSX.Element;
+  href: string;
+  items?: MenuItem[]; // sous-menus possibles
+};
+
+export type Menu = MenuItem[];
