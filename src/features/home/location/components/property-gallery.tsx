@@ -53,7 +53,8 @@ const PropertyGallery = ({ images }: PropertyGalleryProps) => {
                 {/* Image principale */}
                 <div className="relative h-[450px] rounded-2xl overflow-hidden bg-white">
                     <img
-                        src={images[currentImageIndex]}
+                        // src={images[currentImageIndex]}
+                        src='https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=400&fit=crop&crop=center'
                         alt={`Propriété ${currentImageIndex + 1}`}
                         className="w-full h-full object-cover"
                     />
