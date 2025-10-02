@@ -23,7 +23,7 @@ function AddPaymentForm({ onClose, setLoading, setSuccessModalOpen }: Readonly<A
         setValue,
         watch,
         control,
-        formState: { errors, isValid },
+        formState: { errors },
     } = useForm<PaymentFormData>();
 
     const files = watch('files') || [];

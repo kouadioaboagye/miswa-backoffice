@@ -61,7 +61,7 @@ function AllModulesView() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
             {modules.map((module, index) => (
-                <button key={index + 1} className="group w-full bg-white rounded-2xl shadow-lg shadow-[#11928F66] p-8 text-left border border-[#E8FFF0]" onClick={()=> router.push(module.href)}>
+                <button key={index + 1} className="group w-full bg-white rounded-2xl shadow-lg shadow-[#11928F66] p-8 text-left border border-[#E8FFF0]" onClick={()=> router.push("")}>
                     <div className="flex items-center gap-6">
                         <div className="bg-[#E8FFF0] rounded-2xl w-[64px] h-[64px] flex items-center justify-center">
                             {module.icon}
