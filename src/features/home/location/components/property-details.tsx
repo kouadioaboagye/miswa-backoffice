@@ -1,6 +1,7 @@
 'use client';
 
 import { MapPin, Star } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import PropertyAmenities from './property-amenities';
 import PropertyGallery from './property-gallery';
 import PropertyLocation from './property-location';
@@ -14,79 +15,70 @@ interface PropertyDetailsProps {
 
 interface Property {
     id: string;
-    title: string;
-    location: string;
-    rating: number;
-    reviewCount: number;
-    price: number;
-    currency: string;
+    name: string;
     description: string;
-    images: string[];
-    amenities: {
-        parking: { available: boolean; count?: number };
-        security: { available: boolean; type?: string };
-        commonAreas: { available: boolean; details?: string };
-        utilities: { available: boolean; status?: string };
-        elevator: { available: boolean };
-    };
-    coordinates: {
-        lat: number;
-        lng: number;
-    };
-    reviews: {
-        security: number;
-        transport: number;
-        hygiene: number;
-        humidity: number;
-        overall: number;
-        count: number;
-    };
+    cover_url: string;
+    reference: string;
+    street: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+    rooms_count: number;
+    likes_count: number;
+    views_count: number;
+    area_m2: number;
+    monthly_rent_amount: number;
+    is_busy: boolean;
+    photos: string[];
+    bathrooms?: number;
+    parking?: number;
 }
 
 const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
-    // Données mockées - à remplacer par un appel API
+    const searchParams = useSearchParams();
+
+    // Récupérer les données depuis l'URL
     const property: Property = {
         id: propertyId,
-        title: 'Appartement 4 pièce (Cité AGC Modeste Grand Bassam)',
-        location: "Côte d'ivoire, Grand Bassam",
-        rating: 4.5,
-        reviewCount: 904,
-        price: 120000,
-        currency: 'F CFA',
+        name: searchParams.get('name') || 'Propriété',
         description:
-            '3 AC BEDROOM APARTMENT Full furnished. Stylish Apartment Near Bashundhara R/A Entrance! Block i, R:4. Located right by the main entrance of Bashundhara R/A from 300ft Road and Madani Avenue. Just a 15-minute drive from Dhaka Airport, and only 5 and 10 minutes from the Cantonment and Airport Train Stations, our location is ideal for both business and leisure travelers. Why wait? Your ideal stay is just a click away, Don’t miss out, book now! Safety Features: CCTV surveillance throughout the building and instant generator support. Your Ideal Home in Dhaka. Wants to visit this property for rent, just WhatsApp (+880 1814 963 028) this property link or call us and share your convenient viewing schedule. Whether you’re here for business or leisure, our apartment offers elegant living spaces with refreshing airflow and abundant natural light. Book your stay today and experience the best of Dhaka!   See More',
-        images: [
+            searchParams.get('description') || 'Description non disponible',
+        cover_url:
+            searchParams.get('cover_url') ||
             'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center'
-        ],
-        amenities: {
-            parking: { available: true, count: 12 },
-            security: { available: true, type: 'Gardien' },
-            commonAreas: { available: true, details: 'Buanderie, terrasse' },
-            utilities: { available: true, status: 'raccordé' },
-            elevator: { available: true }
-        },
-        coordinates: {
-            lat: 5.36,
-            lng: -4.0083
-        },
-        reviews: {
-            security: 4.8,
-            transport: 3.0,
-            hygiene: 4.5,
-            humidity: 4.0,
-            overall: 4.3,
-            count: 24
-        }
+        reference: searchParams.get('reference') || '',
+        street: searchParams.get('street') || '',
+        address:
+            searchParams.get('address') ||
+            searchParams.get('street') ||
+            'Adresse non disponible',
+        latitude: parseFloat(searchParams.get('latitude') || '5.36'),
+        longitude: parseFloat(searchParams.get('longitude') || '-4.0083'),
+        rooms_count: parseInt(searchParams.get('rooms_count') || '0'),
+        likes_count: parseInt(searchParams.get('likes_count') || '0'),
+        views_count: parseInt(searchParams.get('views_count') || '0'),
+        area_m2: parseInt(searchParams.get('area_m2') || '0'),
+        monthly_rent_amount: parseInt(
+            searchParams.get('monthly_rent_amount') || '0'
+        ),
+        is_busy: searchParams.get('is_busy') === 'true',
+        photos: searchParams.get('photos')
+            ? searchParams.get('photos')!.split(',')
+            : [],
+        bathrooms: searchParams.get('bathrooms')
+            ? parseInt(searchParams.get('bathrooms')!)
+            : undefined,
+        parking: searchParams.get('parking')
+            ? parseInt(searchParams.get('parking')!)
+            : undefined
     };
 
     return (
         <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
             <div className="w-full ">
-                <PropertyGallery images={property.images} />
+                <PropertyGallery
+                    images={property.photos || [property.cover_url]}
+                />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Contenu principal - 2/3 de la largeur */}
@@ -96,14 +88,14 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                         {/* Titre et informations de base */}
                         <div className="space-y-10">
                             <h1 className="text-5xl font-bold text-gray-900">
-                                {property.title}
+                                {property.name}
                             </h1>
 
                             <div className="flex items-center space-x-8">
                                 <div className="flex items-center space-x-1">
                                     <MapPin className="w-5 h-5 text-gray-500" />
                                     <span className="text-gray-600">
-                                        {property.location}
+                                        {property.address || property.street}
                                     </span>
                                 </div>
 
@@ -113,10 +105,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                                             <Star
                                                 key={i}
                                                 className={`w-5 h-5 ${
-                                                    i <
-                                                    Math.floor(property.rating)
-                                                        ? 'text-yellow-400'
-                                                        : i < property.rating
+                                                    i < 4
                                                         ? 'text-yellow-400'
                                                         : 'text-gray-300'
                                                 }`}
@@ -124,7 +113,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                                         ))}
                                     </div>
                                     <span className="text-gray-600">
-                                        ({property.reviewCount} Avis)
+                                        ({property.likes_count} Avis)
                                     </span>
                                 </div>
                             </div>
@@ -141,30 +130,103 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                             <button className="text-[#1EA64A] font-medium hover:text-[#1a8a3f] transition-colors">
                                 Voir plus
                             </button>
-
-                            {/* Commodités */}
-                            <PropertyAmenities amenities={property.amenities} />
                         </div>
+
+                        {/* Informations détaillées */}
+                        <div className="space-y-4">
+                            <h2 className="text-2xl font-bold text-gray-900">
+                                Détails de la propriété
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="text-sm text-gray-600">
+                                        Chambres
+                                    </div>
+                                    <div className="text-2xl font-bold text-gray-900">
+                                        {property.rooms_count}
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="text-sm text-gray-600">
+                                        Salles de bain
+                                    </div>
+                                    <div className="text-2xl font-bold text-gray-900">
+                                        {property.bathrooms || 'N/A'}
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="text-sm text-gray-600">
+                                        Surface
+                                    </div>
+                                    <div className="text-2xl font-bold text-gray-900">
+                                        {property.area_m2} m²
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="text-sm text-gray-600">
+                                        Parking
+                                    </div>
+                                    <div className="text-2xl font-bold text-gray-900">
+                                        {property.parking || 'N/A'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Commodités */}
+                        <PropertyAmenities
+                            amenities={{
+                                parking: {
+                                    available: !!property.parking,
+                                    count: property.parking
+                                },
+                                security: { available: true, type: 'Gardien' },
+                                commonAreas: {
+                                    available: true,
+                                    details: 'Buanderie, terrasse'
+                                },
+                                utilities: {
+                                    available: true,
+                                    status: 'raccordé'
+                                },
+                                elevator: { available: true }
+                            }}
+                        />
                     </div>
 
                     {/* Sidebar - 1/3 de la largeur */}
                     <div className="lg:col-span-1">
                         <PropertySidebar
-                            price={property.price}
-                            currency={property.currency}
+                            price={property.monthly_rent_amount}
+                            currency="FCFA"
+                            propertyId={property.id}
                         />
                     </div>
                 </div>
 
                 {/* Géolocalisation */}
-                <PropertyLocation coordinates={property.coordinates} />
+                <PropertyLocation
+                    coordinates={{
+                        lat: property.latitude,
+                        lng: property.longitude
+                    }}
+                />
 
                 {/* Avis */}
                 <div className="flex flex-col gap-8">
                     <h2 className="text-4xl font-bold text-gray-900 mb-6">
                         Avis Visiteur Et Locataire
                     </h2>
-                    <PropertyReviews reviews={property.reviews} />
+                    <PropertyReviews
+                        reviews={{
+                            security: 4.8,
+                            transport: 3.0,
+                            hygiene: 4.5,
+                            humidity: 4.0,
+                            overall: 4.3,
+                            count: property.likes_count
+                        }}
+                    />
                 </div>
 
                 {/* Propriétés similaires */}

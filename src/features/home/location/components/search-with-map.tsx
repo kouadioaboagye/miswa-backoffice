@@ -3,6 +3,7 @@
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import Pagination from '@/shared/components/ui/pagination';
+import { PropertyCardGrid } from '@/shared/components/ui/property-card';
 import {
     Select,
     SelectContent,
@@ -90,7 +91,23 @@ const SearchWithMap = () => {
             bathrooms: 2,
             area: '120 m²',
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            coordinates: { lat: 5.3599, lng: -4.0083 }
+            coordinates: { lat: 5.3599, lng: -4.0083 },
+            description:
+                'Appartement moderne et spacieux dans le quartier de Cocody',
+            reference: 'REF001',
+            street: 'Rue des Jardins',
+            address: 'Cocody, Abidjan',
+            latitude: 5.3599,
+            longitude: -4.0083,
+            rooms_count: 3,
+            likes_count: 15,
+            views_count: 120,
+            area_m2: 120,
+            monthly_rent_amount: 200000,
+            is_busy: false,
+            photos: [
+                'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+            ]
         },
         {
             id: '2',
@@ -101,7 +118,23 @@ const SearchWithMap = () => {
             bathrooms: 3,
             area: '180 m²',
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            coordinates: { lat: 5.352, lng: -4.018 }
+            coordinates: { lat: 5.352, lng: -4.018 },
+            description:
+                'Villa spacieuse avec jardin dans le quartier de Marcory',
+            reference: 'REF002',
+            street: 'Avenue de la Paix',
+            address: 'Marcory, Abidjan',
+            latitude: 5.352,
+            longitude: -4.018,
+            rooms_count: 4,
+            likes_count: 22,
+            views_count: 180,
+            area_m2: 180,
+            monthly_rent_amount: 350000,
+            is_busy: false,
+            photos: [
+                'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+            ]
         },
         {
             id: '3',
@@ -112,7 +145,22 @@ const SearchWithMap = () => {
             bathrooms: 1,
             area: '45 m²',
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            coordinates: { lat: 5.349, lng: -4.021 }
+            coordinates: { lat: 5.349, lng: -4.021 },
+            description: 'Studio moderne et fonctionnel au Plateau',
+            reference: 'REF003',
+            street: 'Boulevard de la République',
+            address: 'Plateau, Abidjan',
+            latitude: 5.349,
+            longitude: -4.021,
+            rooms_count: 1,
+            likes_count: 8,
+            views_count: 95,
+            area_m2: 45,
+            monthly_rent_amount: 120000,
+            is_busy: false,
+            photos: [
+                'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+            ]
         },
         {
             id: '4',
@@ -123,7 +171,22 @@ const SearchWithMap = () => {
             bathrooms: 2,
             area: '140 m²',
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            coordinates: { lat: 5.345, lng: -4.005 }
+            coordinates: { lat: 5.345, lng: -4.005 },
+            description: 'Appartement avec terrasse privée à Riviera',
+            reference: 'REF004',
+            street: 'Rue de la Riviera',
+            address: 'Riviera, Abidjan',
+            latitude: 5.345,
+            longitude: -4.005,
+            rooms_count: 3,
+            likes_count: 18,
+            views_count: 150,
+            area_m2: 140,
+            monthly_rent_amount: 280000,
+            is_busy: false,
+            photos: [
+                'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+            ]
         },
         // Dupliquer pour avoir plus de contenu
         ...Array.from({ length: 20 }, (_, i) => ({
@@ -138,7 +201,22 @@ const SearchWithMap = () => {
             coordinates: {
                 lat: 5.35 + (Math.random() - 0.5) * 0.1,
                 lng: -4.01 + (Math.random() - 0.5) * 0.1
-            }
+            },
+            description: `Description de la propriété ${i + 5}`,
+            reference: `REF${String(i + 5).padStart(3, '0')}`,
+            street: `Rue ${i + 1}`,
+            address: `Quartier ${i + 1}, Abidjan`,
+            latitude: 5.35 + (Math.random() - 0.5) * 0.1,
+            longitude: -4.01 + (Math.random() - 0.5) * 0.1,
+            rooms_count: (i % 4) + 1,
+            likes_count: Math.floor(Math.random() * 30) + 5,
+            views_count: Math.floor(Math.random() * 200) + 50,
+            area_m2: 60 + i * 5,
+            monthly_rent_amount: 150000 + i * 10000,
+            is_busy: Math.random() > 0.7,
+            photos: [
+                'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+            ]
         }))
     ];
 
@@ -754,93 +832,105 @@ const SearchWithMap = () => {
                             {viewMode === 'grid' ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                     {currentProperties.map((property) => (
-                                        <div
+                                        <PropertyCardGrid
                                             key={property.id}
-                                            className="bg-white rounded-lg shadow-md overflow-hidden"
-                                        >
-                                            <div className="relative h-48">
-                                                <img
-                                                    src={property.image}
-                                                    alt={property.title}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                                <div className="absolute top-4 left-4 bg-green-500 text-white px-2 py-1 rounded text-sm">
-                                                    Grand-Bassam
-                                                </div>
-                                            </div>
-                                            <div className="p-4">
-                                                <div className="text-green-600 font-bold text-lg mb-2">
-                                                    {property.price} / Mois
-                                                </div>
-                                                <h3 className="font-semibold text-gray-900 mb-1">
-                                                    {property.title}
-                                                </h3>
-                                                <p className="text-gray-600 text-sm mb-3">
-                                                    {property.location}
-                                                </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-600">
-                                                    <span className="flex items-center gap-1">
-                                                        <span>
-                                                            {property.bedrooms}{' '}
-                                                            Cham.
-                                                        </span>
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <span>
-                                                            {property.bathrooms}{' '}
-                                                            Douches
-                                                        </span>
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <span>
-                                                            {property.area}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            id={property.id}
+                                            title={property.title}
+                                            location={property.location}
+                                            price={property.price}
+                                            rooms={`${
+                                                property.bedrooms
+                                            } Chambre${
+                                                property.bedrooms > 1 ? 's' : ''
+                                            }`}
+                                            bathrooms={`${
+                                                property.bathrooms
+                                            } Douche${
+                                                property.bathrooms > 1
+                                                    ? 's'
+                                                    : ''
+                                            }`}
+                                            area={property.area}
+                                            parking="N/A"
+                                            image={property.image}
+                                            className="hover:scale-105 transition-transform duration-300"
+                                            // Propriétés supplémentaires pour les détails
+                                            description={property.description}
+                                            cover_url={property.image}
+                                            reference={property.reference}
+                                            street={property.street}
+                                            address={property.address}
+                                            latitude={property.coordinates.lat}
+                                            longitude={property.coordinates.lng}
+                                            rooms_count={property.bedrooms}
+                                            likes_count={property.likes_count}
+                                            views_count={property.views_count}
+                                            area_m2={parseInt(
+                                                property.area
+                                                    .replace('m²', '')
+                                                    .replace(' ', '')
+                                            )}
+                                            monthly_rent_amount={parseInt(
+                                                property.price.replace(
+                                                    /[^\d]/g,
+                                                    ''
+                                                )
+                                            )}
+                                            is_busy={property.is_busy}
+                                            photos={property.photos}
+                                        />
                                     ))}
                                 </div>
                             ) : (
                                 <div className="space-y-4">
                                     {currentProperties.map((property) => (
-                                        <div
+                                        <PropertyCardGrid
                                             key={property.id}
-                                            className="bg-white rounded-lg shadow-md p-4 flex gap-4"
-                                        >
-                                            <div className="relative w-32 h-24 flex-shrink-0">
-                                                <img
-                                                    src={property.image}
-                                                    alt={property.title}
-                                                    className="w-full h-full object-cover rounded"
-                                                />
-                                                <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-xs">
-                                                    Grand-Bassam
-                                                </div>
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="text-green-600 font-bold text-lg mb-1">
-                                                    {property.price} / Mois
-                                                </div>
-                                                <h3 className="font-semibold text-gray-900 mb-1">
-                                                    {property.title}
-                                                </h3>
-                                                <p className="text-gray-600 text-sm mb-2">
-                                                    {property.location}
-                                                </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-600">
-                                                    <span>
-                                                        {property.bedrooms}{' '}
-                                                        Cham.
-                                                    </span>
-                                                    <span>
-                                                        {property.bathrooms}{' '}
-                                                        Douches
-                                                    </span>
-                                                    <span>{property.area}</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            id={property.id}
+                                            title={property.title}
+                                            location={property.location}
+                                            price={property.price}
+                                            rooms={`${
+                                                property.bedrooms
+                                            } Chambre${
+                                                property.bedrooms > 1 ? 's' : ''
+                                            }`}
+                                            bathrooms={`${
+                                                property.bathrooms
+                                            } Douche${
+                                                property.bathrooms > 1
+                                                    ? 's'
+                                                    : ''
+                                            }`}
+                                            area={property.area}
+                                            parking="N/A"
+                                            image={property.image}
+                                            className="flex flex-row items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                                            // Propriétés supplémentaires pour les détails
+                                            description={property.description}
+                                            cover_url={property.image}
+                                            reference={property.reference}
+                                            street={property.street}
+                                            address={property.address}
+                                            latitude={property.coordinates.lat}
+                                            longitude={property.coordinates.lng}
+                                            rooms_count={property.bedrooms}
+                                            likes_count={property.likes_count}
+                                            views_count={property.views_count}
+                                            area_m2={parseInt(
+                                                property.area
+                                                    .replace('m²', '')
+                                                    .replace(' ', '')
+                                            )}
+                                            monthly_rent_amount={parseInt(
+                                                property.price.replace(
+                                                    /[^\d]/g,
+                                                    ''
+                                                )
+                                            )}
+                                            is_busy={property.is_busy}
+                                            photos={property.photos}
+                                        />
                                     ))}
                                 </div>
                             )}
