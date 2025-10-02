@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { PropertyCard } from '@/shared/components/ui/property-card';
@@ -10,9 +10,9 @@ import {
     SelectValue
 } from '@/shared/components/ui/select';
 import { SearchIcon } from 'lucide-react';
-import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
 
 interface Property {
     id: number;
@@ -39,9 +39,8 @@ interface ApiResponse {
 }
 
 const PropertiesSection = () => {
-
     const router = useRouter();
-  const [properties, setProperties] = useState<Property[]>([]);
+    const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -49,19 +48,18 @@ const PropertiesSection = () => {
     const fetchProperties = async () => {
         try {
             setLoading(true);
-             
+
             const response = await fetch('/api/properties', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        
-            
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
             if (!response.ok) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
             }
-            
+
             const data: ApiResponse = await response.json();
             setProperties(data.data);
         } catch (err) {
@@ -82,13 +80,17 @@ const PropertiesSection = () => {
             id: property.id,
             title: property.name,
             location: property.address || property.street,
-            rooms: `${property.rooms_count} Chambre${property.rooms_count > 1 ? 's' : ''}`,
+            rooms: `${property.rooms_count} Chambre${
+                property.rooms_count > 1 ? 's' : ''
+            }`,
             bathrooms: 'Aucun', // L'API ne semble pas fournir cette information
             area: `${property.area_m2}m²`,
             parking: 'Aucun', // L'API ne semble pas fournir cette information
-            image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center",
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
             // image: property.cover_url || (property.photos.length > 0 ? property.photos[0] : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'),
-            price: property.monthly_rent_amount ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois` : 'Prix non disponible'
+            price: property.monthly_rent_amount
+                ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois`
+                : 'Prix non disponible'
         };
     };
 
@@ -96,7 +98,9 @@ const PropertiesSection = () => {
         return (
             <section className="bg-white py-16 sm:py-20 md:py-24">
                 <div className="mx-auto flex max-w-[90%] flex-col gap-12 mt-32">
-                    <div className="text-center">Chargement des propriétés...</div>
+                    <div className="text-center">
+                        Chargement des propriétés...
+                    </div>
                 </div>
             </section>
         );
@@ -166,6 +170,7 @@ const PropertiesSection = () => {
                         rightIcon={<OnMapIcon className="size-10 " />}
                         variant="default"
                         size="default"
+                        onClick={() => router.push('/recherche-avec-carte')}
                     >
                         Sur la map
                     </Button>
@@ -177,33 +182,33 @@ const PropertiesSection = () => {
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
 
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
-                 <div className="relative z-10 -mb-36">
+                <div className="relative z-10 -mb-36">
                     <div className="relative overflow-hidden">
                         <div className="animate-scroll-infinite flex gap-6">
-                        {properties.length > 0 ? (
-                            <div className=" flex gap-6">
-                                {/* Premier set de cartes */}
-                                {properties.map((property) => (
-                                    <PropertyCard
-                                        key={`first-${property.id}`}
-                                        {...formatPropertyForCard(property)}
-                                    />
-                                ))}
+                            {properties.length > 0 ? (
+                                <div className=" flex gap-6">
+                                    {/* Premier set de cartes */}
+                                    {properties.map((property) => (
+                                        <PropertyCard
+                                            key={`first-${property.id}`}
+                                            {...formatPropertyForCard(property)}
+                                        />
+                                    ))}
 
-                                {/* Deuxième set de cartes pour l'effet infini */}
-                                {properties.map((property) => (
-                                    <PropertyCard
-                                        key={`second-${property.id}`}
-                                        {...formatPropertyForCard(property)}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-8">
-                                Aucune propriété disponible pour le moment
-                            </div>
-                        )}
-                    </div>
+                                    {/* Deuxième set de cartes pour l'effet infini */}
+                                    {properties.map((property) => (
+                                        <PropertyCard
+                                            key={`second-${property.id}`}
+                                            {...formatPropertyForCard(property)}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    Aucune propriété disponible pour le moment
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -212,11 +217,10 @@ const PropertiesSection = () => {
                     {/* Bouton Voir les annonces */}
                     <div className="mb-8 text-center mt-48">
                         <Button
-                        
                             variant="secondary"
                             size="default"
                             className="px-8 py-3"
-                             onClick={() => router.push("/recherche")}
+                            onClick={() => router.push('/recherche')}
                         >
                             Voir les annonces
                         </Button>
