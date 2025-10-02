@@ -95,7 +95,7 @@ function AddPropertyView() {
     return {
       name: `${values.typebatiment} - ${values.nom}`.trim(),
       reference: `miswa-${Date.now()}`,
-      description: "Propriété ajoutée via le formulaire",
+      description: `${values.description}`,
       cover_url: photosUrls[0] || "",
       photos: photosUrls,
       videos: [],
@@ -107,7 +107,7 @@ function AddPropertyView() {
       is_public: true,
       is_busy: false,
       busy_until: null,
-      monthly_rent_amount: 0,
+      monthly_rent_amount: `${values.price} `,
       built_year: values.annee ? parseInt(values.annee) : new Date().getFullYear(),
       area_m2: Number(values.superficie) || 0,
       building_steps_level: Number(values.nbetage) || 0,

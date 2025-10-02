@@ -10,6 +10,8 @@ export const addPropertyFormSchema = z.object({
   annee: z.string().optional(),
   superficie: z.string().optional(),
   nbetage: z.string().optional(),
+  price:z.string().optional(),
+  description:z.string().optional(),
 
   // // Booléens avec valeurs par défaut
   // ascenseur: z.boolean().default(false),

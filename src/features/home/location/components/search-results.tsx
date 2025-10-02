@@ -104,6 +104,9 @@ const SearchResults = () => {
 
 
     const formatPropertyForCard = (property: Property) => {
+
+      
+
         return {
             id: property.id,
             title: property.name,
@@ -113,7 +116,7 @@ const SearchResults = () => {
             area: `${property.area_m2}m²`,
             parking: 'Aucun', // L'API ne semble pas fournir cette information
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            price: property.monthly_rent_amount ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois` : 'Prix non disponible'
+            price: property.monthly_rent_amount ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois` : '0 FCFA'
         };
     };
 

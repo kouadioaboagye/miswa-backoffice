@@ -32,13 +32,14 @@ export async function GET() {
 }
 
 
+
 export async function POST(request: NextRequest) {
   try {
     // Récupérer le token d'authentification
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace(/^bearer/i, '').trim() || null;
 
-    console.log(token);
+    
     if (!token) {
       return NextResponse.json(
         { error: 'Token d\'authentification manquant' },
@@ -114,4 +115,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
+
 
