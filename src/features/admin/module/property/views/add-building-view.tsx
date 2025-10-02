@@ -1,16 +1,15 @@
 "use client"
 
-import { Button } from '@/shared/components/ui/button'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
-import { addPropertyFormData, addPropertyFormSchema } from '../components/forms/add-property-form/schemas';
-import StepOneForm from '../components/forms/add-property-form/step-one-form';
-import StepTwoForm from '../components/forms/add-property-form/step-two-forn';
-import StepThreeForm from '../components/forms/add-property-form/step-three-form';
+import { addBuildingFormData, addBuildingFormSchema } from '../components/forms/add-building-form/schemas';
+import StepOneForm from '../components/forms/add-building-form/step-one-form';
+import StepTwoForm from '../components/forms/add-building-form/step-two-forn';
+import StepThreeForm from '../components/forms/add-building-form/step-three-form';
 import Stepper from '@/shared/components/ui/stepper';
 
 function AddPropertyView() {
@@ -18,8 +17,8 @@ function AddPropertyView() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [successModalOpen, setSuccessModalOpen] = useState(false)
 
-    const form = useForm<addPropertyFormData>({
-        resolver: zodResolver(addPropertyFormSchema),
+    const form = useForm<addBuildingFormData>({
+        resolver: zodResolver(addBuildingFormSchema),
     });
 
     const handleNext = () => {
@@ -55,7 +54,7 @@ function AddPropertyView() {
         }
     };
 
-    function onSubmit(values: addPropertyFormData) {
+    function onSubmit(values: addBuildingFormData) {
         if (!form.formState.isValid) {
             return;
         } else {

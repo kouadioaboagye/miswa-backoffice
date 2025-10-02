@@ -2,13 +2,13 @@ import { Button } from '@/shared/components/ui/button';
 import { Trash } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { addPropertyFormData } from './schemas';
+import { addBuildingFormData } from './schemas';
 import { SectionTitle } from '@/shared/components/ui/section-title';
 import { UploadGroup } from '../../../../../../../../public/assets/icons/upload-group';
 import { BiFileEarmarkImage } from '../../../../../../../../public/assets/icons/bi_file-earmark-image';
 
 interface StepThreeFormProps {
-    form: UseFormReturn<addPropertyFormData>;
+    form: UseFormReturn<addBuildingFormData>;
 }
 
 function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
