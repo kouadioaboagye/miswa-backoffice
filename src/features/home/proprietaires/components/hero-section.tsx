@@ -1,8 +1,11 @@
+"use client"
 import { Navbar } from '@/shared/components/layouts';
 import { Button } from '@/shared/components/ui/button';
 import { ArrowRightIcon } from '../../../../../public/assets/icons/arrow-right-icon';
+import { useRouter } from 'next/navigation';
 
 const HeroSection = () => {
+        const router = useRouter();
     return (
         <div className="flex h-[540px] w-full flex-col items-center justify-between bg-white pt-10 sm:px-4 md:px-8">
             <Navbar activeLink="proprietaire" backgroundColor="green" />
@@ -20,9 +23,12 @@ const HeroSection = () => {
             {/* <div className="flex items-center justify-around gap-6 rounded-t-2xl bg-white p-10 md:px-28"> */}
             <div className="mx-1 flex w-full items-center justify-between gap-4 rounded-t-2xl bg-white pb-6 sm:gap-6 sm:p-10 sm:px-8 md:max-w-4xl md:px-28">
                 <Button
+
                     variant="secondary"
                     size="default"
                     rightIcon={<ArrowRightIcon className="size-10 w-full" />}
+
+                      onClick={() => router.push("/auth/login")}
                 >
                     Devenir Propriétaire
                 </Button>
@@ -31,6 +37,7 @@ const HeroSection = () => {
                     variant="ghost"
                     rightIcon={<ArrowRightIcon className="size-10 w-full" />}
                     className="text-2xl font-bold"
+                     onClick={() => router.push("/actualites")}
                 >
                     Voir plus d&apos;article
                 </Button>

@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import NewsCard from '@/shared/components/ui/news-card';
 import Pagination from '@/shared/components/ui/pagination';
+import { PropertyCard, PropertyCardGrid } from '@/shared/components/ui/property-card';
 import {
     Select,
     SelectContent,
@@ -33,6 +34,31 @@ interface SearchFilters {
     surfaceMax?: number;
 }
 
+
+interface Property {
+    id: number;
+    name: string;
+    description: string;
+    cover_url: string;
+    reference: string;
+    street: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+    rooms_count: number;
+    likes_count: number;
+    views_count: number;
+    area_m2: number;
+    monthly_rent_amount: number;
+    is_busy: boolean;
+    photos: string[];
+}
+
+interface ApiResponse {
+    data: Property[];
+    total: number;
+}
+
 const SearchResults = () => {
     const searchParams = useSearchParams();
     const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +74,12 @@ const SearchResults = () => {
     const [selectedBuildingType, setSelectedBuildingType] = useState('');
     const [selectedBedrooms, setSelectedBedrooms] = useState('');
     const [surfaceRange, setSurfaceRange] = useState([50, 200]);
+
+      const [properties, setProperties] = useState<Property[]>([]);
+    const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
 
     // Charger les paramètres depuis l'URL au montage du composant
     useEffect(() => {
@@ -69,6 +101,24 @@ const SearchResults = () => {
         setSelectedBedrooms(bedrooms);
         setSurfaceRange([surfaceMin, surfaceMax]);
     }, [searchParams]);
+
+
+    const formatPropertyForCard = (property: Property) => {
+
+      
+
+        return {
+            id: property.id,
+            title: property.name,
+            location: property.address || property.street,
+            rooms: `${property.rooms_count} Chambre${property.rooms_count > 1 ? 's' : ''}`,
+            bathrooms: 'Aucun', // L'API ne semble pas fournir cette information
+            area: `${property.area_m2}m²`,
+            parking: 'Aucun', // L'API ne semble pas fournir cette information
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            price: property.monthly_rent_amount ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois` : '0 FCFA'
+        };
+    };
 
     const allArticles = [
         {
@@ -161,17 +211,87 @@ const SearchResults = () => {
             article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
             article.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
+  const fetchProperties = async () => {
+        try {
+            setLoading(true);
+              const response = await fetch('/api/properties', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const data: ApiResponse = await response.json();
+            setProperties(data.data);
+            setFilteredProperties(data.data); // Initialiser les propriétés filtrées
+        } catch (err) {
+            console.error('Erreur lors du chargement des propriétés:', err);
+            setError('Impossible de charger les propriétés');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchProperties();
+    }, []);
+
+    
+
+    // Filtrer les propriétés selon le terme de recherche
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredProperties(properties);
+        } else {
+            const filtered = properties.filter(
+                (property) =>
+                    property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    property.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    property.street.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredProperties(filtered);
+        }
+        setCurrentPage(1); // Reset à la première page lors d'une nouvelle recherche
+    }, [searchTerm, properties]);
 
     // Calculer la pagination
-    const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentArticles = filteredArticles.slice(startIndex, endIndex);
+    const currentProperties = filteredProperties.slice(startIndex, endIndex);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    
+     if (loading) {
+        return (
+            <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
+                <div className="w-full px-4 sm:px-6 lg:px-8">
+                    <div className="text-center py-16">Chargement des propriétés...</div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
+                <div className="w-full px-4 sm:px-6 lg:px-8">
+                    <div className="text-center text-red-500 py-16">{error}</div>
+                    <Button onClick={fetchProperties} className="mx-auto">
+                        Réessayer
+                    </Button>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
@@ -183,9 +303,9 @@ const SearchResults = () => {
                             Rechercher des propriétés à louer
                         </h1>
                         <p className="text-gray-600">
-                            {filteredArticles.length} propriété
-                            {filteredArticles.length > 1 ? 's' : ''} trouvée
-                            {filteredArticles.length > 1 ? 's' : ''}
+                            {filteredProperties.length} propriété
+                            {filteredProperties.length > 1 ? 's' : ''} trouvée
+                            {filteredProperties.length > 1 ? 's' : ''}
                         </p>
                     </div>
                     <div className="w-full lg:w-80 mt-4 lg:mt-0">
@@ -678,34 +798,29 @@ const SearchResults = () => {
                 </div>
 
                 {/* Slider de propriétés */}
-                <div className="flex flex-col items-center w-full pt-12">
-                    {/* Grille d'articles */}
-                    <div className="flex flex-col gap-20 mb-12">
-                        <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 bg-gray-50">
-                            {currentArticles.map((article, index) => (
-                                <NewsCard
-                                    key={index}
-                                    id={article.id}
-                                    title={article.title}
-                                    excerpt={article.excerpt}
-                                    date={article.date}
-                                    category={article.category}
-                                    image={article.image}
-                                    author={article.author}
-                                />
-                            ))}
-                        </div>
-                    </div>
+               <div className="flex flex-col items-center w-full pt-12">
+    {/* Grille de propriétés */}
+    <div className="w-full mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {currentProperties.map((property) => (
+                <PropertyCardGrid
+                    key={property.id}
+                    {...formatPropertyForCard(property)}
+                    className="hover:scale-105 transition-transform duration-300"
+                />
+            ))}
+        </div>
+    </div>
 
-                    {/* Pagination */}
-                    {totalPages > 1 && (
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    )}
-                </div>
+    {/* Pagination */}
+    {totalPages > 1 && (
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+        />
+    )}
+</div>
             </div>
         </section>
     );

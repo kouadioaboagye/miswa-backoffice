@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib/utils';
 import { LucideChevronDown } from '../../../../public/assets/icons/chevron-down-icon';
 import { TablerChevronUp } from '../../../../public/assets/icons/chevron-up-icon';
 import { MaterialSymbolsCheckRounded } from '../../../../public/assets/icons/check-icon';
+import { ChevronsUpDown } from 'lucide-react';
 
 const Select = SelectPrimitive.Root;
 
@@ -21,14 +22,14 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
-            'flex h-[56px] w-full items-center justify-between rounded-xl border border-none bg-[#F3F9FF] px-3 py-2 text-[1.4rem] ring-offset-background data-[placeholder]:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2',
+            'flex h-[50px] w-full items-center justify-between rounded-xl border border-[#CBD5E0] bg-[#F3F9FF] px-3 py-2 text-[1.4rem] ring-offset-background data-[placeholder]:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2',
             className
         )}
         {...props}
     >
         {children}
         <SelectPrimitive.Icon asChild>
-            <LucideChevronDown className="size-5 opacity-50" />
+            <ChevronsUpDown className="size-5 opacity-50" />
         </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
 ));

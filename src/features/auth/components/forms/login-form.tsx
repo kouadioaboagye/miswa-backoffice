@@ -10,20 +10,42 @@ import {
     FlatColorIconsGoogle,
     LogosFacebook
 } from '../../../../../public/assets/icons/edite-icon';
+import { useEffect, useState } from 'react';
+import { loginMutation } from '@/lib/auth/mutations';
+import { toast } from 'sonner';
 
 const LoginForm = () => {
     const router = useRouter();
 
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const onSubmit = async () => {
+        setIsLoading(true)
+        if(await loginMutation(username, password)) {
+            router.push('/admin/dashboard')
+        } else {
+            toast.error('Identifiants incorrects')
+        }
+        setIsLoading(false)
+    }
     return (
-        <form action="" className="flex w-[40rem] flex-col gap-6">
+        <form action="" onSubmit={(e) => {
+            e.preventDefault()
+            onSubmit()
+        }} className="flex w-[40rem] flex-col gap-6">
             <div className="flex flex-col gap-4">
                 <Label className="text-[1.3rem]" htmlFor="email">
                     Email
                 </Label>
                 <Input
+                    required
                     id="email"
                     placeholder="Email"
                     type="email"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     autoComplete="off"
                     leftIcon={<MailIcon className="size-5 text-gray-500" />}
                 />
@@ -33,9 +55,12 @@ const LoginForm = () => {
                     Mot de passe
                 </Label>
                 <Input
+                    required
                     id="password"
                     placeholder="Mot de passe"
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     autoComplete="off"
                     leftIcon={<LockIcon className="size-5 text-gray-500" />}
                     showToggle
@@ -63,7 +88,8 @@ const LoginForm = () => {
                 variant="secondary"
                 size="default"
                 className="mt-6 h-[4.5rem]"
-                onClick={() => router.push('/admin/dashboard')}
+                onClick={onSubmit}
+                isLoading={isLoading}
             >
                 Sign In
             </Button>

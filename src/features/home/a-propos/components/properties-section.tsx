@@ -1,3 +1,4 @@
+"use client"
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { PropertyCard } from '@/shared/components/ui/property-card';
@@ -10,8 +11,10 @@ import {
 } from '@/shared/components/ui/select';
 import { MapPinIcon, SearchIcon } from 'lucide-react';
 import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
+import { useRouter } from 'next/navigation';
 
 const PropertiesSection = () => {
+    const router=useRouter()
     const properties = [
         {
             id: 1,
@@ -164,6 +167,8 @@ const PropertiesSection = () => {
                             variant="secondary"
                             size="default"
                             className="px-8 py-3"
+
+                          onClick={() => router.push("/recherche")}
                         >
                             Voir les annonces
                         </Button>

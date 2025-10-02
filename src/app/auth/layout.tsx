@@ -1,14 +1,23 @@
+"use client"
 import AuthProvider from '@/features/auth/components/AuthProvider';
+import { getAuthSession } from '@/lib/auth/utils';
 import Logo from '@/shared/components/atoms/logo';
-import type { ReactNode } from 'react';
+import { redirect } from 'next/navigation';
+import { useEffect, type ReactNode } from 'react';
 
 export default async function RootLayout({
     children
 }: Readonly<{
     children: ReactNode;
 }>) {
+    useEffect(() => {
+        const session = getAuthSession()
+        if(session) {
+            return redirect('/admin/dashboard')
+        }
+    }, [])
     return (
-        <AuthProvider>
+        // <AuthProvider>
             <main className="grid min-h-screen grid-cols-12">
                 <div className="col-span-2"></div>
                 <div className="col-span-10 px-6 py-20 md:px-16 lg:px-32 xl:px-48 2xl:px-40">
@@ -25,6 +34,6 @@ export default async function RootLayout({
                     </div>
                 </div>
             </main>
-        </AuthProvider>
+        // </AuthProvider>
     );
 }

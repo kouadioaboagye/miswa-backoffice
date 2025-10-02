@@ -1,9 +1,12 @@
+"use client"
 import { Navbar } from '@/shared/components/layouts';
 import { Button } from '@/shared/components/ui/button';
 import Image from 'next/image';
 import { ArrowRightIcon } from '../../../../../public/assets/icons/arrow-right-icon';
+import { useRouter } from 'next/navigation';
 
 const HeroSection = () => {
+    const router =useRouter()
     return (
         <div className="flex h-[600px] w-full flex-col items-center justify-between bg-[#14385C] pt-10 sm:px-4 md:px-8">
             <Navbar activeLink="actualites" />
@@ -48,6 +51,8 @@ const HeroSection = () => {
                                     <ArrowRightIcon className="size-10 w-full" />
                                 }
                                 className="text-2xl text-[#1EA64A] font-bold pl-0"
+
+                                  onClick={() => router.push("/a-propos")}
                             >
                                 Continuer la lecture
                             </Button>

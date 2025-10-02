@@ -23,6 +23,7 @@ const buttonVariants = cva(
                 // Bouton outline avec bordure
                 outline:
                     'border-2 border-[#14385c] bg-transparent text-[#14385c] shadow-sm hover:bg-[#14385c] hover:text-white',
+                outline_success : 'border-2 border-[#28A745] bg-transparent text-[#28A745] shadow-sm hover:bg-[#28A745] hover:text-white',
                 // Bouton ghost
                 ghost: 'text-[#14385c] hover:bg-gray-200 hover:text-accent-foreground',
                 // Bouton de lien
@@ -39,7 +40,9 @@ const buttonVariants = cva(
                 // Bouton info (bleu cyan)
                 info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
                 outline_header:
-                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground'
+                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
+                //Bouton for date picker in a form
+                date_picker: 'bg-[#F3F9FF] text-[1.4rem] focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]'
             },
             size: {
                 default:
@@ -50,7 +53,8 @@ const buttonVariants = cva(
                 icon: 'size-[56px] rounded-[12px]',
                 outline_header: 'size-14 rounded-2xl',
                 ghost_header: 'size-14 rounded-2xl',
-                add: 'h-[4.5rem] rounded-3xl px-8 py-2'
+                add: 'h-[4.5rem] rounded-3xl px-8 py-2',
+                date_picker: 'h-[50px] rounded-xl gap-3 px-3 py-6',
             }
         },
         defaultVariants: {
@@ -91,7 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
                 disabled={isLoading || props.disabled}
             >
-                {isLoading ? (
+                {/* {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
                     <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
@@ -99,7 +103,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                         {props.children}
                         {rightIcon}
                     </div>
-                )}
+                )} */}
             </Comp>
         );
     }

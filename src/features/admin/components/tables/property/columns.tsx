@@ -7,89 +7,41 @@ import { formatDate } from 'date-fns';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
+import { IPropertyDataModel } from '@/lib/data-service/property/types';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Property = {
+export type Property = Partial<IPropertyDataModel> & {
     id: string;
-    user: {
-        fullName: string;
-        email: string;
-        img: string;
+    name: string;
+    cover_url?: string;
+    is_busy: boolean;
+    business?: {
+        name: string;
     };
-    role: {
-        libelle: string;
-        description: string;
-    };
-    property: {
-        libelle: string;
-        img: string;
-    };
-    createdAt: string;
-    status: string;
+    created_at: string;
 };
 
-export const fakeProperties: Property[] = Array.from({ length: 10 }).map(
-    (_, idx) => ({
-        id: `property-${idx}`,
-        user: {
-            fullName: `Utilisateur`,
-            email: `user-${idx}@example.com`,
-            img: `https://picsum.photos/1024/1024`
-        },
-        role: {
-            libelle: `Manager`,
-            description: `Organization`
-        },
-        property: {
-            libelle: `Appartement cité AGC....`,
-            img: `https://picsum.photos/1024/1024`
-        },
-        createdAt: new Date().toISOString(),
-        status: idx % 2 === 0 ? 'Occupé' : 'Libre'
-    })
-);
-
 export const columns: ColumnDef<Property>[] = [
+
     {
-        accessorKey: 'user.fullName',
-        header: 'Utilisateur',
-        cell: ({ row }) => (
-            <Illustration
-                src={row.original.user.img}
-                libelle={row.original.user.fullName}
-                email={row.original.user.email}
-            />
-        )
-    },
-    {
-        accessorKey: 'role',
-        header: 'Role',
-        cell: ({ row }) => (
-            <div className="flex flex-col gap-2">
-                <p className="text-[1.2rem] font-semibold">
-                    {row.original.role.libelle}
-                </p>
-                <p className="text-[1.1rem] text-[#718096]">
-                    {row.original.role.description}
-                </p>
-            </div>
-        )
-    },
-    {
-        accessorKey: 'property',
+        accessorKey: 'cover_url',
         header: 'Biens',
         cell: ({ row }) => (
             <Illustration
-                src={row.original.property.img}
-                libelle={row.original.property.libelle}
+                src={row.original.cover_url ?? ""}
+                libelle={""}
             />
         )
+    },
+    {
+        accessorKey: 'name',
+        header: 'Nom',
     },
     {
         accessorKey: 'createdAt',
         header: 'Ajouté le',
-        cell: ({ row }) => formatDate(row.original.createdAt, 'dd/MM/yyyy')
+        cell: ({ row }) => formatDate(row.original.created_at, 'dd/MM/yyyy')
     },
     {
         accessorKey: 'status',
@@ -97,10 +49,10 @@ export const columns: ColumnDef<Property>[] = [
         cell: ({ row }) => (
             <Badge
                 variant={
-                    row.original.status === 'Libre' ? 'default' : 'success'
+                    row.original.is_busy === true ? 'default' : 'success'
                 }
             >
-                {row.original.status}
+                {row.original.is_busy === true ? 'Occupé' : 'Libre'}
             </Badge>
         )
     },
