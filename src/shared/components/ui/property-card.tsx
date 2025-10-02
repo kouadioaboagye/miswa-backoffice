@@ -7,18 +7,33 @@ import { LargeIcon } from '../../../../public/assets/icons/large-icon';
 import { MapIcon } from '../../../../public/assets/icons/map-icon';
 import { ShowerIcon } from '../../../../public/assets/icons/shower-icon';
 
+// export interface PropertyCardProps {
+//     id: number;
+//     title: string;
+//     location: string;
+//     rooms: string;
+//     bathrooms: string;
+//     area: string;
+//     parking: string;
+//     image: string;
+//     className?: string;
+// }
+
+
 export interface PropertyCardProps {
-    id: number;
     title: string;
     location: string;
+    price?: string;
     rooms: string;
     bathrooms: string;
     area: string;
-    parking: string;
+    parking?: string;
     image: string;
     className?: string;
+    isFeatured?: boolean;
+    onFavorite?: () => void;
+    isFavorited?: boolean;
 }
-
 // Version originale (conservée pour le scroll horizontal)
 const PropertyCard = ({
     title,
@@ -106,72 +121,136 @@ const PropertyCard = ({
 };
 
 // Nouvelle variante pour la grille
+
 const PropertyCardGrid = ({
     title,
     location,
+    price,
     rooms,
     bathrooms,
     area,
     parking,
     image,
-    className = ''
+    className = '',
+    isFeatured = false,
+    onFavorite,
+    isFavorited = false
 }: PropertyCardProps) => {
     return (
         <div
-            className={`w-full h-full min-h-[380px] overflow-hidden rounded-[30px] bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${className}`}
+            className={`group relative w-full min-h-[320px] overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] ${className}`}
         >
-            {/* Image Section */}
-            <div className="relative h-4/5 w-full">
+            {/* Badge Featured */}
+            {isFeatured && (
+                <div className="absolute top-4 left-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10">
+                    Featured
+                </div>
+            )}
+
+            {/* Bouton Favori */}
+            {onFavorite && (
+                <button
+                    onClick={onFavorite}
+                    className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors duration-200"
+                >
+                    <HeartIcon 
+                        className={`size-5 transition-colors duration-200 ${
+                            isFavorited ? 'text-red-500 fill-red-500' : 'text-gray-600'
+                        }`}
+                    />
+                </button>
+            )}
+
+            {/* Section Image */}
+            <div className="relative h-96 w-full overflow-hidden">
                 <Image
                     src={image}
                     alt={title}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                {/* Overlay avec dégradé */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                
+                {/* Prix en overlay */}
+                {price && (
+                    <div className="absolute bottom-4 left-4 z-10">
+                        <span className="bg-white/90 backdrop-blur-sm text-[#14385C] font-bold px-3 py-2 rounded-xl text-sm">
+                            {price}
+                        </span>
+                    </div>
+                )}
             </div>
 
-            {/* Content Section */}
-            <div className="flex flex-col justify-between">
-                {/* Title and Location */}
-                <div className="mb-1">
-                    <h3 className="text-lg font-bold text-[#14385C] line-clamp-2 mb-1 leading-tight">
+            {/* Section Contenu */}
+            <div className="p-5 space-y-4">
+                {/* Titre et Localisation */}
+                <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-[#14385C] line-clamp-2 leading-tight group-hover:text-[#1e5a9e] transition-colors">
                         {title}
                     </h3>
-                    <div className="flex items-center gap-1 text-gray-600">
-                        <MapIcon className="size-4 text-gray-600 flex-shrink-0" />
-                        <span className="text-xs line-clamp-1">{location}</span>
+                    <div className="flex items-start gap-2 text-gray-600">
+                        <MapPinIcon className="size-4 text-gray-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm line-clamp-2 leading-relaxed">{location}</span>
                     </div>
                 </div>
 
-                {/* Property Features Grid */}
-                <div className="grid grid-cols-4 gap-1 text-gray-600">
-                    <div className="flex flex-col items-center gap-0.5">
-                        <HomeIcon className="size-5 text-green-600" />
-                        <span className="text-[10px] text-center leading-tight">{rooms}</span>
+                {/* Caractéristiques */}
+                <div className="grid grid-cols-4 gap-3 border-t border-gray-100 pt-4">
+                    <div className="flex flex-col items-center gap-1 text-center">
+                        <HomeIcon className="size-6 text-[#14385C]" />
+                        <span className="text-xs font-medium text-gray-700">{rooms}</span>
+                        <span className="text-[10px] text-gray-500">Chambres</span>
                     </div>
 
-                    <div className="flex flex-col items-center gap-0.5">
-                        <ShowerIcon className="size-5 text-green-600" />
-                        <span className="text-[10px] text-center leading-tight">{bathrooms}</span>
+                    <div className="flex flex-col items-center gap-1 text-center">
+                        <ShowerIcon className="size-6 text-[#14385C]" />
+                        <span className="text-xs font-medium text-gray-700">{bathrooms}</span>
+                        <span className="text-[10px] text-gray-500">SDB</span>
                     </div>
 
-                    <div className="flex flex-col items-center gap-0.5">
-                        <LargeIcon className="size-5 text-green-600" />
-                        <span className="text-[10px] text-center leading-tight">{area}</span>
+                    <div className="flex flex-col items-center gap-1 text-center">
+                        <SquareIcon className="size-6 text-[#14385C]" />
+                        <span className="text-xs font-medium text-gray-700">{area}</span>
+                        <span className="text-[10px] text-gray-500">Surface</span>
                     </div>
 
-                    <div className="flex flex-col items-center gap-0.5">
-                        <CarIcon className="size-5 text-green-600" />
-                        <span className="text-[10px] text-center leading-tight">{parking}</span>
+                    <div className="flex flex-col items-center gap-1 text-center">
+                        <CarIcon className="size-6 text-[#14385C]" />
+                        <span className="text-xs font-medium text-gray-700">{parking || 'N/A'}</span>
+                        <span className="text-[10px] text-gray-500">Parking</span>
                     </div>
                 </div>
+
+                {/* Bouton Action */}
+                <button className="w-full bg-gradient-to-r from-[#14385C] to-[#1e5a9e] text-white py-3 rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
+                    Voir les détails
+                </button>
             </div>
         </div>
     );
 };
+
+// Icônes de remplacement (à remplacer par vos propres icônes)
+const MapPinIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+);
+
+const HeartIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+    </svg>
+);
+
+const SquareIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+    </svg>
+);
 
 export { PropertyCard, PropertyCardGrid };
