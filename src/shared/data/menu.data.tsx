@@ -86,13 +86,20 @@ const moduleNavigations = {
             href: paths.admin.dashboard,
             items: []
         },
-
         {
-            label: 'Biens',
+            label: 'Immeuble/Bâtiment',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.property,
+            href: paths.admin.module.property.buildings,
+            items: []
+        },
+        {
+            label: 'Biens',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.property.root,
             items: []
         },
     ],
@@ -159,7 +166,7 @@ const moduleNav: module[] = [
         icon: (
             <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.property,
+        defaultHref: paths.admin.module.property.root,
         value: "property"
     },
     {
