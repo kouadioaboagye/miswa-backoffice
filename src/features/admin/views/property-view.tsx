@@ -7,10 +7,13 @@ import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
 import PropertyTable from '../components/tables/property/property-table';
 import { useListPropertiesQuery } from '@/lib/data-service/property/property.queries';
 import { columns } from '../components/tables/property/columns';
+import { useRouter } from 'next/navigation';
 
 const PropertyView = () => {
     const { data: response, isLoading, error } = useListPropertiesQuery()
     const {data, total} = response || {data: [], total: 0}
+
+    const router = useRouter();
 
     const dataItems = [
         {
@@ -54,6 +57,7 @@ const PropertyView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={()=>router.push("/admin/property/add")}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU BIEN</span>

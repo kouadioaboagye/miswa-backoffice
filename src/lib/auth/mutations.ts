@@ -26,6 +26,7 @@ export const loginMutation = async (username: string, password: string): Promise
                 expires_at: response.data.expires_at,
                 token: `${response.data.token_type} ${response.data.access_token}`
             })
+            console.log(setAuthSession);
             return true
         }
     } catch (error) {

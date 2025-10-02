@@ -16,6 +16,11 @@ export const setAuthSession = (session: AuthSession): void => {
     localStorage.setItem('session', JSON.stringify(session));
 }
 
+// Fonction pour récupérer uniquement le token
+export const getAuthToken = (): string | null => {
+  const session = getAuthSession();
+  return session ? session.token : null;
+};
 export const removeAuthSession = (): void => {
     if(typeof window === 'undefined') {
         return;
