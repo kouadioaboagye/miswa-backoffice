@@ -4,6 +4,7 @@ import { Button } from '@/shared/components/ui/button'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation'; // ← Import important
 
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
@@ -18,37 +19,21 @@ import { getAuthToken } from '@/lib/auth/utils';
 
 function AddPropertyView() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successModalOpen, setSuccessModalOpen] = useState(false)
+  const router = useRouter(); // ← Initialisation du router
+
   const steps = [
     { id: 1, title: "Informations générales", active: true },
     { id: 2, title: "Caractériques et Com.", active: false },
     { id: 3, title: "Médias", active: false }
   ];
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [successModalOpen, setSuccessModalOpen] = useState(false)
-
 
   const form = useForm<AddPropertyForm>({
     resolver: zodResolver(addPropertyFormSchema),
-  //  defaultValues: {
-  //   ascenseur: false,
-  //   parking: false,
-  //   climatisation: false,
-  //   chauffage: false,
-  //   internet: false,
-  //   garde: false,
-  //   piscine: false,
-  //   salleSport: false,
-  //   jardin: false,
-  //   terrasse: false,
-  //   buanderie: false,
-  //   camera: false,
-    
-  // },
   });
- 
 
   const handleNext = async () => {
-    // Valider les champs de l'étape actuelle avant de passer à la suivante
     const fields = getStepFields(currentStep);
     const isValid = await form.trigger(fields as any);
     
@@ -60,7 +45,6 @@ function AddPropertyView() {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Dernière étape - soumettre le formulaire
       form.handleSubmit(onSubmit)();
     }
   };
@@ -71,7 +55,6 @@ function AddPropertyView() {
     }
   };
 
-  // Fonction pour déterminer quels champs valider à chaque étape
   const getStepFields = (step: number): string[] => {
     switch (step) {
       case 1:
@@ -79,7 +62,7 @@ function AddPropertyView() {
       case 2:
         return ['ville', 'adresse', 'typebatiment', 'quartier'];
       case 3:
-        return []; // Étape 3 peut ne pas avoir de champs obligatoires
+        return [];
       default:
         return [];
     }
@@ -99,82 +82,105 @@ function AddPropertyView() {
   };
 
   function mapFormDataToAPI(values: AddPropertyForm): any {
-  return {
-    name: `${values.typebatiment} - ${values.nom}`,
-    reference: `miswa-${Date.now()}`,
-    description: "",
-    cover_url: "",
-    photos: [],
-    videos: [],
-    google_plus_code: "",
-    address: `${values.adresse}, ${values.ville}`,
-    latitude: 0,
-    longitude: 0,
-    street: values.adresse,
-    is_public: true,
-    is_busy: false,
-    busy_until: null,
-    monthly_rent_amount: 0,
-    built_year: new Date().getFullYear(),
-    area_m2: Number(values.superficie) || 0,
-    building_steps_level: Number(values.nbetage) || 0,
-    official_documents: [],
-    features: values.equipements ? values.equipements.map(String) : [], // suppose que equipements sont des numbers en string
-    id_business: 1,
-    id_building: 2,
-  };
-}
-async function onSubmit(values: AddPropertyForm) {
-  setIsSubmitting(true);
-  try {
-    const apiData = mapFormDataToAPI(values);
-    const token = getAuthToken();
-      
+    const featureMapping: { [key: string]: number } = {
+      "ascenseur": 1,
+      "parking": 2,
+    };
+
+    const photosUrls = values.documents ? 
+      values.documents.map(doc => 
+        doc instanceof File ? URL.createObjectURL(doc) : String(doc)
+      ) : [];
+
+    return {
+      name: `${values.typebatiment} - ${values.nom}`.trim(),
+      reference: `miswa-${Date.now()}`,
+      description: "Propriété ajoutée via le formulaire",
+      cover_url: photosUrls[0] || "",
+      photos: photosUrls,
+      videos: [],
+      google_plus_code: "",
+      address: `${values.adresse}, ${values.ville}`.trim(),
+      latitude: 5.3599517,
+      longitude: -4.0082563,
+      street: values.adresse || "",
+      is_public: true,
+      is_busy: false,
+      busy_until: null,
+      monthly_rent_amount: 0,
+      built_year: values.annee ? parseInt(values.annee) : new Date().getFullYear(),
+      area_m2: Number(values.superficie) || 0,
+      building_steps_level: Number(values.nbetage) || 0,
+      official_documents: [],
+      features: values.equipements ? 
+        values.equipements
+          .map(feature => featureMapping[feature])
+          .filter(id => id !== undefined) : [],
+      id_business: 1,
+      id_building: 2,
+    };
+  }
+
+  async function onSubmit(values: AddPropertyForm) {
+    setIsSubmitting(true);
+    try {
+      const apiData = mapFormDataToAPI(values);
+      const token = getAuthToken();
+        
       if (!token) {
         throw new Error('Token d\'authentification non trouvé. Veuillez vous reconnecter.');
       }
 
-
-      
-    const response = await fetch('/api/properties', {
-            method: 'POST',
-           headers: {
+      const response = await fetch('/api/properties', {
+        method: 'POST',
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`,
         },
-             body: JSON.stringify(apiData),
-        });
-     
-    
+        body: JSON.stringify(apiData),
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Property created:', result);
+      setSuccessModalOpen(true);
+    } catch (error) {
+      console.error('Error creating property:', error);
+      toast.error('Erreur lors de la création de la propriété');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const result = await response.json();
-    console.log('Property created:', result);
-    setSuccessModalOpen(true);
-  } catch (error) {
-    console.error('Error creating property:', error);
-    toast.error('Erreur lors de la création de la propriété');
-  } finally {
-    setIsSubmitting(false);
   }
-}
+
+  // Fonction pour gérer la confirmation du modal
+  const handleSuccessConfirm = () => {
+    setSuccessModalOpen(false);
+    router.push('/admin/property'); // ← Redirection vers la liste des biens
+  };
+
+  // Fonction pour gérer la fermeture du modal
+  const handleSuccessClose = () => {
+    setSuccessModalOpen(false);
+    // Optionnel: Vous pouvez aussi rediriger ou laisser l'utilisateur rester sur la page
+    // router.push('/admin/property');
+  };
 
   return (
     <div className='p-4'>
-      {/* {isSubmitting && <Loading />} */}
       <SuccessModal
         isOpen={successModalOpen}
-        title='Propriétaire #id_propriétaire créé avec succès'
-        description='Le propriétaire #Nom_complet_du_propriétaire à été créé avec succès, 
-          vous pouvez consulter la liste des propriétaire pour apporter des modifications'
-        confirmText='Liste des proprietaire'
-        onClose={() => setSuccessModalOpen(false)}
-        onConfirm={() => console.log("liste")}
+        title='Le bien a été ajouté avec succès'
+        description='Vous pouvez consulter la liste des biens pour apporter des modifications'
+        confirmText='Liste des biens'
+        onClose={handleSuccessClose} // ← Utilisation de la fonction de fermeture
+        onConfirm={handleSuccessConfirm} // ← Utilisation de la fonction de confirmation
       />
+      
       <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau Bien</h1>
+      
       <div className="flex items-center mb-12">
         <div className="border flex flex-row">
           {steps.map((step, index) => (
@@ -200,8 +206,10 @@ async function onSubmit(values: AddPropertyForm) {
             </div>
           ))}
         </div>
+        
         <div className="ml-auto flex space-x-4 rounded-3xl bg-white p-4">
           <Button
+            type="button"
             variant={'ghost'}
             className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
             leftIcon={<ArrowLeftIcon className="mr-2" />}
@@ -211,6 +219,7 @@ async function onSubmit(values: AddPropertyForm) {
             Retour
           </Button>
           <Button
+            type="button"
             variant={'success'}
             className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
             rightIcon={<ArrowRightIcon className="mr-2" />}
@@ -221,6 +230,7 @@ async function onSubmit(values: AddPropertyForm) {
           </Button>
         </div>
       </div>
+      
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
         {renderStep()}
       </form>

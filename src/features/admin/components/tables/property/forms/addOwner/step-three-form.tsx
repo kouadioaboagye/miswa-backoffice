@@ -90,6 +90,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                                 />
                             </label>
                             <Button
+                            type="button"
                                 variant="outline_success"
                                 className="mt-4 ml-[20%]"
                                 onClick={() => document.getElementById('documentUpload')?.click()}
