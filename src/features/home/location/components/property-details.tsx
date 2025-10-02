@@ -199,7 +199,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                         <PropertySidebar
                             price={property.monthly_rent_amount}
                             currency="FCFA"
-                            propertyId={property.id}
+                            // propertyId={property.id}
                         />
                     </div>
                 </div>
