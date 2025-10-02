@@ -3,8 +3,9 @@
 import { SearchIcon } from '@/shared/components/atoms/icons/search-icon';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
-import { PropertyCard } from '@/shared/components/ui/property-card';
+import NewsCard from '@/shared/components/ui/news-card';
 import Pagination from '@/shared/components/ui/pagination';
+import { PropertyCard } from '@/shared/components/ui/property-card';
 import {
     Select,
     SelectContent,
@@ -20,6 +21,19 @@ import {
 } from '@/shared/components/ui/tabs';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+interface SearchFilters {
+    city: string;
+    neighborhood?: string;
+    propertyType?: string;
+    budgetMin: number;
+    budgetMax: number;
+    buildingType?: string;
+    bedrooms?: number;
+    surfaceMin?: number;
+    surfaceMax?: number;
+}
+
 
 interface Property {
     id: number;
@@ -46,10 +60,6 @@ interface ApiResponse {
 }
 
 const SearchResults = () => {
-    const [properties, setProperties] = useState<Property[]>([]);
-    const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const searchParams = useSearchParams();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -64,6 +74,12 @@ const SearchResults = () => {
     const [selectedBuildingType, setSelectedBuildingType] = useState('');
     const [selectedBedrooms, setSelectedBedrooms] = useState('');
     const [surfaceRange, setSurfaceRange] = useState([50, 200]);
+
+      const [properties, setProperties] = useState<Property[]>([]);
+    const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
 
     // Charger les paramètres depuis l'URL au montage du composant
     useEffect(() => {
@@ -86,7 +102,7 @@ const SearchResults = () => {
         setSurfaceRange([surfaceMin, surfaceMax]);
     }, [searchParams]);
 
-    // Fonction pour formater les propriétés pour PropertyCard
+
     const formatPropertyForCard = (property: Property) => {
         return {
             id: property.id,
@@ -101,7 +117,98 @@ const SearchResults = () => {
         };
     };
 
-    const fetchProperties = async () => {
+    const allArticles = [
+        {
+            id: '1',
+            title: 'Nouvelle réglementation immobilière : ce qui change en 2024',
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: '15 Jan 2024',
+            category: 'Réglementation',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Marie Dubois'
+        },
+        {
+            id: '2',
+            title: 'Tendances du marché locatif : hausse des prix dans les grandes villes',
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: '12 Jan 2024',
+            category: 'Marché',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Pierre Martin'
+        },
+        {
+            id: '3',
+            title: 'Innovation : la réalité virtuelle révolutionne les visites immobilières',
+            excerpt:
+                "VillaLorem Ipsum has been the industry's standard dummy text ever since the 1500s, Rents in Dubai have Reached an All-Time High",
+            date: '10 Jan 2024',
+            category: 'ÉTUDE DE MARCHÉ',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Sophie Laurent'
+        },
+        {
+            id: '4',
+            title: 'Conseils pratiques : optimiser votre dossier de location',
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: '8 Jan 2024',
+            category: 'Conseils',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Thomas Bernard'
+        },
+        {
+            id: '5',
+            title: 'Investissement locatif : les zones les plus rentables en 2024',
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: '5 Jan 2024',
+            category: 'Investissement',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Claire Moreau'
+        },
+        {
+            id: '6',
+            title: 'Écologie et immobilier : les logements verts ont le vent en poupe',
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: '3 Jan 2024',
+            category: 'Écologie',
+            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: 'Alexandre Petit'
+        },
+        // Dupliquer les articles pour avoir plus de contenu
+        ...Array.from({ length: 24 }, (_, i) => ({
+            id: `${i + 7}`,
+            title: `Article ${i + 7} : Tendances du marché immobilier`,
+            excerpt:
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            date: `${(i % 30) + 1} Jan 2024`,
+            category:
+                i % 3 === 0
+                    ? 'Marché'
+                    : i % 3 === 1
+                    ? 'Conseils'
+                    : 'ÉTUDE DE MARCHÉ',
+            image:
+                i % 3 === 0
+                    ? 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+                    : i % 3 === 1
+                    ? 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
+                    : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
+            author: `Auteur ${i + 1}`
+        }))
+    ];
+
+    // Filtrer les articles selon le terme de recherche
+    const filteredArticles = allArticles.filter(
+        (article) =>
+            article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            article.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  const fetchProperties = async () => {
         try {
             setLoading(true);
               const response = await fetch('/api/properties', {
@@ -128,6 +235,8 @@ const SearchResults = () => {
     useEffect(() => {
         fetchProperties();
     }, []);
+
+    
 
     // Filtrer les propriétés selon le terme de recherche
     useEffect(() => {
@@ -157,7 +266,8 @@ const SearchResults = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    if (loading) {
+    
+     if (loading) {
         return (
             <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -200,7 +310,7 @@ const SearchResults = () => {
                             leftIcon={<SearchIcon />}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            placeholder="Rechercher par nom, adresse..."
+                            placeholder="Rechercher dans les résultats..."
                             className="w-full"
                         />
                     </div>
@@ -313,7 +423,7 @@ const SearchResults = () => {
                                                     Maison
                                                 </SelectItem>
                                                 <SelectItem value="Studio">
-                                                    Villa
+                                                    Studio
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -684,37 +794,30 @@ const SearchResults = () => {
                     </Tabs>
                 </div>
 
-                {/* Grille de propriétés */}
-                <div className="flex flex-col items-center w-full pt-12">
-                    {/* Affichage des propriétés */}
-                    {filteredProperties.length === 0 ? (
-                        <div className="text-center py-16">
-                            <p className="text-gray-500 text-xl">
-                                Aucune propriété ne correspond à votre recherche.
-                            </p>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12 w-full">
-                                {currentProperties.map((property) => (
-                                    <PropertyCard
-                                        key={property.id}
-                                        {...formatPropertyForCard(property)}
-                                    />
-                                ))}
-                            </div>
+                {/* Slider de propriétés */}
+               <div className="flex flex-col items-center w-full pt-12">
+    {/* Grille de propriétés */}
+    <div className="w-full mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {currentProperties.map((property) => (
+                <PropertyCard
+                    key={property.id}
+                    {...formatPropertyForCard(property)}
+                    className="hover:scale-105 transition-transform duration-300"
+                />
+            ))}
+        </div>
+    </div>
 
-                            {/* Pagination */}
-                            {totalPages > 1 && (
-                                <Pagination
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={handlePageChange}
-                                />
-                            )}
-                        </>
-                    )}
-                </div>
+    {/* Pagination */}
+    {totalPages > 1 && (
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+        />
+    )}
+</div>
             </div>
         </section>
     );

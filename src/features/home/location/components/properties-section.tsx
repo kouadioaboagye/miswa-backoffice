@@ -179,6 +179,7 @@ const PropertiesSection = () => {
                 {/* Cartes de propriétés - Scroll infini avec superposition */}
                  <div className="relative z-10 -mb-36">
                     <div className="relative overflow-hidden">
+                        <div className="animate-scroll-infinite flex gap-6">
                         {properties.length > 0 ? (
                             <div className=" flex gap-6">
                                 {/* Premier set de cartes */}
@@ -202,6 +203,7 @@ const PropertiesSection = () => {
                                 Aucune propriété disponible pour le moment
                             </div>
                         )}
+                    </div>
                     </div>
                 </div>
 
