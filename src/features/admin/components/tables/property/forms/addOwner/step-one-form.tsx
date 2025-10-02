@@ -20,7 +20,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
     <div>
       <section>
         <SectionTitle content="1. Identification" />
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
             <Label htmlFor="typePersonne" >Immeuble / batiement</Label>
             <Controller
@@ -68,7 +68,11 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             <Input id="email" placeholder="exemple@gmail.com" {...form.register('nom')} />
             <InputErrorMessage message={errors.nom?.message} />
           </div>
-
+ <div>
+            <Label htmlFor="price" isRequired>Prix </Label>
+            <Input id="price" placeholder="Entrez le prix du bien" {...form.register('price')} />
+            <InputErrorMessage message={errors.price?.message} />
+          </div>
           
         </div>
 

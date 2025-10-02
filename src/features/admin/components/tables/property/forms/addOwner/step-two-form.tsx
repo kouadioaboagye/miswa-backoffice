@@ -5,19 +5,61 @@ import { Input } from '@/shared/components/ui/input';
 import { SectionTitle } from '@/shared/components/ui/section-title';
 import { Switch } from '@/shared/components/ui/switch';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
 import { Checkbox } from '@/shared/components/ui/checkbox';
 import { AddPropertyForm } from './schemas';
 import { Textarea } from '@/shared/components/ui/textarea';
+import { getAuthToken } from '@/lib/auth/utils';
+
+interface Commodite {
+  id: number;
+  name: string;
+  description: string | null;
+  cover_url: string | null;
+}
 
 interface StepTwoFormProps {
   form: UseFormReturn<AddPropertyForm>;
 }
 
 function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
+  const [commodites, setCommodites] = useState<Commodite[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchCommodites = async () => {
+    try {
+      setLoading(true);
+      const token = getAuthToken();
+      const response = await fetch('/api/property-features', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setCommodites(data.data || []);
+    } catch (err) {
+      console.error('Error fetching commodites:', err);
+      setError('Erreur lors du chargement des commodités');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCommodites();
+  }, []);
+
   const { control, formState: { errors } } = form;
 
   return (
@@ -48,126 +90,78 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="nbetage" isRequired>Nombre d’étages</Label>
-            <Input id="nbetage" placeholder="nombre  de etage" {...form.register('nbetage')} type="number" />
+            <Label htmlFor="nbetage" isRequired>Nombre d'étages</Label>
+            <Input id="nbetage" placeholder="nombre de etage" {...form.register('nbetage')} type="number" />
             <InputErrorMessage message={errors.nbetage?.message} />
           </div>
         </div>
-
       </section>
+
       <section>
         <SectionTitle content="2. Équipements et commodités" /> 
         <div className="mb-4">
-             <Controller
-  name="equipements"
-  control={control}
-  render={({ field }) => (
-    <div className="space-y-4">
-      
-      {/* Switches pour les équipements */}
-      <div className="grid grid-cols-4 gap-4">
-        {[
-          { value: "ascenseur", label: "Ascenseur" },
-          { value: "parking", label: "Parking" },
-          { value: "climatisation", label: "Climatisation" },
-          { value: "chauffage", label: "Chauffage" },
-          { value: "internet", label: "Internet haut débit" },
-          { value: "garde", label: "Gardiennage" },
-          { value: "piscine", label: "Piscine" },
-          { value: "salleSport", label: "Salle de sport" },
-          { value: "jardin", label: "Jardin" },
-          { value: "terrasse", label: "Terrasse" },
-          { value: "buanderie", label: "Buanderie" },
-          { value: "camera", label: "Caméra de surveillance" },
-        ].map((item) => (
-          <div key={item.value} className="flex items-center space-x-2">
-            <Switch
-              checked={field.value?.includes(item.value) || false}
-              onCheckedChange={(checked) => {
-                const currentValue = field.value || [];
-                if (checked) {
-                  field.onChange([...currentValue, item.value]);
-                } else {
-                  field.onChange(currentValue.filter((v: string) => v !== item.value));
-                }
-              }}
-            />
-            <Label htmlFor={item.value}>{item.label}</Label>
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
-/>
-         </div>
+          <Controller
+            name="equipements"
+            control={control}
+            render={({ field }) => (
+              <div className="space-y-4">
+                {loading && (
+                  <div className="text-center py-4">
+                    <p>Chargement des commodités...</p>
+                  </div>
+                )}
+                
+                {error && (
+                  <div className="text-red-500 text-center py-4">
+                    <p>{error}</p>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={fetchCommodites}
+                      className="mt-2"
+                    >
+                      Réessayer
+                    </Button>
+                  </div>
+                )}
 
-          <div className="mb-4">
-            <Label htmlFor="nbetage" isRequired>description du bien</Label>
-            <Textarea id="nbetage" placeholder="description du bien" {...form.register('nbetage')}  />
-            <InputErrorMessage message={errors.nbetage?.message} />
-          </div>
-               
-               </section>
-
-      
-      {/* <section>
-        <SectionTitle content="3. Informations financières" />
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <Label htmlFor="modeReception" isRequired>Mode de réception</Label>
-            <Controller
-              name="modeReception"
-              control={control}
-              rules={{ required: 'Mode de réception requis' }}
-              render={({ field, fieldState: { error } }) => (
-                <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Sélectionnez" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Virement bancaire">Virement bancaire</SelectItem>
-                      <SelectItem value="Chèque">Chèque</SelectItem>
-                      <SelectItem value="Espèces">Espèces</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <InputErrorMessage message={error?.message} />
-                </div>
-              )}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="banque" isRequired>Banque</Label>
-            <Controller
-              name="banque"
-              control={control}
-              rules={{ required: 'Banque requise' }}
-              render={({ field, fieldState: { error } }) => (
-                <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Sélectionnez" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="SGCI">SGCI</SelectItem>
-                      <SelectItem value="BNI">BNI</SelectItem>
-                      <SelectItem value="Ecobank">Ecobank</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <InputErrorMessage message={error?.message} />
-                </div>
-              )}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="titulaireCompte" isRequired>Nom du titulaire du compte</Label>
-            <Input id="titulaireCompte" placeholder="Nom du titulaire" {...form.register('titulaireCompte')} />
-            <InputErrorMessage message={errors.titulaireCompte?.message} />
-          </div>
+                {!loading && !error && (
+                  <div className="grid grid-cols-4 gap-4">
+                    {commodites.map((commodite) => (
+                      <div key={commodite.id} className="flex items-center space-x-2">
+                        <Switch
+                          checked={field.value?.includes(commodite.id.toString()) || false}
+                          onCheckedChange={(checked) => {
+                            const currentValue = field.value || [];
+                            if (checked) {
+                              field.onChange([...currentValue, commodite.id.toString()]);
+                            } else {
+                              field.onChange(currentValue.filter((v: string) => v !== commodite.id.toString()));
+                            }
+                          }}
+                        />
+                        <Label htmlFor={`commodite-${commodite.id}`}>
+                          {commodite.name}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          />
         </div>
-      </section> */}
+
+        <div className="mb-4">
+          <Label htmlFor="description" isRequired>Description du bien</Label>
+          <Textarea 
+            id="description" 
+            placeholder="Description du bien" 
+            {...form.register('description')}  
+          />
+          <InputErrorMessage message={errors.description?.message} />
+        </div>
+      </section>
     </div>
   );
 }

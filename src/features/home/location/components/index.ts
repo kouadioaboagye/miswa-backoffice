@@ -5,4 +5,5 @@ export { default as PropertyLocation } from './property-location';
 export { default as PropertyReviews } from './property-reviews';
 export { default as PropertySidebar } from './property-sidebar';
 export { default as SearchResults } from './search-results';
+export { default as SearchWithMap } from './search-with-map';
 export { default as SimilarProperties } from './similar-properties';
