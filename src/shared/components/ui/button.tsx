@@ -95,7 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
                 disabled={isLoading || props.disabled}
             >
-                {isLoading ? (
+                {/* {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
                     <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
@@ -103,7 +103,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                         {props.children}
                         {rightIcon}
                     </div>
-                )}
+                )} */}
             </Comp>
         );
     }

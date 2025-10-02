@@ -39,6 +39,7 @@ import {
     SidebarMenuSub
 } from '../../ui/sidebar';
 import { menu } from '@/shared/types/menu';
+import { logout } from '@/lib/auth/utils';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
@@ -223,7 +224,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         variant={'success'}
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
                         leftIcon={<LogoutIcon className="mr-2" />}
-                        onClick={() => router.push(paths.auth.login)}
+                        onClick={() => {
+                            logout()
+                            window.location.href = '/auth/login'
+                        }}
                     >
                         Se déconnecter
                     </Button>

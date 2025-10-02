@@ -1,0 +1,8 @@
+export { default as PropertyAmenities } from './property-amenities';
+export { default as PropertyDetails } from './property-details';
+export { default as PropertyGallery } from './property-gallery';
+export { default as PropertyLocation } from './property-location';
+export { default as PropertyReviews } from './property-reviews';
+export { default as PropertySidebar } from './property-sidebar';
+export { default as SearchResults } from './search-results';
+export { default as SimilarProperties } from './similar-properties';

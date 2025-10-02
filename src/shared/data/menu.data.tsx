@@ -75,8 +75,9 @@ const baseMainNav = [
         ]
     }
 ]
+type ModuleKey = 'property' | 'owner' | 'tenant';
 
-const moduleNavigations = {
+const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
     property: [
         {
             label: 'Dashboard',
@@ -195,9 +196,18 @@ const moduleNav: module[] = [
     }
 ]
 
+// Type guard pour vérifier si c'est une clé valide
+function isModuleKey(key: string): key is ModuleKey {
+    return ['property', 'owner', 'tenant'].includes(key);
+}
+
 export const getMainNav = (activeModule: string) => {
-    return moduleNavigations[activeModule as keyof typeof moduleNavigations] || baseMainNav;
+    if (isModuleKey(activeModule)) {
+        return moduleNavigations[activeModule as keyof typeof moduleNavigations];
+    }
+    return baseMainNav;
 };
+
 
 export const menus = {
     module_nav: moduleNav
