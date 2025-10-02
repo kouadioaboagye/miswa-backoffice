@@ -30,6 +30,6 @@
         "eslint.config.js",
         "src/config/env.ts",
         "src/shared/utils/format-env-error.ts"
-, "src/app/admin/module/property/details"    ],
+, "src/app/admin/module/property/building/details"    ],
     "exclude": ["node_modules"]
 }

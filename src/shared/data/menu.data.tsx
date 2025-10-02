@@ -91,7 +91,7 @@ const moduleNavigations = {
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.property.buildings,
+            href: paths.admin.module.property.building.list,
             items: []
         },
         {
