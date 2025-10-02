@@ -1,5 +1,11 @@
-const page = () => {
-    return <div>page</div>;
-};
+import React from 'react'
 
-export default page;
+function RootPage() {
+  return (
+    <div>
+      page
+    </div>
+  )
+}
+
+export default RootPage

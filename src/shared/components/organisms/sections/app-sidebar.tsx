@@ -47,7 +47,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     // Determine the active module based on the current pathname
     const getActiveModule = () => {
-        if (path.includes(paths.admin.module.property)) return 'property';
+        if (path.includes(paths.admin.module.property.root)) return 'property';
         if (path.includes(paths.admin.module.owner.root)) return 'owner';
         if (path.includes(paths.admin.module.tenant)) return 'tenant';
         if (path.includes(paths.admin.module.advertisements)) return 'advertisements';
