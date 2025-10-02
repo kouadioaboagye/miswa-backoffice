@@ -196,7 +196,7 @@ const moduleNav: module[] = [
 ]
 
 export const getMainNav = (activeModule: string) => {
-    return moduleNavigations[activeModule] || baseMainNav;
+    return moduleNavigations[activeModule as keyof typeof moduleNavigations] || baseMainNav;
 };
 
 export const menus = {
