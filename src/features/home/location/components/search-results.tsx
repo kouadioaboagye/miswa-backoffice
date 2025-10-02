@@ -5,7 +5,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import NewsCard from '@/shared/components/ui/news-card';
 import Pagination from '@/shared/components/ui/pagination';
-import { PropertyCard } from '@/shared/components/ui/property-card';
+import { PropertyCard, PropertyCardGrid } from '@/shared/components/ui/property-card';
 import {
     Select,
     SelectContent,
@@ -800,7 +800,7 @@ const SearchResults = () => {
     <div className="w-full mb-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {currentProperties.map((property) => (
-                <PropertyCard
+                <PropertyCardGrid
                     key={property.id}
                     {...formatPropertyForCard(property)}
                     className="hover:scale-105 transition-transform duration-300"
