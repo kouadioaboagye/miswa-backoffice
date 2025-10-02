@@ -4,12 +4,12 @@ import { SectionTitle } from '@/shared/components/ui/section-title';
 import React from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
-import { addPropertyFormData } from './schemas';
+import { addBuildingFormData } from './schemas';
 import { Switch } from '@/shared/components/ui/switch';
 import { Textarea } from '@/shared/components/ui/textarea';
 
 interface StepTwoFormProps {
-    form: UseFormReturn<addPropertyFormData>;
+    form: UseFormReturn<addBuildingFormData>;
 }
 
 function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {

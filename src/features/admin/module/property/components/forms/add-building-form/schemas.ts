@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const addPropertyFormSchema = z.object({
+export const addBuildingFormSchema = z.object({
     nomBatiment: z.string().min(1, { message: 'Nom requis' }),
     typeBatiment: z.string().min(1, { message: 'Type requis' }),
     adresse: z.string().min(1, { message: 'Adresse requise' }),
@@ -48,4 +48,4 @@ export const addPropertyFormSchema = z.object({
     }),
 });
 
-export type addPropertyFormData = z.infer<typeof addPropertyFormSchema>;
+export type addBuildingFormData = z.infer<typeof addBuildingFormSchema>;

@@ -19,7 +19,7 @@ function AllModulesView() {
             icon: <HomeHouseIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
             title: 'Gestion',
             subtitle: 'des Biens',
-            href: paths.admin.module.property
+            href: paths.admin.module.property.root
         },
         {
             icon: <ProprioIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,

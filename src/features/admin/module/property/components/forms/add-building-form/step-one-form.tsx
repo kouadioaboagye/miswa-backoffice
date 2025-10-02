@@ -1,16 +1,14 @@
-import { Button } from '@/shared/components/ui/button'
 import { Label } from '@/shared/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Input } from '@/shared/components/ui/input';
-import { Plus } from 'lucide-react';
 import { SectionTitle } from '@/shared/components/ui/section-title';
 import React from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
-import { addPropertyFormData } from './schemas';
+import { addBuildingFormData } from './schemas';
 
 interface StepOneFormProps {
-  form: UseFormReturn<addPropertyFormData>;
+  form: UseFormReturn<addBuildingFormData>;
 }
 
 function StepOneForm({ form }: Readonly<StepOneFormProps>) {
