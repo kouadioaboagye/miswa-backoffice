@@ -2,7 +2,7 @@
 
 import { Button } from "@/shared/components/ui/button";
 import Image from "next/image";
-import EditIcon from "../../../../../../public/assets/icons/edit-icon";
+import EditIcon from "../../../../../../../public/assets/icons/edit-icon";
 import { Edit } from "lucide-react";
 
 const BuildingDetailView = () => {

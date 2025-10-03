@@ -3,12 +3,12 @@
 import DataTableLayout from '@/shared/components/layouts/data-table-layout'
 import { Button } from '@/shared/components/ui/button'
 import React from 'react'
-import RefreshIcon from '../../../../../../public/assets/icons/refresh-icon'
+import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
-import BuildingTable from '../components/forms/tables/building/building-table'
+import AssetTable from '../../components/forms/tables/asset/asset-table'
 
-function ListBuildingView() {
+function ListAssetView() {
     const router = useRouter();
   return (
         <div className="flex flex-col gap-16">
@@ -30,18 +30,18 @@ function ListBuildingView() {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={()=>router.push("/admin/module/property/add")}
+                            onClick={()=>router.push("/admin/module/property/asset/add")}
                         >
                             <Plus />{' '}
-                            <span className="text-[1.3rem]">NOUVEL IMMEUBLE</span>
+                            <span className="text-[1.3rem]">NOUVEAU BIEN</span>
                         </Button>
                     )
                 }}
             >
-                <BuildingTable />
+                <AssetTable />
             </DataTableLayout>
         </div>
   )
 }
 
-export default ListBuildingView
+export default ListAssetView
