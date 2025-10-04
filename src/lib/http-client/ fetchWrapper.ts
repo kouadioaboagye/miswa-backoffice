@@ -18,16 +18,8 @@ interface NextRequestInit extends RequestInit {
 const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function fetchWrapper<T>(remainUrl: string, options: RequestOptions = {}): Promise<T> {
-    // Validate backendUrl
     if (!backendUrl) {
         throw new Error("API URL is not defined in environment variables.");
-    }
-
-    // Ensure backendUrl uses HTTPS
-    let normalizedBackendUrl = backendUrl;
-    if (!normalizedBackendUrl.startsWith("https://")) {
-        console.warn("backendUrl is not HTTPS, forcing HTTPS:", normalizedBackendUrl);
-        normalizedBackendUrl = normalizedBackendUrl.replace(/^http:\/\//, "https://");
     }
 
     const {
@@ -72,24 +64,19 @@ export async function fetchWrapper<T>(remainUrl: string, options: RequestOptions
         }
     }
 
-    // Normalize URL to avoid double slashes
-    const fullUrl = `${normalizedBackendUrl.replace(/\/$/, "")}/${remainUrl.replace(/^\//, "")}`;
+    const fullUrl = `${backendUrl}/${remainUrl.replace(/^\//, "")}`;
 
     // Debugging logs
     console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
     console.log("backendUrl:", backendUrl);
-    console.log("normalizedBackendUrl:", normalizedBackendUrl);
     console.log("remainUrl:", remainUrl);
     console.log("Full URL:", fullUrl);
 
     const response = await fetch(fullUrl, fetchOptions);
 
-    // Log response details
-    console.log("Response URL:", response.url);
-    console.log("Response Status:", response.status);
-
     if (response.status === 403 && typeof window !== "undefined") {
-        window.location.href = "/login";
+        //redirect to the correct page
+        //window.location.href = "/login";
     }
 
     if (!response.ok) {
