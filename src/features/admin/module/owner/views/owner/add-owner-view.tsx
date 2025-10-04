@@ -11,6 +11,7 @@ import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import Stepper from '@/shared/components/ui/stepper';
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 
 function AddOwnerView() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,15 +54,55 @@ function AddOwnerView() {
     }
   };
 
-  function onSubmit(values: addOwnerFormData) {
+  function mapFormDataToAPI(values: addOwnerFormData): any {
+    return {
+      name: values.nom,
+      lastname: values.prenom,
+      dateOfBirth: values.dateNaissance,
+      placeOfBirth: values.lieuNaissance,
+      familyStatus: values.situationFamiliale,
+      propertyOwner: values.bienProprietaire,
+      idType: values.typePiece,
+      idNumber: values.numeroCNI,
+      idExpirationDate: values.dateExpiration,
+      phoneNumber: values.telephonePrincipal,
+      email: values.email,
+      postalAddress: values.adressePostale,
+      commune: values.commune,
+      neighborhood: values.quartier,
+      countryId: values.paysResidence,
+      profession: values.profession,
+      employer: values.employeur,
+      monthlyIncome: values.revenuMensuel,
+      receptionMode: values.modeReception,
+      bank: values.banque,
+      accountHolder: values.titulaireCompte,
+      documents: "",
+      description: "",
+      cover_url: "",
+      legal_name: "",
+      legal_form: values.typePersonne || "",
+    };
+  }
+
+  async function onSubmit(values: addOwnerFormData) {
     if (!form.formState.isValid) {
       return;
-    } else {
-      setIsSubmitting(true)
-      setTimeout(() => {
-        setIsSubmitting(false)
-        setSuccessModalOpen(true)
-      }, 3000)
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const apiData = mapFormDataToAPI(values);
+      await fetchWrapper("businesses", {
+        method: "POST",
+        body: apiData
+      })
+      setSuccessModalOpen(true);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Une erreur est survenue lors de la soumission.');
+    } finally {
+      setIsSubmitting(false);
     }
   }
 

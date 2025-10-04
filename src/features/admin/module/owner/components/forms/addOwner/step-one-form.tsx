@@ -49,7 +49,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="prenom" isRequired>Prénom</Label>
+            <Label htmlFor="prenom">Prénom</Label>
             <Input id="prenom" placeholder="exemple@gmail.com" {...form.register('prenom')} />
             <InputErrorMessage message={errors.prenom?.message} />
           </div>
@@ -80,7 +80,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Grand Bassam">Grand Bassam</SelectItem>
+                      <SelectItem value="Mariée">Mariée</SelectItem>
                     </SelectContent>
                   </Select>
                   <InputErrorMessage message={error?.message} />
@@ -89,30 +89,16 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             />
           </div>
         </div>
-
-        <div>
-          <Label htmlFor="bienProprietaire">Sélectionner le bien du propriétaire</Label>
-          <div className="relative">
-            <Input
-              id="bienProprietaire"
-              placeholder="Sélectionner le bien du propriétaire"
-              {...form.register('bienProprietaire')}
-            />
-            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-green-500 text-white rounded-full p-2" />
-            <InputErrorMessage message={errors.bienProprietaire?.message} />
-          </div>
-        </div>
       </section>
 
       <section>
         <SectionTitle content="2. Document D&apos;Identification" />
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="typePiece" isRequired>Type de pièce</Label>
+            <Label htmlFor="typePiece">Type de pièce</Label>
             <Controller
               name="typePiece"
               control={form.control}
-              rules={{ required: 'Sélectionnez un type' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -130,13 +116,13 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="numeroCNI" isRequired>Numéro de la carte CNI</Label>
+            <Label htmlFor="numeroCNI">Numéro de la carte CNI</Label>
             <Input id="numeroCNI" placeholder="exemple@gmail.com" {...form.register('numeroCNI')} />
             <InputErrorMessage message={errors.numeroCNI?.message}/>
           </div>
 
           <div>
-            <Label htmlFor="dateExpiration" isRequired>Date d&apos;expiration</Label>
+            <Label htmlFor="dateExpiration">Date d&apos;expiration</Label>
             <Input id="dateExpiration" {...form.register('dateExpiration')} type="date"/>
             <InputErrorMessage message={errors.dateExpiration?.message} />
           </div>

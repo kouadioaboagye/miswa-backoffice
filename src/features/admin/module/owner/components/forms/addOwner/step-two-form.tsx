@@ -31,13 +31,13 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="email" isRequired>Adresse email</Label>
+            <Label htmlFor="email">Adresse email</Label>
             <Input id="email" placeholder="exemple@gmail.com" {...form.register('email')} />
             <InputErrorMessage message={errors.email?.message} />
           </div>
 
           <div>
-            <Label htmlFor="adressePostale" isRequired>Adresse postale complète</Label>
+            <Label htmlFor="adressePostale">Adresse postale complète</Label>
             <Input id="adressePostale" placeholder="123 Rue Exemple" {...form.register('adressePostale')} />
             <InputErrorMessage message={errors.adressePostale?.message} />
           </div>
@@ -86,11 +86,10 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
         <SectionTitle content="2. Informations professionnelles" />
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <Label htmlFor="profession" isRequired>Profession</Label>
+            <Label htmlFor="profession">Profession</Label>
             <Controller
               name="profession"
               control={control}
-              rules={{ required: 'Profession requise' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -127,11 +126,10 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
         <SectionTitle content="3. Informations financières" />
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="modeReception" isRequired>Mode de réception</Label>
+            <Label htmlFor="modeReception">Mode de réception</Label>
             <Controller
               name="modeReception"
               control={control}
-              rules={{ required: 'Mode de réception requis' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -151,7 +149,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="banque" isRequired>Banque</Label>
+            <Label htmlFor="banque">Banque</Label>
             <Controller
               name="banque"
               control={control}
@@ -175,7 +173,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="titulaireCompte" isRequired>Nom du titulaire du compte</Label>
+            <Label htmlFor="titulaireCompte">Nom du titulaire du compte</Label>
             <Input id="titulaireCompte" placeholder="Nom du titulaire" {...form.register('titulaireCompte')} />
             <InputErrorMessage message={errors.titulaireCompte?.message} />
           </div>
