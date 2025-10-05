@@ -29,7 +29,8 @@ export const columns: ColumnDef<Property>[] = [
         header: 'Biens',
         cell: ({ row }) => (
             <Illustration
-                src={row.original.cover_url ?? ""}
+                // src={row.original.cover_url ?? ""}
+                src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'
                 libelle={""}
             />
         )
