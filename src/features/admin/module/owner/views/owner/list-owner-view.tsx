@@ -9,8 +9,11 @@ import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
 import { useRouter } from 'next/navigation';
 import OwnerTable from '../../components/tables/owner/owner-table';
+import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
 
 const ListOwnerView = () => {
+    const { data: response, isLoading, error } = useListOwnersQuery()
+    const { data, total } = response || { data: [], total: 0 }
     const router = useRouter()
     const dataItems = [
         {
@@ -54,7 +57,7 @@ const ListOwnerView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={()=>router.push("/admin/module/owner/add")}
+                            onClick={() => router.push("/admin/module/owner/add")}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU PROPRIÉTAIRE</span>
@@ -62,7 +65,7 @@ const ListOwnerView = () => {
                     )
                 }}
             >
-                <OwnerTable />
+                <OwnerTable data={data}/>
             </DataTableLayout>
         </div>
     );

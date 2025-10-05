@@ -1,6 +1,5 @@
 import { Button } from '@/shared/components/ui/button';
-import { Label } from '@/shared/components/ui/label';
-import { Upload, Trash2, Trash } from 'lucide-react';
+import {  Trash } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { addOwnerFormData } from './schemas';
@@ -85,7 +84,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                         {documents.length > 0 &&
                             documents.map((file, index) => (
                                 <div key={index} className="flex items-center text-green-600 my-1">
-                                    <BiFileEarmarkImage/>
+                                    <BiFileEarmarkImage />
                                     <span className='text-stone-950 ml-7'>{file.name}</span>
                                     <span className="ml-auto text-gray-500">
                                         {(file.size / 1024 / 1024).toFixed(1)}MB

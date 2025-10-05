@@ -3,46 +3,23 @@
 import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import type { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
+import { formatDate } from 'date-fns';
 import EyeIcon2 from '../../../../../../../../public/assets/icons/eye-icon-2';
 import EditIcon from '../../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../../public/assets/icons/delete-icon-2';
+import { IOwnerDataModel } from '@/lib/data-service/module/owner/types';
 
 // This type is used to define the shape of our data.
-export type Owner = {
+export type Owner = Partial<IOwnerDataModel> & {
   id: string;
-  owner: {
-    fullName: string;
-    email: string;
-    img: string;
-  };
-  typeProperty: string;
-  property: {
-    libelle: string;
-    img: string;
-  };
-  createdAt: string;
-  telephone: string;
+  name: string;
+  cover_url?: string;
+  phonenumber?: string;
+  created_at?: string;
+  legal_form: string;
+  email?: string
 };
 
-// Fake data that matches Owner
-export const fakeProperties: Owner[] = Array.from({ length: 10 }).map(
-  (_, idx) => ({
-    id: `owner-${idx}`,
-    owner: {
-      fullName: `Touré Mack`,
-      email: `mack@gmail.com`,
-      img: `https://picsum.photos/1024/1024`,
-    },
-    typeProperty: idx % 2 === 0 ? 'Appartement' : 'Villa',
-    property: {
-      libelle: `Bien immobilier ${idx}`,
-      img: `https://picsum.photos/1024/1024`,
-    },
-    createdAt: new Date().toISOString(),
-    telephone: `+225 0707070${idx}`,
-  })
-);
 
 // Table columns based on Owner
 export const columns: ColumnDef<Owner>[] = [
@@ -51,40 +28,39 @@ export const columns: ColumnDef<Owner>[] = [
     header: 'Propriétaire',
     cell: ({ row }) => (
       <Illustration
-        src={row.original.owner.img}
-        libelle={row.original.owner.fullName}
-        email={row.original.owner.email}
-      />
-    ),
-  },
-  {
-    accessorKey: 'typeProperty',
-    header: 'Type de bien',
-    cell: ({ row }) => (
-      <p className="text-[1.1rem] font-medium">{row.original.typeProperty}</p>
-    ),
-  },
-  {
-    accessorKey: 'property',
-    header: 'Biens',
-    cell: ({ row }) => (
-      <Illustration
-        src={row.original.property.img}
-        libelle={row.original.property.libelle}
+        src={row.original.cover_url ?? ""}
+        libelle={row.original?.name}
+        email={row.original?.email}
       />
     ),
   },
   {
     accessorKey: 'createdAt',
     header: 'Ajouté le',
-    cell: ({ row }) =>
-      format(new Date(row.original.createdAt), 'dd/MM/yyyy'),
+    cell: ({ row }) => {
+      const date = row.original.created_at;
+      return date ? formatDate(date, 'dd/MM/yyyy') : '-';
+    },
   },
   {
     accessorKey: 'telephone',
     header: 'Téléphone',
     cell: ({ row }) => (
-      <p>{row.original.telephone}</p>
+      <p>{row.original?.phonenumber || "-"}</p>
+    ),
+  },
+    {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => (
+      <p>{row.original?.email || "-"}</p>
+    ),
+  },
+  {
+    accessorKey: 'legal_form',
+    header: 'Type de personne',
+    cell: ({ row }) => (
+      <p>{row.original?.legal_form || "-"}</p>
     ),
   },
   {

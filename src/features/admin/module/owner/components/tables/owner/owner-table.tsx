@@ -1,8 +1,8 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table';
-import { columns, fakeProperties } from './columns';
+import { columns, Owner } from './columns';
 
-const OwnerTable = () => {
-    return <DataTable columns={columns} data={fakeProperties} />;
+const OwnerTable = ({ data }: { data: Owner[] }) => {
+    return <DataTable columns={columns} data={data} />;
 };
 
 export default OwnerTable;
