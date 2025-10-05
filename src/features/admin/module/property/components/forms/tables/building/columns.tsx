@@ -2,49 +2,28 @@
 
 import Illustration from '@/shared/components/atoms/illustration';
 import type { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
+import { format, formatDate } from 'date-fns';
 import EyeIcon2 from '../../../../../../../../../public/assets/icons/eye-icon-2';
 import EditIcon from '../../../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../../../public/assets/icons/delete-icon-2';
+import { IBuildingDataModel } from '@/lib/data-service/property/types';
 
-// This type is used to define the shape of our data.
-export type Building = {
+export type Building = Partial<IBuildingDataModel> & {
   id: string;
-  appartmentAmount: number,
-  reference: string;
-  building: {
-    libelle: string;
-    img: string;
-  };
-  ville: string,
-  createdAt: string;
+  name: string;
+  cover_url: string;
+  created_at: string;
+  ville: string
 };
 
-// Fake data that matches Owner
-export const fakeProperties: Building[] = Array.from({ length: 10 }).map(
-  (_, idx) => ({
-    id: `building-${idx}`,
-    appartmentAmount: 10,
-    reference: `REF-${1000 + idx}`,
-    building: {
-      libelle: `Bâtiment ${idx}`,
-      img: `https://picsum.photos/seed/${idx}/400/300`,
-    },
-    ville: idx % 2 === 0 ? "Abidjan" : "Bouaké",
-    createdAt: new Date().toISOString(),
-  })
-);
-
-
-// Table columns based on Owner
 export const columns: ColumnDef<Building>[] = [
   {
     accessorKey: 'building',
     header: 'Immeuble',
     cell: ({ row }) => (
       <Illustration
-        src={row.original.building.img}
-        libelle={row.original.building.libelle}
+        src={row.original.cover_url}
+        libelle={row.original.name}
       />
     ),
   },
@@ -52,28 +31,30 @@ export const columns: ColumnDef<Building>[] = [
     accessorKey: 'reference',
     header: 'Référence',
     cell: ({ row }) => (
-      <p className="text-[1.1rem] font-medium">{row.original.reference}</p>
+      <p className="text-[1.1rem] font-medium">-</p>
     ),
   },
   {
     accessorKey: "appartmentAmount",
     header: "Nombre d'appartement",
     cell: ({ row }) => (
-      <p className="text-[1.1rem] font-medium">{row.original.appartmentAmount}</p>
+      <p className="text-[1.1rem] font-medium">-</p>
     ),
   },
   {
     accessorKey: 'ville',
     header: 'Ville',
     cell: ({ row }) => (
-      <p>{row.original.ville}</p>
+      <p>-</p>
     ),
   },
   {
     accessorKey: 'createdAt',
     header: 'Ajouté le',
-    cell: ({ row }) =>
-      format(new Date(row.original.createdAt), 'dd/MM/yyyy'),
+    cell: ({ row }) => {
+      const date = row.original.created_at;
+      return date ? formatDate(date, 'dd/MM/yyyy') : '-';
+    },
   },
   {
     accessorKey: 'actions',
