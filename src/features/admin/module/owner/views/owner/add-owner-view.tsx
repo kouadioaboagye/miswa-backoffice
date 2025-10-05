@@ -158,7 +158,7 @@ function AddOwnerView() {
           vous pouvez consulter la liste des propriétaire pour apporter des modifications'
         confirmText='Liste des proprietaire'
         onClose={() => setSuccessModalOpen(false)}
-        onConfirm={() => router.push("admin/module/owner")}
+        onConfirm={() => router.push("/admin/module/owner")}
       />
       <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau propriétaire</h1>
       <Stepper

@@ -11,7 +11,11 @@ export const addOwnerFormSchema = z.object({
     typePiece: z.string().min(1, { message: 'Type de pièce requis' }),
     numeroCNI: z.string().min(1, { message: 'Numéro de CNI requis' }),
     dateExpiration: z.string().min(1, { message: 'Date d\'expiration requise' }),
-    telephonePrincipal: z.string().min(1, { message: 'Numéro de téléphone requis' }),
+    telephonePrincipal: z
+        .string()
+        .regex(/^\+?\d{8,15}$/, {
+            message: 'Format de numéro invalide. Exemple: +22501234567',
+        }),
     email: z.string().email({ message: 'Email valide requis' }),
     adresse: z.string().min(1, { message: 'Adresse requise' }),
     commune: z.string().min(1, { message: 'Commune requise' }),

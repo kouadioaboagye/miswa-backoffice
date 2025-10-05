@@ -65,7 +65,7 @@ const ListOwnerView = () => {
                     )
                 }}
             >
-                <OwnerTable />
+                <OwnerTable data={data}/>
             </DataTableLayout>
         </div>
     );

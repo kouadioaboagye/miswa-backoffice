@@ -1,6 +1,7 @@
 export type IOwnerDataModel = {
     id: string;
     name: string;
+    email?: string;
     description?: string;
     cover_url?: string;
     is_default: boolean;
