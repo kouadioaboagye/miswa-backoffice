@@ -64,7 +64,7 @@ export async function fetchWrapper<T>(remainUrl: string, options: RequestOptions
         }
     }
 
-    const fullUrl = `${backendUrl}/${remainUrl.replace(/^\//, "")}`;
+    const fullUrl = `${backendUrl}/${remainUrl}`;
 
     // Debugging logs
     console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);

@@ -9,11 +9,11 @@ import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
 import { useRouter } from 'next/navigation';
 import OwnerTable from '../../components/tables/owner/owner-table';
-import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.query';
+import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
 
 const ListOwnerView = () => {
     const { data: response, isLoading, error } = useListOwnersQuery()
-    console.log(response, error, "test")
+    const { data, total } = response || { data: [], total: 0 }
     const router = useRouter()
     const dataItems = [
         {

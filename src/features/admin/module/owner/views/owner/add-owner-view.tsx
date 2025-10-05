@@ -12,24 +12,30 @@ import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import Stepper from '@/shared/components/ui/stepper';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { useRouter } from 'next/navigation';
 
 function AddOwnerView() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [successModalOpen, setSuccessModalOpen] = useState(false)
+  const router = useRouter()
 
   const form = useForm<addOwnerFormData>({
     resolver: zodResolver(addOwnerFormSchema),
   });
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    const fields = getStepFields(currentStep);
+    const isValid = await form.trigger(fields as any);
+
+    if (!isValid) {
+      toast.warning("Veuillez remplir tous les champs obligatoires de cette étape!");
+      return;
+    }
+
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
-    } else if (!form.formState.isValid) {
-      toast.warning("Assurez vous que tous les champs obligatoires ont été renseignés!")
-      form.handleSubmit(onSubmit)();
-    }
-    else {
+    }else {
       console.log(form.getValues(), form.formState.isValid)
       form.handleSubmit(onSubmit)();
     }
@@ -38,6 +44,45 @@ function AddOwnerView() {
   const handlePrevious = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const getStepFields = (step: number): string[] => {
+    switch (step) {
+      case 1:
+        return [
+          'typePersonne',
+          'nom',
+          'prenom',
+          'dateNaissance',
+          'lieuNaissance',
+          'situationFamiliale',
+          'typePiece',
+          'numeroCNI',
+          'dateExpiration',
+        ];
+      case 2:
+        return [
+          'telephonePrincipal',
+          'email',
+          'adresse',
+          'commune',
+          'quartier',
+          'paysResidence',
+          'profession',
+          'employeur',
+          'revenuMensuel',
+          'modeReception',
+          'banque',
+          'titulaireCompte',
+        ];
+      case 3:
+        return [
+          'documents',
+          'bienProprietaire',
+        ];
+      default:
+        return [];
     }
   };
 
@@ -57,31 +102,27 @@ function AddOwnerView() {
   function mapFormDataToAPI(values: addOwnerFormData): any {
     return {
       name: values.nom,
-      lastname: values.prenom,
-      dateOfBirth: values.dateNaissance,
-      placeOfBirth: values.lieuNaissance,
-      familyStatus: values.situationFamiliale,
-      propertyOwner: values.bienProprietaire,
-      idType: values.typePiece,
-      idNumber: values.numeroCNI,
-      idExpirationDate: values.dateExpiration,
-      phoneNumber: values.telephonePrincipal,
-      email: values.email,
-      postalAddress: values.adressePostale,
-      commune: values.commune,
-      neighborhood: values.quartier,
-      countryId: values.paysResidence,
-      profession: values.profession,
-      employer: values.employeur,
-      monthlyIncome: values.revenuMensuel,
-      receptionMode: values.modeReception,
-      bank: values.banque,
-      accountHolder: values.titulaireCompte,
-      documents: "",
-      description: "",
-      cover_url: "",
-      legal_name: "",
-      legal_form: values.typePersonne || "",
+      id_country: values.paysResidence,
+      owner: {
+        legal_name: `${values?.nom} ${values?.prenom}`,
+        legal_form: values?.typePersonne,
+        email: values?.email,
+        phonenumber: values?.telephonePrincipal,
+        birth_date: values?.dateNaissance,
+        birth_place: values?.lieuNaissance,
+        marital_status: values?.situationFamiliale,
+        identity_card_type: values?.typePiece,
+        identity_card_number: values.numeroCNI,
+        identity_card_expiry_date: values.dateExpiration,
+        municipality: values.commune,
+        address: values.adresse,
+        street: values.quartier,
+        profession: values.profession,
+        company_name: values.employeur,
+        avg_monthly_income: values.revenuMensuel,
+        official_documents: values.documents,
+        payment_mode: values.modeReception,
+      }
     };
   }
 
@@ -94,11 +135,12 @@ function AddOwnerView() {
 
     try {
       const apiData = mapFormDataToAPI(values);
-      await fetchWrapper("businesses", {
+      await fetchWrapper("businesses/", {
         method: "POST",
         body: apiData
       })
       setSuccessModalOpen(true);
+      form.reset()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Une erreur est survenue lors de la soumission.');
     } finally {
@@ -116,7 +158,7 @@ function AddOwnerView() {
           vous pouvez consulter la liste des propriétaire pour apporter des modifications'
         confirmText='Liste des proprietaire'
         onClose={() => setSuccessModalOpen(false)}
-        onConfirm={() => console.log("liste")}
+        onConfirm={() => router.push("admin/module/owner")}
       />
       <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau propriétaire</h1>
       <Stepper

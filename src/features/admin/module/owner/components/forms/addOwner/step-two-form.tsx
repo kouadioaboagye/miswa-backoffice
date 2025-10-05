@@ -7,13 +7,21 @@ import React from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { addOwnerFormData } from './schemas';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
+import { useListCountriesQuery, useListMunicipalitiesQuery } from '@/lib/data-service/general/general.queries';
 
 interface StepTwoFormProps {
   form: UseFormReturn<addOwnerFormData>;
 }
 
 function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
-  const { control, formState: { errors } } = form;
+  const { control, formState: { errors }, watch } = form;
+  const { data: countriesResponse, isLoading: isCountriesLoading } = useListCountriesQuery();
+  const { data: countries = [], total: countriesTotal = 0 } = countriesResponse || {};
+
+  const selectedCountryId = watch('paysResidence');
+  const { data: municipalitiesResponse, isLoading: isMunicipalitiesLoading } = useListMunicipalitiesQuery();
+  const { data: municipalities = [], total: municipalitiesTotal = 0 } = municipalitiesResponse || {};
+
 
   return (
     <div>
@@ -31,53 +39,94 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="email">Adresse email</Label>
-            <Input id="email" placeholder="exemple@gmail.com" {...form.register('email')} />
+            <Label htmlFor="email" isRequired>Adresse email</Label>
+            <Input
+              id="email"
+              placeholder="exemple@gmail.com"
+              {...form.register('email')}
+            />
             <InputErrorMessage message={errors.email?.message} />
           </div>
 
           <div>
-            <Label htmlFor="adressePostale">Adresse postale complète</Label>
-            <Input id="adressePostale" placeholder="123 Rue Exemple" {...form.register('adressePostale')} />
-            <InputErrorMessage message={errors.adressePostale?.message} />
+            <Label htmlFor="adresse" isRequired>Adresse complète</Label>
+            <Input
+              id="adresse"
+              placeholder="123 Rue Exemple"
+              {...form.register('adresse')}
+            />
+            <InputErrorMessage message={errors.adresse?.message} />
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <Label htmlFor="commune">Commune</Label>
-            <Input id="commune" placeholder="Commune" {...form.register('commune')} />
-            <InputErrorMessage message={errors.commune?.message} />
-          </div>
-
-          <div>
-            <Label htmlFor="quartier">Quartier</Label>
-            <Input id="quartier" placeholder="Quartier" {...form.register('quartier')} />
-            <InputErrorMessage message={errors.quartier?.message} />
-          </div>
-
-          <div>
             <Label htmlFor="paysResidence" isRequired>Pays de résidence</Label>
             <Controller
               name="paysResidence"
               control={control}
+              disabled={isCountriesLoading}
               rules={{ required: 'Pays de résidence requis' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Sélectionnez" />
+                      <SelectValue placeholder={isCountriesLoading ? 'Chargement...' : 'Sélectionnez'} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Côte d'Ivoire">Côte d'Ivoire</SelectItem>
-                      <SelectItem value="France">France</SelectItem>
-                      <SelectItem value="Autre">Autre</SelectItem>
+                      {countries.length > 0 &&
+                        countries.map((country, index) => (
+                          <SelectItem value={country.id.toString()} key={index + 1}>
+                            {country.name}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   <InputErrorMessage message={error?.message} />
                 </div>
               )}
             />
+          </div>
+          <div>
+            <Label htmlFor="commune" isRequired>Commune</Label>
+            <Controller
+              name="commune"
+              control={control}
+              rules={{ required: 'Commune requise' }}
+              render={({ field, fieldState: { error } }) => (
+                <div>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    disabled={isMunicipalitiesLoading || !selectedCountryId}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={isMunicipalitiesLoading ? 'Chargement...' : 'Sélectionnez'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {municipalities.length > 0 &&
+                        municipalities
+                          .filter((municipality) => municipality.id_country?.toString() === selectedCountryId)
+                          .map((municipality, index) => (
+                            <SelectItem value={municipality.id.toString()} key={index + 1}>
+                              {municipality.name}
+                            </SelectItem>
+                          ))}
+                    </SelectContent>
+                  </Select>
+                  <InputErrorMessage message={error?.message} />
+                </div>
+              )}
+            />
+          </div>
+          <div>
+            <Label htmlFor="quartier" isRequired>Quartier</Label>
+            <Input
+              id="quartier"
+              placeholder="Quartier"
+              {...form.register('quartier')}
+            />
+            <InputErrorMessage message={errors.quartier?.message} />
           </div>
         </div>
       </section>
@@ -86,10 +135,11 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
         <SectionTitle content="2. Informations professionnelles" />
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <Label htmlFor="profession">Profession</Label>
+            <Label htmlFor="profession" isRequired>Profession</Label>
             <Controller
               name="profession"
               control={control}
+              rules={{ required: 'Profession requise' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -109,14 +159,23 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="employeur">Employeur</Label>
-            <Input id="employeur" placeholder="Nom de l'employeur" {...form.register('employeur')} />
+            <Label htmlFor="employeur" isRequired>Employeur</Label>
+            <Input
+              id="employeur"
+              placeholder="Nom de l'employeur"
+              {...form.register('employeur')}
+            />
             <InputErrorMessage message={errors.employeur?.message} />
           </div>
 
           <div>
-            <Label htmlFor="revenuMensuel">Revenu mensuel moyen</Label>
-            <Input id="revenuMensuel" placeholder="500000" {...form.register('revenuMensuel')} />
+            <Label htmlFor="revenuMensuel" isRequired>Revenu mensuel moyen</Label>
+            <Input
+              id="revenuMensuel"
+              type='number'
+              placeholder="500000"
+              {...form.register('revenuMensuel', { valueAsNumber: true })}
+            />
             <InputErrorMessage message={errors.revenuMensuel?.message} />
           </div>
         </div>
@@ -126,10 +185,11 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
         <SectionTitle content="3. Informations financières" />
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="modeReception">Mode de réception</Label>
+            <Label htmlFor="modeReception" isRequired>Mode de réception</Label>
             <Controller
               name="modeReception"
               control={control}
+              rules={{ required: 'Mode de réception requis' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -137,9 +197,9 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Virement bancaire">Virement bancaire</SelectItem>
-                      <SelectItem value="Chèque">Chèque</SelectItem>
-                      <SelectItem value="Espèces">Espèces</SelectItem>
+                      <SelectItem value="bank">Virement bancaire</SelectItem>
+                      <SelectItem value="mobile_money">Mobile money</SelectItem>
+                      <SelectItem value="cash">Espèces</SelectItem>
                     </SelectContent>
                   </Select>
                   <InputErrorMessage message={error?.message} />
@@ -153,7 +213,6 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
             <Controller
               name="banque"
               control={control}
-              rules={{ required: 'Banque requise' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -161,9 +220,9 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="SGCI">SGCI</SelectItem>
-                      <SelectItem value="BNI">BNI</SelectItem>
-                      <SelectItem value="Ecobank">Ecobank</SelectItem>
+                      <SelectItem value="sgci">SGCI</SelectItem>
+                      <SelectItem value="bni">BNI</SelectItem>
+                      <SelectItem value="ecobank">Ecobank</SelectItem>
                     </SelectContent>
                   </Select>
                   <InputErrorMessage message={error?.message} />
@@ -174,7 +233,11 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
 
           <div>
             <Label htmlFor="titulaireCompte">Nom du titulaire du compte</Label>
-            <Input id="titulaireCompte" placeholder="Nom du titulaire" {...form.register('titulaireCompte')} />
+            <Input
+              id="titulaireCompte"
+              placeholder="Nom du titulaire"
+              {...form.register('titulaireCompte')}
+            />
             <InputErrorMessage message={errors.titulaireCompte?.message} />
           </div>
         </div>
