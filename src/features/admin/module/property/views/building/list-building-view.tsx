@@ -8,11 +8,22 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import BuildingTable from '../../components/forms/tables/building/building-table'
 import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries'
+import { toast } from 'sonner'
 
 function ListBuildingView() {
-    const { data: buildingsResponse, isLoading, error } = useListBuildingsQuery()
+    const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()
     const { data: buildings, total } = buildingsResponse || { data: [], total: 0 }
     const router = useRouter();
+
+    const handleRefresh = async () => {
+        try {
+            await refetch();
+            toast.success('Liste des bâtiments actualisée avec succès.');
+        } catch {
+            toast.error('Erreur lors de l’actualisation des données.');
+        }
+    };
+
     return (
         <div className="flex flex-col gap-16">
             <DataTableLayout
@@ -23,6 +34,8 @@ function ListBuildingView() {
                             variant={'refresh'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={handleRefresh}
+                            disabled={isLoading || isRefetching}
                         >
                             <RefreshIcon />{' '}
                             <span className="text-[1.3rem]">RAFRAICHIR</span>
@@ -41,7 +54,7 @@ function ListBuildingView() {
                     )
                 }}
             >
-                <BuildingTable data={buildings}/>
+                <BuildingTable data={buildings} />
             </DataTableLayout>
         </div>
     )
