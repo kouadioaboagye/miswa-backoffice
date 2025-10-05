@@ -6,10 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
-import { addBuildingFormData, addBuildingFormSchema } from '../components/forms/add-building-form/schemas';
-import StepOneForm from '../components/forms/add-building-form/step-one-form';
-import StepTwoForm from '../components/forms/add-building-form/step-two-forn';
-import StepThreeForm from '../components/forms/add-building-form/step-three-form';
+import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/add-building-form/schemas';
+import StepOneForm from '../../components/forms/add-building-form/step-one-form';
+import StepTwoForm from '../../components/forms/add-building-form/step-two-forn';
+import StepThreeForm from '../../components/forms/add-building-form/step-three-form';
 import Stepper from '@/shared/components/ui/stepper';
 
 function AddPropertyView() {
