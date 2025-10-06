@@ -40,7 +40,7 @@ const PropertyView = () => {
         <div className="flex flex-col gap-16">
             <GlobalDataCard data={dataItems} />
             <DataTableLayout
-                title="Liste des biens et propriétaires"
+                title="Liste des biens "
                 action={{
                     refresh: (
                         <Button

@@ -323,13 +323,13 @@ const SearchResults = () => {
                             <TabsList className="w-full bg-[#0E4D79]">
                                 <TabsTrigger
                                     value="budget"
-                                    className="data-[state=active]:bg-white data-[state=active]:text-[#0E4D79] data-[state=inactive]:bg-transparent data-[state=inactive]:text-white h-full py-6 rounded-full text-2xl font-semibold transition-colors"
+                                    className="data-[state=active]:bg-white data-[state=active]:text-[#0E4D79] data-[state=inactive]:bg-transparent data-[state=inactive]:text-white h-full py-6 rounded-full  font-semibold transition-colors"
                                 >
                                     Par budget
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="batiment"
-                                    className="data-[state=active]:bg-white data-[state=active]:text-[#0E4D79] data-[state=inactive]:bg-transparent data-[state=inactive]:text-white h-full py-6 rounded-full text-2xl font-semibold transition-colors"
+                                    className="data-[state=active]:bg-white data-[state=active]:text-[#0E4D79] data-[state=inactive]:bg-transparent data-[state=inactive]:text-white h-full py-6 rounded-full font-semibold transition-colors"
                                 >
                                     Bâtiment
                                 </TabsTrigger>
@@ -341,7 +341,7 @@ const SearchResults = () => {
                             <div className="flex flex-col items-center mt-2 h-full p-6 md:flex-row gap-4 rounded-[12px] border border-[#1EA64A]">
                                 {/* Champ Ville */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block font-medium text-gray-700 mb-2">
                                         Ville
                                     </label>
                                     <div className="relative">
@@ -369,7 +369,7 @@ const SearchResults = () => {
 
                                 {/* Champ Quartier */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block  font-medium text-gray-700 mb-2">
                                         Quartier
                                     </label>
                                     <div className="relative">
@@ -399,7 +399,7 @@ const SearchResults = () => {
 
                                 {/* Champ Type */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block  font-medium text-gray-700 mb-2">
                                         Type
                                     </label>
                                     <div className="relative">
@@ -427,12 +427,12 @@ const SearchResults = () => {
 
                                 {/* Champ Budget */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block  font-medium text-gray-700 mb-2">
                                         Budget
                                     </label>
                                     <div className="relative">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl text-gray-500 min-w-[50px]">
+                                            <span className="text-gray-500 min-w-[50px]">
                                                 {Math.round(
                                                     budgetRange[0] / 1000
                                                 )}
@@ -570,7 +570,7 @@ const SearchResults = () => {
                             <div className="flex flex-col items-center mt-2 h-full p-6 md:flex-row gap-4 rounded-[12px] border border-[#1EA64A]">
                                 {/* Champ Ville */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block font-medium text-gray-700 mb-2">
                                         Ville
                                     </label>
                                     <div className="relative">
@@ -598,7 +598,7 @@ const SearchResults = () => {
 
                                 {/* Champ Type de Bâtiment */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block font-medium text-gray-700 mb-2">
                                         Type de Bâtiment
                                     </label>
                                     <div className="relative">
@@ -628,7 +628,7 @@ const SearchResults = () => {
 
                                 {/* Champ Nombre de Chambres */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block  font-medium text-gray-700 mb-2">
                                         Chambres
                                     </label>
                                     <div className="relative">
@@ -659,12 +659,12 @@ const SearchResults = () => {
 
                                 {/* Champ Surface */}
                                 <div className="flex-1">
-                                    <label className="block text-xl font-medium text-gray-700 mb-2">
+                                    <label className="block  font-medium text-gray-700 mb-2">
                                         Surface (m²)
                                     </label>
                                     <div className="relative">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl text-gray-500 min-w-[50px]">
+                                            <span className="text-gray-500 min-w-[50px]">
                                                 {surfaceRange[0]}m²
                                             </span>
                                             <div className="flex-1 h-2 bg-gray-200 rounded-full relative">
