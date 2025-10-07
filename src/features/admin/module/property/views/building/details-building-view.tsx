@@ -7,8 +7,10 @@ import ApartmentBuildingTable from "../../components/forms/tables/building/detai
 import { useGetBuildingByIdQuery } from "@/lib/data-service/property/building.queries";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 
 const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
+    const router = useRouter()
     const { data, isLoading, error } = useGetBuildingByIdQuery(idBuilding)
     if (error) {
         toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
@@ -21,7 +23,7 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                 <div className="flex flex-1 items-center justify-between w-full">
                     <div>
                         <h1 className="text-[25px] font-bold text-[#161C2D]">
-                            Batiment : <span className="text-[#1EA64A] text-[20px]">#{data?.batiment.id}</span>
+                            Batiment : <span className="text-[#1EA64A] text-[20px]">#{idBuilding}</span>
                         </h1>
                     </div>
                     <div className="flex items-center gap-40">
@@ -38,7 +40,8 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                             <Button
                                 variant={'success'}
                                 className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
-                                rightIcon={<Edit className="text-withe" />}
+                                onClick={()=> router.push(`/admin/module/property/building/edit/${idBuilding}`)}
+                                rightIcon={<Edit className="text-withe"/>}
                             >
                                 Modifier
                             </Button>

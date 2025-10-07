@@ -66,12 +66,6 @@ export async function fetchWrapper<T>(remainUrl: string, options: RequestOptions
 
     const fullUrl = `${backendUrl}/${remainUrl}`;
 
-    // Debugging logs
-    console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
-    console.log("backendUrl:", backendUrl);
-    console.log("remainUrl:", remainUrl);
-    console.log("Full URL:", fullUrl);
-
     const response = await fetch(fullUrl, fetchOptions);
 
     if (response.status === 403 && typeof window !== "undefined") {
@@ -80,7 +74,16 @@ export async function fetchWrapper<T>(remainUrl: string, options: RequestOptions
     }
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorData: any = {};
+        try {
+            errorData = await response.json();
+        } catch {
+            // If not JSON, fallback to empty object
+        }
+        const error = new Error(`HTTP error! status: ${response.status}`) as any;
+        error.status = response.status;
+        error.detail = errorData.detail || errorData;
+        throw error;
     }
 
     return response.json();

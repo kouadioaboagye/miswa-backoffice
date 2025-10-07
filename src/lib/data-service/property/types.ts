@@ -1,17 +1,17 @@
 import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
 
 export type IPropertyDataModel = {
-    id: string;
+  id: string;
+  name: string;
+  description?: string;
+  cover_url?: string;
+  is_busy: boolean;
+  business?: {
     name: string;
-    description?: string;
-    cover_url?: string;
-    is_busy: boolean;
-    business?: {
-        name: string;
-    };
-    images?: string[];
-    created_at: string;
-    updated_at: string;
+  };
+  images?: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export type IBuildingDataModel = {
@@ -28,10 +28,28 @@ export type IBuildingDataModel = {
   id_business: number;
   id_municipality: number;
   created_at: string;
-  ville: string
+  ville: string;
+  type: string;
+  buildingYear: string;
+  landSurface: number;
+  elevator: boolean;
+  internet: boolean
+  water: boolean;
+  parking: {
+    available: boolean,
+    amount: number,
+  },
+  security: {
+    available: boolean,
+    amount: number,
+  },
+  commonSpaces: {
+    available: boolean,
+    amount: number
+  },
 };
 
-export type  IBuildingDetailsModel = {
+export type IBuildingDetailsModel = {
   batiment: IBuildingDataModel;
   proprietes: Apartment[];
   nombre_total_etages: number;

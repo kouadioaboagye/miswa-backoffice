@@ -9,6 +9,7 @@ import { Plus } from 'lucide-react'
 import BuildingTable from '../../components/forms/tables/building/building-table'
 import { toast } from 'sonner'
 import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries'
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper'
 
 function ListBuildingView() {
     const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()
@@ -21,6 +22,30 @@ function ListBuildingView() {
             toast.success('Liste des bâtiments actualisée avec succès.');
         } catch {
             toast.error('Erreur lors de l’actualisation des données.');
+        }
+    };
+
+    const handleDetails = (id: string) => {
+        router.push(`/admin/module/property/building/details/${id}`);
+    };
+
+    const handleEdit = (id: string) => {
+        router.push(`/admin/module/property/building/edit/${id}`);
+    };
+
+    const handleDelete = async (id: string) => {
+        try {
+            await fetchWrapper(`buildings/${id}/force/`, {
+                method: 'DELETE',
+            });
+            toast.success('Bâtiment supprimé avec succès.');
+            await refetch();
+        } catch (error: any) {
+            if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
+                toast.error(error.detail.label_fr);
+            } else {
+                toast.error(error instanceof Error ? error.message : 'Une erreur est survenue lors de la suppression.');
+            }
         }
     };
 
@@ -54,7 +79,12 @@ function ListBuildingView() {
                     )
                 }}
             >
-                <BuildingTable data={buildings} />
+                <BuildingTable
+                    data={buildings}
+                    onDetails={handleDetails}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
             </DataTableLayout>
         </div>
     )

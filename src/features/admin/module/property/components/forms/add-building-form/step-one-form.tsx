@@ -123,9 +123,9 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               <InputErrorMessage message={errors.quartier?.message} />
             </div>
           </div>
-
           <div>
             <Label htmlFor="geoolocation" isRequired>Géolocalisation</Label>
+            {/* A revoir: utiliser la map et enregistrer long et lat */}
           </div>
         </div>
       </section>
