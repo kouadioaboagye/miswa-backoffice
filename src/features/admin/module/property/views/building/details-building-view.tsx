@@ -2,18 +2,26 @@
 
 import { Button } from "@/shared/components/ui/button";
 import Image from "next/image";
-import EditIcon from "../../../../../../../public/assets/icons/edit-icon";
 import { Edit, MapPin, Presentation } from "lucide-react";
 import ApartmentBuildingTable from "../../components/forms/tables/building/details/apartment-building-table";
+import { useGetBuildingByIdQuery } from "@/lib/data-service/property/building.queries";
+import { toast } from "sonner";
+import Loading from "@/app/loading";
 
-const BuildingDetailView = () => {
+const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
+    const { data, isLoading, error } = useGetBuildingByIdQuery(idBuilding)
+    if (error) {
+        toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
+    }
+
     return (
         <div className="flex flex-col space-y-20">
+            {isLoading  && <Loading/>}
             <div className="w-full space-y-10">
                 <div className="flex flex-1 items-center justify-between w-full">
                     <div>
                         <h1 className="text-[25px] font-bold text-[#161C2D]">
-                            Batiment : <span className="text-[#1EA64A] text-[20px]">#id_batiment</span>
+                            Batiment : <span className="text-[#1EA64A] text-[20px]">#{data?.batiment.id}</span>
                         </h1>
                     </div>
                     <div className="flex items-center gap-40">
@@ -40,54 +48,49 @@ const BuildingDetailView = () => {
                 <div className="flex w-full space-x-4">
                     <div className="w-4/5">
                         <Image
-                            src="/assets/images/building.png"
+                            src={data?.batiment.cover_url || "/fallback-image.jpg"}
                             width={100}
                             height={10}
-                            alt="logo-mclu"
+                            alt="cover"
                             className="w-full h-[350px] object-cover rounded-[12px]"
                         />
                     </div>
                     <div className="w-1/5 space-y-4">
-                        <Image
-                            src="/assets/images/building.png"
-                            width={100}
-                            height={10}
-                            alt="logo-mclu"
-                            className="w-full h-[170px] object-cover rounded-[12px]"
-                        />
-                        <Image
-                            src="/assets/images/building.png"
-                            width={100}
-                            height={10}
-                            alt="logo-mclu"
-                            className="w-full h-[170px] object-cover rounded-[12px]"
-                        />
+                        {data?.batiment.photos && data?.batiment.photos.length > 0 && data.batiment.photos.slice(0, 2).map((photo, index) => (
+                            <Image
+                                key={index + 1}
+                                src={photo || ""}
+                                width={100}
+                                height={10}
+                                alt={`photo${index + 1}`}
+                                className="w-full h-[170px] object-cover rounded-[12px]"
+                            />
+                        ))}
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-[24px] font-bold mb-2">Immeuble agc R54</h2>
+                    <h2 className="text-[24px] font-bold mb-2">{data?.batiment.name}</h2>
                     <div className="flex space-x-10">
                         <div className="flex items-center gap-2 text-[#778088]">
                             <MapPin className="w-5 h-5" />
-                            <span>Côte d’Ivoire, Grand Bassam</span>
+                            <span>{data?.batiment.address}</span>
                         </div>
                         <div className="flex items-center gap-2 text-[#778088]">
                             <Presentation className="w-5 h-5" />
-                            <span>12 étage | 21 appartements | 3 apartements occupés </span>
+                            <span>{data?.nombre_total_etages} étage(s) | {data?.nombre_total_proprietes} appartement(s) | {data?.nombre_proprietes_occupees} appartements occupé(s) </span>
                         </div>
                     </div>
                 </div>
                 <div>
                     <h2 className="text-[24px] font-bold mb-2">Description</h2>
                     <p className="text-[#778088]">
-                        3 AC BEDROOM APARTMENT Full furnished. Stylish Apartment Near Bashundhara R/A Entrance! Block i, R:4. Located right by the main entrance of Bashundhara R/A from 300ft Road and Madani Avenue. Just a 15-minute drive from Dhaka Airport, and only 5 and 10 minutes from the Cantonment and Airport Train Stations, our location is ideal for both business and leisure travelers. Why wait? Your ideal stay is just a click away, Don’t miss out, book now! Safety Features: CCTV surveillance throughout the building and instant generator support. Your Ideal Home in Dhaka. Wants to visit this property for rent, just WhatsApp (+880 1814 963 028) this property link or call us and share your convenient viewing schedule.
-                        Whether you’re here for business or leisure, our apartment offers elegant living spaces with refreshing airflow and abundant natural light. Book your stay today and experience the best of Dhaka!
+                        {data?.batiment.description}
                     </p>
                 </div>
             </div>
             <div>
                 <h2 className="text-[24px] font-bold mb-2">Appartements  du batiment</h2>
-                <ApartmentBuildingTable/>
+                <ApartmentBuildingTable data={data?.proprietes || []}/>
             </div>
         </div>
     );

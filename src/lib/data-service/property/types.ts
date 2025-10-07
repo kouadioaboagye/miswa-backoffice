@@ -1,3 +1,5 @@
+import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
+
 export type IPropertyDataModel = {
     id: string;
     name: string;
@@ -28,3 +30,13 @@ export type IBuildingDataModel = {
   created_at: string;
   ville: string
 };
+
+export type  IBuildingDetailsModel = {
+  batiment: IBuildingDataModel;
+  proprietes: Apartment[];
+  nombre_total_etages: number;
+  nombre_proprietes_occupees: number;
+  nombre_total_proprietes: number;
+  nombre_proprietes_disponibles: number;
+  taux_occupation: number;
+}

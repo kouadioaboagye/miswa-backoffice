@@ -7,6 +7,7 @@ import EyeIcon2 from '../../../../../../../../../public/assets/icons/eye-icon-2'
 import EditIcon from '../../../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../../../public/assets/icons/delete-icon-2';
 import { IBuildingDataModel } from '@/lib/data-service/property/types';
+import { useRouter } from 'next/navigation';
 
 export type Building = Partial<IBuildingDataModel> & {
   id: string;
@@ -59,18 +60,24 @@ export const columns: ColumnDef<Building>[] = [
   {
     accessorKey: 'actions',
     header: 'Actions',
-    cell: () => (
-      <div className="flex items-center gap-6">
-        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
-          <EyeIcon2 />
-        </button>
-        <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
-          <EditIcon />
-        </button>
-        <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
-          <DeleteIcon2 />
-        </button>
-      </div>
-    ),
+    cell: ({row}) => {
+      const router = useRouter();
+      const handleDetails = () => {
+        router.push(`/admin/module/property/building/details/${row.original.id}`);
+      };
+      return (
+        <div className="flex items-center gap-6">
+          <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10" onClick={handleDetails}>
+            <EyeIcon2 />
+          </button>
+          <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
+            <EditIcon />
+          </button>
+          <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
+            <DeleteIcon2 />
+          </button>
+        </div>
+      )
+    }
   },
 ];

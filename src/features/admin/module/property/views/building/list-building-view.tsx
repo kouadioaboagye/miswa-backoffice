@@ -7,8 +7,8 @@ import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import BuildingTable from '../../components/forms/tables/building/building-table'
-import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries'
 import { toast } from 'sonner'
+import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries'
 
 function ListBuildingView() {
     const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()

@@ -1,8 +1,8 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table';
-import { columns, fakeApartments } from './columns';
+import { Apartment, columns } from './columns';
 
-const ApartmentBuildingTable = () => {
-    return <DataTable columns={columns} data={fakeApartments} />;
+const ApartmentBuildingTable = ({data}: {data: Apartment[]}) => {
+    return <DataTable columns={columns} data={data} />;
 };
 
 export default ApartmentBuildingTable;
