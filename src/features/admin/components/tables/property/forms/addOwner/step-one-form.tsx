@@ -10,7 +10,7 @@ import { AddPropertyForm } from './schemas';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
 import { useListMunicipalitiesQuery } from '@/lib/data-service/general/general.queries';
 import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
-import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries';
+import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries';
 
 interface StepOneFormProps {
   form: UseFormReturn<AddPropertyForm>;
