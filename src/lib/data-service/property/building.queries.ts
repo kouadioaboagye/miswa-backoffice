@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { APIResponseList } from "../types";
-import { IBuildingDataModel } from "./types";
+import { IBuildingDataModel, IBuildingDetailsModel } from "./types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
 export const useListBuildingsQuery = (): UseQueryResult<APIResponseList<IBuildingDataModel>> => {
@@ -18,7 +18,7 @@ export const useGetBuildingByIdQuery = (buildingId: string) => {
     return useQuery({
         queryKey: ['building', buildingId],
         queryFn: async () => {
-            return await fetchWrapper<IBuildingDataModel>(`buildings/${buildingId}/`, {
+            return await fetchWrapper<IBuildingDetailsModel>(`buildings/${buildingId}/`, {
                 method: 'GET',
             });
         },
