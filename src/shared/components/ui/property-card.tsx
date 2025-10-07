@@ -85,24 +85,24 @@ const PropertyCard = ({
                     {/* Text content */}
                     <div className="relative z-10">
                         {/* Title */}
-                        <h3 className="mb-3 mt-3 text-3xl font-bold text-[#14385C]">
+                        <h3 className="mb-3 mt-3 text font-bold text-[#14385C]">
                             {title}
                         </h3>
 
                         {/* Property Features Grid */}
-                        <div className="grid grid-cols-4 gap-2 text-sm text-gray-600">
+                        <div className="grid grid-cols-3 gap-2 text-sm text-gray-600">
                             {/* Rooms */}
                             <div className="flex items-center justify-center gap-1">
-                                <HomeIcon className="size-8 text-green-600" />
-                                <span className="text-[1.2rem]">{rooms}</span>
+                                <HomeIcon className="size-10 text-green-600" />
+                                <span className="text-[1.5rem]">{rooms}</span>
                             </div>
 
                             {/* Bathrooms */}
                             <div className="flex items-center justify-center gap-2">
                                 <div className="flex size-8 items-center justify-center">
-                                    <ShowerIcon className="size-8 text-green-600 [&_svg]:size-8" />
+                                    <ShowerIcon className="size-10 text-green-600 [&_svg]:size-8" />
                                 </div>
-                                <span className="text-[1.2rem]">
+                                <span className="text-[1.5rem]">
                                     {bathrooms}
                                 </span>
                             </div>
@@ -110,24 +110,25 @@ const PropertyCard = ({
                             {/* Area */}
                             <div className="flex items-center justify-center gap-2">
                                 <div className="flex size-8 items-center justify-center">
-                                    <LargeIcon className="size-8 text-green-600 [&_svg]:size-8" />
+                                    <LargeIcon className="size-10 text-green-600 [&_svg]:size-8" />
                                 </div>
-                                <span className="text-[1.2rem]">{area}</span>
+                                <span className="text-[1.5rem]">{area}</span>
                             </div>
 
                             {/* Parking */}
-                            <div className="flex items-center justify-center gap-2">
-                                <div className="flex size-8 items-center justify-center">
-                                    <CarIcon className="size-8 text-green-600 [&_svg]:size-8" />
+                            <div className="flex items-center justify-center gap-1">
+                                <div className="flex size-8 items-center justify-left">
+                                    <CarIcon className="size-10 text-green-600" />
                                 </div>
-                                <span className="text-[1.2rem]">{parking}</span>
+                                <span className="text-[1.5rem]">{parking}</span>
                             </div>
                         </div>
+
 
                         {/* Location */}
                         <div className="mb-4 flex items-center gap-2 text-gray-600">
                             <MapIcon className="size-8 text-gray-600" />
-                            <span className="text-[1.2rem]">{location}</span>
+                            <span className="text-[1.5rem]">{location}</span>
                         </div>
                     </div>
                 </div>
@@ -175,7 +176,7 @@ const PropertyCardGrid = ({
         >
             {/* Badge Featured */}
             {isFeatured && (
-                <div className="absolute top-4 left-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                <div className="absolute top-4 left-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xl font-bold">
                     Featured
                 </div>
             )}
@@ -212,7 +213,7 @@ const PropertyCardGrid = ({
                 {/* Prix en overlay */}
                 {price && (
                     <div className="absolute bottom-4 left-4 z-10">
-                        <span className="bg-white/90 backdrop-blur-sm text-[#14385C] font-bold px-3 py-2 rounded-xl text-sm">
+                        <span className="bg-white/90 backdrop-blur-sm text-[#14385C] font-bold px-3 py-2 rounded-xl text-[1.2rem]">
                             {price}
                         </span>
                     </div>
@@ -223,12 +224,12 @@ const PropertyCardGrid = ({
             <div className="p-5 space-y-4">
                 {/* Titre et Localisation */}
                 <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-[#14385C] line-clamp-2 leading-tight group-hover:text-[#1e5a9e] transition-colors">
+                    <h3 className="font-bold text-[#14385C] line-clamp-2 leading-tight group-hover:text-[#1e5a9e] transition-colors">
                         {title}
                     </h3>
                     <div className="flex items-start gap-2 text-gray-600">
                         <MapPinIcon className="size-4 text-gray-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm line-clamp-2 leading-relaxed">
+                        <span className="text-xl line-clamp-2 leading-relaxed">
                             {location}
                         </span>
                     </div>
@@ -237,39 +238,39 @@ const PropertyCardGrid = ({
                 {/* Caractéristiques */}
                 <div className="grid grid-cols-4 gap-3 border-t border-gray-100 pt-4">
                     <div className="flex flex-col items-center gap-1 text-center">
-                        <HomeIcon className="size-6 text-[#14385C]" />
-                        <span className="text-xs font-medium text-gray-700">
+                        <HomeIcon className="size-15 text-[#14385C]" />
+                        <span className="text-xl font-medium text-gray-700">
                             {rooms}
                         </span>
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[15px] text-gray-500">
                             Chambres
                         </span>
                     </div>
 
                     <div className="flex flex-col items-center gap-1 text-center">
                         <ShowerIcon className="size-6 text-[#14385C]" />
-                        <span className="text-xs font-medium text-gray-700">
+                        <span className="text-xl font-medium text-gray-700">
                             {bathrooms}
                         </span>
-                        <span className="text-[10px] text-gray-500">SDB</span>
+                        <span className="text-[15px] text-gray-500">SDB</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-1 text-center">
                         <SquareIcon className="size-6 text-[#14385C]" />
-                        <span className="text-xs font-medium text-gray-700">
+                        <span className="text-xl font-medium text-gray-700">
                             {area}
                         </span>
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[15px] text-gray-500">
                             Surface
                         </span>
                     </div>
 
                     <div className="flex flex-col items-center gap-1 text-center">
                         <CarIcon className="size-6 text-[#14385C]" />
-                        <span className="text-xs font-medium text-gray-700">
+                        <span className="text-xl font-medium text-gray-700">
                             {parking || 'N/A'}
                         </span>
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[15px] text-gray-500">
                             Parking
                         </span>
                     </div>
@@ -311,7 +312,7 @@ const PropertyCardGrid = ({
 
                         router.push(`/propriete/${id}?${params.toString()}`);
                     }}
-                    className="w-full bg-gradient-to-r from-[#14385C] to-[#1e5a9e] text-white py-3 rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+                    className="w-full bg-gradient-to-r from-[#14385C] to-[#1e5a9e] text-white py-3 rounded-xl font-semibold text-xl hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
                 >
                     Voir les détails
                 </button>
