@@ -65,12 +65,15 @@ export const columns: ColumnDef<Building>[] = [
       const handleDetails = () => {
         router.push(`/admin/module/property/building/details/${row.original.id}`);
       };
+            const handleEdit = () => {
+        router.push(`/admin/module/property/building/edit/${row.original.id}`);
+      };
       return (
         <div className="flex items-center gap-6">
           <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10" onClick={handleDetails}>
             <EyeIcon2 />
           </button>
-          <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
+          <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10" onClick={handleEdit}>
             <EditIcon />
           </button>
           <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">

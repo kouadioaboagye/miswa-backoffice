@@ -27,6 +27,8 @@ export const addBuildingFormSchema = z.object({
     amount: z.number().min(0),
   }),
   description: z.string().optional(),
+  longitude: z.number().optional(),
+  latitude: z.number().optional(),
   documents: z
     .array(z.any())
     .optional()
