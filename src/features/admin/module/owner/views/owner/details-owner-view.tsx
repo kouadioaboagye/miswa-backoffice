@@ -29,7 +29,37 @@ function OwnerDetailView() {
             <div className='bg-[#14385C] w-full h-[200px] rounded-[10px]'>
                 <span className='text-white p-4'>Détails du propriétaire</span>
             </div>
-            <div className='absolute top-[35%] left-[5%] bg-[#F8FAFC] rounded-[24px] p-10 w-[90%] mx-auto h-[200px]'></div>
+            <div className='flex flex-col md:flex-row absolute top-[35%] left-[15%] bg-[#F8FAFC] rounded-[24px] p-10 w-[70%] mx-auto h-auto space-x-10'>
+                <div className='w-full md:w-1/3 flex justify-center mb-6 md:mb-0'>
+                    <Image
+                        src="/assets/images/pp.png"
+                        width={30}
+                        height={30}
+                        alt="cover"
+                        className='h-[290px] w-[290px] rounded-[12px]'
+                    />
+                </div>
+                <div className="w-full md:w-2/3 rounded-[10px] p-8 bg-[#FFFFFF]">
+                    <div className='border h-full rounded-lg p-4 space-y-5'>
+                        <div className="flex flex-col">
+                            <span className="font-medium text-[#1F1F1FB2]">Nom et Prénoms</span>
+                            <span className='text-[#222222E5] font-medium'>N'DOUFOU SILVER</span>
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-medium text-[#1F1F1FB2]">Téléphone</span>
+                            <span className='text-[#222222E5] font-medium'>+225 0709090909</span>
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-medium text-[#1F1F1FB2]">Email</span>
+                            <span className="text-[#222222E5] font-medium">silverdoufou@gmail.com</span>
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-medium text-[#1F1F1FB2]">Date de naissance</span>
+                            <span className="text-[#222222E5] font-medium">24 Juin 1992</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
