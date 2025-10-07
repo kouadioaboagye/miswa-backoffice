@@ -11,4 +11,5 @@ export type IOwnerDataModel = {
     legal_name: string;
     legal_form: string;
     phonenumber: string;
+    birthdate: string
 }
