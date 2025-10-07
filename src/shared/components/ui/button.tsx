@@ -19,10 +19,12 @@ const buttonVariants = cva(
                 accent: 'bg-[#F27D42] text-white shadow-sm hover:bg-[#F27D42]/90',
                 // Couleur destructive (rouge)
                 destructive:
-                    'bg-[#DC3545] text-white shadow-sm hover:bg-[#DC3545]/90',
+                    'bg-[#FF5F57] text-white shadow-sm hover:bg-[#DC3545]/90',
                 // Bouton outline avec bordure
                 outline:
                     'border-2 border-[#14385c] bg-transparent text-[#14385c] shadow-sm hover:bg-[#14385c] hover:text-white',
+                outline_green:
+                    'border border-[#1EA64A] bg-transparent text-[#1EA64A] hover:bg-[#1EA64A] hover:text-white',
                 // Bouton ghost
                 ghost: 'text-[#14385c] hover:bg-gray-200 hover:text-accent-foreground',
                 // Bouton de lien

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* urbanist-latin-wght-normal */
 
 *,
@@ -212,6 +211,12 @@ hr::after {
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari and Opera */
+    }
+    .left-point {
+        clip-path: polygon(25% 0%, 100% 1%, 100% 100%, 25% 100%, 0% 50%);
+    }
+    .right-point {
+        clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
     }
 }
 

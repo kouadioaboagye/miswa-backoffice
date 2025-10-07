@@ -27,7 +27,7 @@ export const menus = {
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.property
+            href: paths.admin.property.root
         },
         {
             label: 'Paiements',

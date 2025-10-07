@@ -2,6 +2,7 @@ import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
+import Link from 'next/link';
 import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
 import InterventionTable from '../components/tables/intervention/intervention-table';
 
@@ -44,16 +45,18 @@ const InterventionView = () => {
                         </Button>
                     ),
                     add: (
-                        <Button
-                            variant={'add'}
-                            size={'add'}
-                            className="text-white [&_svg]:size-8"
-                        >
-                            <Plus />{' '}
-                            <span className="text-[1.3rem]">
-                                NOUVELLE INTERVENTION
-                            </span>
-                        </Button>
+                        <Link href={'/admin/interventions/new'}>
+                            <Button
+                                variant={'add'}
+                                size={'add'}
+                                className="text-white [&_svg]:size-8"
+                            >
+                                <Plus />{' '}
+                                <span className="text-[1.3rem]">
+                                    NOUVELLE INTERVENTION
+                                </span>
+                            </Button>
+                        </Link>
                     )
                 }}
             >

@@ -1,4 +1,4 @@
-import PropertyView from '@/features/admin/views/property-view';
+import PropertyView from '@/features/admin/views/property/property-view';
 
 const page = () => {
     return <PropertyView />;

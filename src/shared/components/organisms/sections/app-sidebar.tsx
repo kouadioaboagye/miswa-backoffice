@@ -95,7 +95,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 <SidebarMenuButton
                                     asChild
                                     className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
-                                    isActive={path === menu.href}
+                                    isActive={path.includes(menu.href)}
                                 >
                                     <Link
                                         href={menu.href}
