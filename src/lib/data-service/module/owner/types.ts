@@ -11,5 +11,19 @@ export type IOwnerDataModel = {
     legal_name: string;
     legal_form: string;
     phonenumber: string;
-    birthdate: string
+    birthdate: string;
+    birth_place: string,
+    marital_status: string,
+    identity_card_type: string,
+    identity_card_number: string,
+    identity_card_expiry_date: string,
+    address: string,
+    municipality: string,
+    street: string,
+    profession: string,
+    company_name: string,
+    avg_monthly_income: number,
+    payment_mode: string,
+    banque: string,
+    titulaireCompte: string
 }

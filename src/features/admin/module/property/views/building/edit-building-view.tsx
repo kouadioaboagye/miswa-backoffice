@@ -107,7 +107,6 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         } else {
-            //toast.warning("Veuillez remplir tous les champs obligatoires de cette!");
             form.handleSubmit(onSubmit)();
         }
     };

@@ -11,7 +11,6 @@ import { toast } from 'sonner'
 function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
     const router = useRouter()
     const { data, isLoading, error } = useGetOwnerByIdQuery(idOwner)
-    console.log(data)
     if (error) {
         toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
     }
