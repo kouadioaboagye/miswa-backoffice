@@ -165,6 +165,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                     form={form}
                     existingCoverUrl={data?.batiment.cover_url}
                     existingPhotos={data?.batiment.photos}
+                    existingDocuments={data?.batiment.documents}
                 />
             default:
                 return null;
