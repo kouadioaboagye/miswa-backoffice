@@ -223,9 +223,9 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     if (isLoading) return <Loading />;
     if (error) {
         toast.error('Erreur lors du chargement des données du bâtiment.');
-        return <div>Erreur lors du chargement</div>;
+        return  <Loading />;
     }
-    if (!data) return <div>Aucune donnée disponible</div>;
+    if (!data) return <Loading />;
 
     return (
         <div className="p-4">
