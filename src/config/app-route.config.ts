@@ -38,7 +38,12 @@ export const paths = {
                 payments: `${ROOTS.ADMIN}/module/owner/payment`,
                 contracts: `${ROOTS.ADMIN}/module/owner/contracts`
             },
-            tenant: `${ROOTS.ADMIN}/module/tenant`,
+            tenant:{
+                root: `${ROOTS.ADMIN}/module/tenant`,
+                tenants: `${ROOTS.ADMIN}/module/tenant/list`,
+                payments: `${ROOTS.ADMIN}/module/tenant/payments`,
+                contracts: `${ROOTS.ADMIN}/module/tenant/contracts`
+            },
             property: {
                 root: `${ROOTS.ADMIN}/module/property`,
                 building: {

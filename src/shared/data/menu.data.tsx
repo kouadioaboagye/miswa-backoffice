@@ -146,18 +146,33 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.dashboard,
+            href: paths.admin.module.tenant.root,
             items: []
         },
-
         {
-            label: 'Tenants',
+            label: 'Liste des locataires',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.property,
+            href: paths.admin.module.tenant.tenants,
             items: []
-        }
+        },
+                {
+            label: 'Paiements',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.tenant.payments,
+            items: []
+        },
+        {
+            label: 'Contrat de location',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.tenant.contracts,
+            items: []
+        },
     ],
 }
 
@@ -183,7 +198,7 @@ const moduleNav: module[] = [
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.tenant,
+         defaultHref: paths.admin.module.tenant.root,
          value: "tenant"
     },
     {
