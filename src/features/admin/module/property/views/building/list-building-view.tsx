@@ -44,7 +44,7 @@ function ListBuildingView() {
             if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
                 toast.error(error.detail.label_fr);
             } else {
-                toast.error(error instanceof Error ? error.message : 'Une erreur est survenue lors de la suppression.');
+                toast.error(error instanceof Error ? error.message : 'Oops, une erreur est survenue lors de la suppression.');
             }
         }
     };
