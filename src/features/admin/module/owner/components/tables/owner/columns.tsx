@@ -20,9 +20,12 @@ export type Owner = Partial<IOwnerDataModel> & {
   email?: string
 };
 
-
 // Table columns based on Owner
-export const columns: ColumnDef<Owner>[] = [
+export const columns = (
+  onDetails: (id: string) => void,
+  onEdit: (id: string) => void,
+  onDelete: (id: string) => Promise<void>
+): ColumnDef<Owner>[] => [
   {
     accessorKey: 'owner.fullName',
     header: 'Propriétaire',

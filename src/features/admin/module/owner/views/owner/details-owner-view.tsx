@@ -31,6 +31,7 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
                     <Button
                         variant={'success'}
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
+                        onClick={()=> router.push(`/admin/module/owner/edit/${idOwner}`)}
                         leftIcon={<Edit className="text-withe" />}
                     >
                         Modifier

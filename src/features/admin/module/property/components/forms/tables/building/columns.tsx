@@ -2,15 +2,11 @@
 
 import Illustration from '@/shared/components/atoms/illustration';
 import type { ColumnDef } from '@tanstack/react-table';
-import { format, formatDate } from 'date-fns';
+import { formatDate } from 'date-fns';
 import EyeIcon2 from '../../../../../../../../../public/assets/icons/eye-icon-2';
 import EditIcon from '../../../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../../../public/assets/icons/delete-icon-2';
 import { IBuildingDataModel } from '@/lib/data-service/property/types';
-import { useRouter } from 'next/navigation';
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
-import { toast } from 'sonner';
-import { useState } from 'react';
 
 export type Building = Partial<IBuildingDataModel> & {
   id: string;
