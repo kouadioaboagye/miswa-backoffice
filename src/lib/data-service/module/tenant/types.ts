@@ -24,5 +24,7 @@ export type ITenantDataModel = {
     campany_address: string,
     contract_type: string,
     contract_start_date: string,
-    cover_url: string
+    cover_url: string;
+    garant_name: string;
+    garant_phonenumber: string
 }
