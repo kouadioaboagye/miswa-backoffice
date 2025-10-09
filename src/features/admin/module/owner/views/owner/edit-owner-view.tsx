@@ -215,9 +215,9 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
   if (isLoading) return <Loading />;
   if (error) {
     toast.error(error instanceof Error ? error.message : 'Erreur lors du chargement des données du propriétaire.');
-    return <div>Erreur lors du chargement</div>;
+    return <Loading />;
   }
-  if (!data) return <div>Aucune donnée disponible</div>;
+  if (!data) return <Loading />;
 
   return (
     <div className="p-4">
