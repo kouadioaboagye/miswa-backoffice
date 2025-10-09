@@ -28,7 +28,7 @@ export const columns: ColumnDef<Owner>[] = [
     header: 'Propriétaire',
     cell: ({ row }) => (
       <Illustration
-        src={row.original.cover_url ?? ""}
+        src={row.original?.cover_url || ""}
         libelle={row.original?.name}
         email={row.original?.email}
       />
