@@ -1,11 +1,17 @@
+"use client"
+
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
 import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
 import ContractTable from '../../components/tables/contract/contract-table';
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const ContractView = () => {
+    const router = useRouter()
     const dataItems = [
         {
             title: 'Total Biens',
@@ -26,6 +32,35 @@ const ContractView = () => {
             icon: <WalletIcon className="text-white" />
         }
     ];
+
+    const handleRefresh = async () => {
+        try {
+            //await refetch();
+            toast.success('Liste des contrats actualisées avec succès.');
+        } catch {
+            toast.error('Erreur lors de l’actualisation des données.');
+        }
+    };
+
+    const handleDetails = (id: string) => {
+        router.push(`/admin/module/tenant/contracts/details/${id}`);
+    };
+
+    const handleEdit = (id: string) => {
+        router.push(`/admin/module/tenant/contracts/edit/${id}`);
+    };
+
+    const handleDelete = async (id: string) => {
+        try {
+            await fetchWrapper(`contracts/${id}/force/`, {
+                method: 'DELETE',
+            });
+            toast.success('Contrat supprimé avec succès.');
+            //await refetch();
+        } catch (error: any) {
+            toast.error(error instanceof Error ? error.message : 'Oops, une erreur est survenue lors de la suppression.');
+        }
+    }
 
     return (
         <div className="flex flex-col gap-16">
@@ -57,7 +92,11 @@ const ContractView = () => {
                     )
                 }}
             >
-                <ContractTable />
+                <ContractTable
+                    onDetails={handleDetails}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
             </DataTableLayout>
         </div>
     );
