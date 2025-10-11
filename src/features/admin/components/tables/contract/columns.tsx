@@ -36,60 +36,64 @@ export const fakeProperties: Contrat[] = Array.from({ length: 10 }).map(
     })
 );
 
-export const columns: ColumnDef<Contrat>[] = [
-    {
-        accessorKey: 'ref',
-        header: 'Reference'
-    },
-    {
-        accessorKey: 'type',
-        header: 'Type de contrat'
-    },
-    {
-        accessorKey: 'property',
-        header: 'Biens',
-        cell: ({ row }) => (
-            <Illustration
-                src={row.original.property.img}
-                libelle={row.original.property.libelle}
-            />
-        )
-    },
-    {
-        accessorKey: 'createdAt',
-        header: 'Ajouté le',
-        cell: ({ row }) => formatDate(row.original.createdAt, 'dd/MM/yyyy')
-    },
-    {
-        accessorKey: 'status',
-        header: 'Statut',
-        cell: ({ row }) => (
-            <Badge
-                variant={
-                    row.original.status === 'Terminé' ? 'failed' : 'success'
-                }
-            >
-                {row.original.status}
-            </Badge>
-        )
-    },
-    {
-        accessorKey: '',
-        header: 'Actions',
-        cell: ({ row }) => {
-            return (
-                <div className="flex items-center gap-6">
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
-                        <EyeIcon2 />
-                    </button>
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
-                        <EditIcon />
-                    </button>
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
-                        <DeleteIcon2 />
-                    </button>
-                </div>
-            );
+export const columns = (
+    onDetails: (id: string) => void,
+    onEdit: (id: string) => void,
+    onDelete: (id: string) => Promise<void>
+): ColumnDef<Contrat>[] => [
+        {
+            accessorKey: 'ref',
+            header: 'Reference'
+        },
+        {
+            accessorKey: 'type',
+            header: 'Type de contrat'
+        },
+        {
+            accessorKey: 'property',
+            header: 'Biens',
+            cell: ({ row }) => (
+                <Illustration
+                    src={row.original.property.img}
+                    libelle={row.original.property.libelle}
+                />
+            )
+        },
+        {
+            accessorKey: 'createdAt',
+            header: 'Ajouté le',
+            cell: ({ row }) => formatDate(row.original.createdAt, 'dd/MM/yyyy')
+        },
+        {
+            accessorKey: 'status',
+            header: 'Statut',
+            cell: ({ row }) => (
+                <Badge
+                    variant={
+                        row.original.status === 'Terminé' ? 'failed' : 'success'
+                    }
+                >
+                    {row.original.status}
+                </Badge>
+            )
+        },
+        {
+            accessorKey: '',
+            header: 'Actions',
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center gap-6">
+                        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10" onClick={()=>onDetails(row.original.id)}>
+                            <EyeIcon2 />
+                        </button>
+                        <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
+                            <EditIcon/>
+                        </button>
+                        <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
+                            <DeleteIcon2 />
+                        </button>
+                    </div>
+                );
+            }
         }
-    }
-];
+    ];
