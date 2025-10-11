@@ -2,8 +2,8 @@ import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
-import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
-import ContractTable from '../components/tables/contract/contract-table';
+import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
+import ContractTable from '../../components/tables/contract/contract-table';
 
 const ContractView = () => {
     const dataItems = [
