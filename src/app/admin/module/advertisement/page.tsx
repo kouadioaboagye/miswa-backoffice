@@ -1,5 +1,7 @@
+import DashboardAdvertisementView from "@/features/admin/module/advertisement/views/dashboard-view";
+
 const page = () => {
-    return <div>page</div>;
+    return <DashboardAdvertisementView/>;
 };
 
 export default page;
