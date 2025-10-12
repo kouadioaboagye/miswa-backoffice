@@ -110,7 +110,7 @@ const HeroSection = () => {
                                 <div className="flex flex-col items-center mt-2 h-full p-6 md:flex-row gap-4 rounded-[12px] border border-[#1EA64A]">
                                     {/* Champ Ville */}
                                     <div className="flex-1">
-                                        <label className="block text-xl font-medium text-gray-700 mb-2">
+                                        <label className="block  font-medium text-gray-700 mb-2">
                                             Ville
                                         </label>
                                         <div className="relative">
@@ -138,7 +138,7 @@ const HeroSection = () => {
 
                                     {/* Champ Quartier */}
                                     <div className="flex-1">
-                                        <label className="block text-xl font-medium text-gray-700 mb-2">
+                                        <label className="block  font-medium text-gray-700 mb-2">
                                             Quartier
                                         </label>
                                         <div className="relative">
@@ -168,7 +168,7 @@ const HeroSection = () => {
 
                                     {/* Champ Type */}
                                     <div className="flex-1">
-                                        <label className="block text-xl font-medium text-gray-700 mb-2">
+                                        <label className="block font-medium text-gray-700 mb-2">
                                             Type
                                         </label>
                                         <div className="relative">
@@ -196,12 +196,12 @@ const HeroSection = () => {
 
                                     {/* Champ Budget */}
                                     <div className="flex-1">
-                                        <label className="block text-xl font-medium text-gray-700 mb-2">
+                                        <label className="block  font-medium text-gray-700 mb-2">
                                             Budget
                                         </label>
                                         <div className="relative">
                                             <div className="flex items-center gap-2">
-                                                <span className="text-xl text-gray-500 min-w-[50px]">
+                                                <span className="text-gray-500 min-w-[50px]">
                                                     {Math.round(
                                                         budgetRange[0] / 1000
                                                     )}

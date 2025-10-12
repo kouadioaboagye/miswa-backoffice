@@ -9,9 +9,23 @@ import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
 import { useRouter } from 'next/navigation';
 import OwnerTable from '../../components/tables/owner/owner-table';
+import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
+import { toast } from 'sonner';
 
 const ListOwnerView = () => {
+    const { data: response, isLoading, error, refetch, isRefetching } = useListOwnersQuery()
+    const { data, total } = response || { data: [], total: 0 }
     const router = useRouter()
+
+    const handleRefresh = async () => {
+        try {
+            await refetch();
+            toast.success('Liste des propriétaires actualisés avec succès.');
+        } catch {
+            toast.error('Erreur lors de l’actualisation des données.');
+        }
+    };
+
     const dataItems = [
         {
             title: 'Total Biens',
@@ -44,6 +58,8 @@ const ListOwnerView = () => {
                             variant={'refresh'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={handleRefresh}
+                            disabled={isLoading || isRefetching}
                         >
                             <RefreshIcon />{' '}
                             <span className="text-[1.3rem]">RAFRAICHIR</span>
@@ -54,7 +70,7 @@ const ListOwnerView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={()=>router.push("/admin/module/owner/add")}
+                            onClick={() => router.push("/admin/module/owner/add")}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU PROPRIÉTAIRE</span>
@@ -62,7 +78,7 @@ const ListOwnerView = () => {
                     )
                 }}
             >
-                <OwnerTable />
+                <OwnerTable data={data} />
             </DataTableLayout>
         </div>
     );

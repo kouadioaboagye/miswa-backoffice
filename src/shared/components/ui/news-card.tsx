@@ -57,11 +57,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
           <span>Par {author}</span>
         </div> */}
 
-                <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2">
+                <h3 className="font-bold text-gray-800 mb-3 line-clamp-2">
                     {title}
                 </h3>
 
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                <p className="text-gray-600 text-xl leading-relaxed line-clamp-3">
                     {excerpt}
                 </p>
 

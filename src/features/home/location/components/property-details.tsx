@@ -44,7 +44,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
         description:
             searchParams.get('description') || 'Description non disponible',
         cover_url:
-            searchParams.get('cover_url') ||
+            // searchParams.get('cover_url') ||
             'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&crop=center',
         reference: searchParams.get('reference') || '',
         street: searchParams.get('street') || '',
@@ -151,7 +151,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                                         Salles de bain
                                     </div>
                                     <div className="text-2xl font-bold text-gray-900">
-                                        {property.bathrooms || 'N/A'}
+                                        {property.bathrooms || 'Aucun'}
                                     </div>
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -167,7 +167,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                                         Parking
                                     </div>
                                     <div className="text-2xl font-bold text-gray-900">
-                                        {property.parking || 'N/A'}
+                                        {property.parking || 'Aucun'}
                                     </div>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                         <PropertySidebar
                             price={property.monthly_rent_amount}
                             currency="FCFA"
-                            propertyId={property.id}
+                            // propertyId={property.id}
                         />
                     </div>
                 </div>

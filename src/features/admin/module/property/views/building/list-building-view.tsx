@@ -3,14 +3,28 @@
 import DataTableLayout from '@/shared/components/layouts/data-table-layout'
 import { Button } from '@/shared/components/ui/button'
 import React from 'react'
-import RefreshIcon from '../../../../../../public/assets/icons/refresh-icon'
+import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
-import BuildingTable from '../components/forms/tables/building/building-table'
+import BuildingTable from '../../components/forms/tables/building/building-table'
+import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries'
+import { toast } from 'sonner'
 
 function ListBuildingView() {
+    const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()
+    const { data: buildings, total } = buildingsResponse || { data: [], total: 0 }
     const router = useRouter();
-  return (
+
+    const handleRefresh = async () => {
+        try {
+            await refetch();
+            toast.success('Liste des bâtiments actualisée avec succès.');
+        } catch {
+            toast.error('Erreur lors de l’actualisation des données.');
+        }
+    };
+
+    return (
         <div className="flex flex-col gap-16">
             <DataTableLayout
                 title="Liste des immeubles/bâtiments"
@@ -20,6 +34,8 @@ function ListBuildingView() {
                             variant={'refresh'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={handleRefresh}
+                            disabled={isLoading || isRefetching}
                         >
                             <RefreshIcon />{' '}
                             <span className="text-[1.3rem]">RAFRAICHIR</span>
@@ -30,7 +46,7 @@ function ListBuildingView() {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={()=>router.push("/admin/module/property/add")}
+                            onClick={() => router.push("/admin/module/property/building/add")}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEL IMMEUBLE</span>
@@ -38,10 +54,10 @@ function ListBuildingView() {
                     )
                 }}
             >
-                <BuildingTable />
+                <BuildingTable data={buildings} />
             </DataTableLayout>
         </div>
-  )
+    )
 }
 
 export default ListBuildingView
