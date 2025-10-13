@@ -45,6 +45,7 @@ export const paths = {
                     list:`${ROOTS.ADMIN}/module/property/building`,
                 }
             },
+        
     }
 }
 };

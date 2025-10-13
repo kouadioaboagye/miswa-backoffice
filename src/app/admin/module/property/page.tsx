@@ -1,11 +1,7 @@
-import React from 'react'
+import PropertyView from '@/features/admin/views/property/property-view';
 
-function RootPage() {
-  return (
-    <div>
-      page
-    </div>
-  )
-}
+const page = () => {
+    return <PropertyView />;
+};
 
-export default RootPage
+export default page;
