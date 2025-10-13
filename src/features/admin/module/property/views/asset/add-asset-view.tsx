@@ -6,19 +6,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
-import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/building/add-building-form/schemas';
-import StepOneForm from '../../components/forms/building/add-building-form/step-one-form';
-import StepTwoForm from '../../components/forms/building/add-building-form/step-two-forn';
-import StepThreeForm from '../../components/forms/building/add-building-form/step-three-form';
 import Stepper from '@/shared/components/ui/stepper';
+import { addAssetFormData, addAssetFormSchema } from '../../components/forms/assets/add-asset-form/schemas';
+import StepOneForm from '../../components/forms/assets/add-asset-form/step-one-form';
+import StepTwoForm from '../../components/forms/assets/add-asset-form/step-two-forn';
+import StepThreeForm from '../../components/forms/assets/add-asset-form/step-three-form';
 
-function AddPropertyView() {
+function AddAssetView() {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [successModalOpen, setSuccessModalOpen] = useState(false)
 
-    const form = useForm<addBuildingFormData>({
-        resolver: zodResolver(addBuildingFormSchema),
+    const form = useForm<addAssetFormData>({
+        resolver: zodResolver(addAssetFormSchema),
     });
 
     const handleNext = () => {
@@ -54,7 +54,7 @@ function AddPropertyView() {
         }
     };
 
-    function onSubmit(values: addBuildingFormData) {
+    function onSubmit(values: addAssetFormData) {
         if (!form.formState.isValid) {
             return;
         } else {
@@ -95,4 +95,4 @@ function AddPropertyView() {
     )
 }
 
-export default AddPropertyView
+export default AddAssetView
