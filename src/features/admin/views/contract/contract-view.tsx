@@ -4,6 +4,7 @@ import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
+import Link from 'next/link';
 import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
 import ContractTable from '../../components/tables/contract/contract-table';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
@@ -79,16 +80,18 @@ const ContractView = () => {
                         </Button>
                     ),
                     add: (
-                        <Button
-                            variant={'add'}
-                            size={'add'}
-                            className="text-white [&_svg]:size-8"
-                        >
-                            <Plus />{' '}
-                            <span className="text-[1.3rem]">
-                                NOUVEAU CONTRAT
-                            </span>
-                        </Button>
+                        <Link href={'/admin/contracts/contrat-form'}>
+                            <Button
+                                variant={'add'}
+                                size={'add'}
+                                className="text-white [&_svg]:size-8"
+                            >
+                                <Plus />{' '}
+                                <span className="text-[1.3rem]">
+                                    NOUVEAU CONTRAT
+                                </span>
+                            </Button>
+                        </Link>
                     )
                 }}
             >

@@ -9,12 +9,12 @@ import { useRouter } from 'next/navigation';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
-import { ArrowRightIcon } from '../../../../../../public/assets/icons/arrow-right-icon';
-import { ArrowLeftIcon } from '../../../../../../public/assets/icons/arrow-left-icon';
-import { AddPropertyForm, addPropertyFormSchema } from './forms/addOwner/schemas';
-import StepOneForm from './forms/addOwner/step-one-form';
-import StepTwoForm from './forms/addOwner/step-two-form';
-import StepThreeForm from './forms/addOwner/step-three-form';
+import { ArrowRightIcon } from '../../../../../public/assets/icons/arrow-right-icon';
+import { ArrowLeftIcon } from '../../../../../public/assets/icons/arrow-left-icon';
+import { AddPropertyForm, addPropertyFormSchema } from '../../components/forms/property/forms/steps/schemas';
+import StepOneForm from '../../components/forms/property/forms/steps/step-one-form';
+import StepTwoForm from '../../components/forms/property/forms/steps/step-two-form';
+import StepThreeForm from '../../components/forms/property/forms/steps/step-three-form';
 import { getAuthToken } from '@/lib/auth/utils';
 
 function AddPropertyView() {

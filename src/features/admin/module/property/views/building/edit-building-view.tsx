@@ -8,11 +8,11 @@ import { toast } from 'sonner';
 import Loading from '@/app/loading';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import Stepper from '@/shared/components/ui/stepper';
-import StepOneForm from '../../components/forms/add-building-form/step-one-form';
-import StepThreeForm from '../../components/forms/add-building-form/step-three-form';
-import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/add-building-form/schemas';
+import StepOneForm from '../../components/forms/building/add-building-form/step-one-form';
+import StepThreeForm from '../../components/forms/building/add-building-form/step-three-form';
+import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/building/add-building-form/schemas';
 import { useGetBuildingByIdQuery } from '@/lib/data-service/property/building.queries';
-import StepTwoForm from '../../components/forms/add-building-form/step-two-forn';
+import StepTwoForm from '../../components/forms/building/add-building-form/step-two-forn';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 
 interface EditBuildingViewProps {
@@ -55,42 +55,41 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     });
 
     useEffect(() => {
-        if (data?.batiment) {
-            const building = data.batiment;
+        if (data) {
             form.reset({
-                nomBatiment: building.name,
-                typeBatiment: building.type || '',
-                adresse: building.address,
-                quartier: building.street,
-                municipality: building.id_municipality?.toString(),
-                business: building.id_business?.toString(),
-                totalUnit: data.nombre_total_proprietes || 1,
-                buildingYear: building?.buildingYear || '',
-                landSurface: building?.landSurface,
-                floorNumber: data?.nombre_total_etages,
-                elevator: building.elevator || false,
-                internet: building.internet || false,
-                water: building.water || false,
+                nomBatiment: data.name,
+                typeBatiment: '',
+                adresse: data.address || '',
+                quartier: data.street || '',
+                municipality: data.id_municipality?.toString() || '',
+                business: data.id_business?.toString() || '',
+                totalUnit: 1,
+                buildingYear: '',
+                landSurface: 1,
+                floorNumber: 1,
+                elevator: false,
+                internet: false,
+                water: false,
                 parking: {
-                    available: building.parking?.available || false,
-                    amount: building.parking?.amount || 0,
+                    available: false,
+                    amount: 0,
                 },
                 security: {
-                    available: building.security?.available || false,
-                    amount: building.security?.amount || 0,
+                    available: false,
+                    amount: 0,
                 },
                 commonSpaces: {
-                    available: building.commonSpaces?.available || false,
-                    amount: building.commonSpaces?.amount || 0
+                    available: false,
+                    amount: 0
                 },
-                description: building.description || '',
+                description: data.description || '',
                 documents: [],
                 media: {
                     coverPicture: undefined,
                     otherMedia: [],
                 },
-                longitude: building.longitude,
-                latitude: building.latitude
+                longitude: data.longitude,
+                latitude: data.latitude
             });
         }
     }, [data, form]);
@@ -163,9 +162,9 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             case 3:
                 return <StepThreeForm
                     form={form}
-                    existingCoverUrl={data?.batiment.cover_url}
-                    existingPhotos={data?.batiment.photos}
-                    existingDocuments={data?.batiment.documents}
+                    existingCoverUrl={data?.cover_url}
+                    existingPhotos={data?.photos}
+                    existingDocuments={[]}
                 />
             default:
                 return null;
@@ -233,7 +232,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             <SuccessModal
                 isOpen={successModalOpen}
                 title={`Bâtiment #${idBuilding} mis à jour avec succès`}
-                description={`Votre bien ${data.batiment.name} a été mis à jour avec succès.`}
+                description={`Votre bien ${data.name} a été mis à jour avec succès.`}
                 confirmText="Liste des bâtiments"
                 onClose={() => setSuccessModalOpen(false)}
                 onConfirm={() => router.push('/admin/module/property/building')}

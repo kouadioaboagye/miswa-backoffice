@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { addBuildingFormData } from './schemas';
 import { SectionTitle } from '@/shared/components/ui/section-title';
-import { UploadGroup } from '../../../../../../../../public/assets/icons/upload-group';
-import { BiFileEarmarkImage } from '../../../../../../../../public/assets/icons/bi_file-earmark-image';
+import { UploadGroup } from '../../../../../../../../../public/assets/icons/upload-group';
+import { BiFileEarmarkImage } from '../../../../../../../../../public/assets/icons/bi_file-earmark-image';
 import { useState } from 'react';
 
 interface StepThreeFormProps {

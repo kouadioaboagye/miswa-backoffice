@@ -59,15 +59,15 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-medium text-[#1F1F1FB2]">Téléphone</span>
-                            <span className='text-[#222222E5] font-medium'>{data?.phonenumber}</span>
+                            <span className='text-[#222222E5] font-medium'>{data?.owner?.phonenumber || '-'}</span>
                         </div>
                         <div className="flex flex-col">
                             <span className="font-medium text-[#1F1F1FB2]">Email</span>
-                            <span className="text-[#222222E5] font-medium">{data?.email}</span>
+                            <span className="text-[#222222E5] font-medium">{data?.owner?.email || '-'}</span>
                         </div>
                         <div className="flex flex-col">
                             <span className="font-medium text-[#1F1F1FB2]">Date de naissance</span>
-                            <span className="text-[#222222E5] font-medium">{data?.birthdate}</span>
+                            <span className="text-[#222222E5] font-medium">{data?.owner?.birth_date || '-'}</span>
                         </div>
                     </div>
                 </div>

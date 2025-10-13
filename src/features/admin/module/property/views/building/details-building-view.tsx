@@ -51,7 +51,7 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                 <div className="flex w-full space-x-4">
                     <div className="w-4/5">
                         <Image
-                            src={data?.batiment.cover_url || "/fallback-image.jpg"}
+                            src={data?.cover_url || "/fallback-image.jpg"}
                             width={100}
                             height={10}
                             alt="cover"
@@ -59,7 +59,7 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                         />
                     </div>
                     <div className="w-1/5 space-y-4">
-                        {data?.batiment.photos && data?.batiment.photos.length > 0 && data.batiment.photos.slice(0, 2).map((photo, index) => (
+                        {data?.photos && data?.photos.length > 0 && data.photos.slice(0, 2).map((photo: string, index: number) => (
                             <Image
                                 key={index + 1}
                                 src={photo || ""}
@@ -72,28 +72,28 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-[24px] font-bold mb-2">{data?.batiment.name}</h2>
+                    <h2 className="text-[24px] font-bold mb-2">{data?.name}</h2>
                     <div className="flex space-x-10">
                         <div className="flex items-center gap-2 text-[#778088]">
                             <MapPin className="w-5 h-5" />
-                            <span>{data?.batiment.address}</span>
+                            <span>{data?.address}</span>
                         </div>
                         <div className="flex items-center gap-2 text-[#778088]">
                             <Presentation className="w-5 h-5" />
-                            <span>{data?.nombre_total_etages} étage(s) | {data?.nombre_total_proprietes} appartement(s) | {data?.nombre_proprietes_occupees} appartements occupé(s) </span>
+                            <span>Informations sur les étages et appartements</span>
                         </div>
                     </div>
                 </div>
                 <div>
                     <h2 className="text-[24px] font-bold mb-2">Description</h2>
                     <p className="text-[#778088]">
-                        {data?.batiment.description}
+                        {data?.description}
                     </p>
                 </div>
             </div>
             <div>
                 <h2 className="text-[24px] font-bold mb-2">Appartements  du batiment</h2>
-                <ApartmentBuildingTable data={data?.proprietes || []}/>
+                <ApartmentBuildingTable data={[]}/>
             </div>
         </div>
     );

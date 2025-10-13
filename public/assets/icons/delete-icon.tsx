@@ -17,3 +17,26 @@ export function DeleteIcon(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
+
+import React from 'react';
+
+const DeleteWhiteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg
+        width="19"
+        height="21"
+        viewBox="0 0 19 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
+    >
+        <path
+            d="M16.5 5.49414L15.6327 17.6366C15.5579 18.6832 14.687 19.4941 13.6378 19.4941H5.36224C4.31296 19.4941 3.44208 18.6832 3.36732 17.6366L2.5 5.49414M7.5 9.49414V15.4941M11.5 9.49414V15.4941M12.5 5.49414V2.49414C12.5 1.94186 12.0523 1.49414 11.5 1.49414H7.5C6.94772 1.49414 6.5 1.94186 6.5 2.49414V5.49414M1.5 5.49414H17.5"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
+export default DeleteWhiteIcon;

@@ -1,7 +1,7 @@
-import ListBuildingView from "@/features/admin/module/property/views/building/list-building-view";
+import ListBuildingView from '@/features/admin/module/property/views/building/list-building-view';
 
-const page = () => {
-    return <ListBuildingView/>;
+const BuildingPage = () => {
+    return <ListBuildingView />;
 };
 
-export default page;
+export default BuildingPage;

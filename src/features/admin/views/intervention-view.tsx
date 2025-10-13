@@ -50,6 +50,7 @@ const InterventionView = () => {
                             className="text-white [&_svg]:size-8"
                         >
                             <Plus />{' '}
+                            
                             <span className="text-[1.3rem]">
                                 NOUVELLE INTERVENTION
                             </span>
