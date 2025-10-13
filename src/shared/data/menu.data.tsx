@@ -75,7 +75,7 @@ const baseMainNav = [
         ]
     }
 ]
-type ModuleKey = 'property' | 'owner' | 'tenant';
+type ModuleKey = 'property' | 'owner' | 'tenant' | 'advertisement';
 
 const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
     property: [
@@ -157,7 +157,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             href: paths.admin.module.tenant.tenants,
             items: []
         },
-                {
+        {
             label: 'Paiements',
             icon: (
                 <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
@@ -172,6 +172,60 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             ),
             href: paths.admin.module.tenant.contracts,
             items: []
+        },
+    ],
+
+    advertisement: [
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.root,
+            items: []
+        },
+        {
+            label: 'Annonces en cours',
+            icon: (
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.inprogress,
+            items: []
+        },
+        {
+            label: 'Annonces achevées',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.archived,
+            items: []
+        },
+        {
+            label: 'Annonces en brouillon',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.draft,
+            items: []
+        },
+        {
+            label: 'Visites',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.draft,
+            items: [
+                {
+                    label: 'Liste des visites',
+                    icon: '',
+                    href: paths.admin.module.advertisement.visit.list
+                },
+                {
+                    label: 'Visites terminées',
+                    icon: '',
+                    href: paths.admin.module.advertisement.visit.terminated
+                }
+            ]
         },
     ],
 }
@@ -190,30 +244,30 @@ const moduleNav: module[] = [
         icon: (
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.owner.root,
-         value: "owner"
+        defaultHref: paths.admin.module.owner.root,
+        value: "owner"
     },
     {
         label: 'Locataires',
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.tenant.root,
-         value: "tenant"
+        defaultHref: paths.admin.module.tenant.root,
+        value: "tenant"
     },
     {
         label: 'Annonces',
         icon: (
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.advertisements,
-        value: "advertisements"
+        defaultHref: paths.admin.module.advertisement.root,
+        value: "advertisement"
     }
 ]
 
 // Type guard pour vérifier si c'est une clé valide
 function isModuleKey(key: string): key is ModuleKey {
-    return ['property', 'owner', 'tenant'].includes(key);
+    return ['property', 'owner', 'tenant', 'advertisement'].includes(key);
 }
 
 export const getMainNav = (activeModule: string) => {
