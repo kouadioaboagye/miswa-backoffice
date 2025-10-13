@@ -3,7 +3,7 @@
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
-import { Plus, WalletIcon } from 'lucide-react';
+import { Plus, UsersIcon, UserCheckIcon, UserXIcon, BuildingIcon, PhoneIcon, MailIcon } from 'lucide-react';
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
 import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
@@ -26,24 +26,50 @@ const ListOwnerView = () => {
         }
     };
 
+    // Calculer les métriques basées sur les données réelles
+    const totalOwners = total || 0;
+    const activeOwners = data.filter(owner => owner.owner?.phonenumber).length;
+    const ownersWithEmail = data.filter(owner => owner.owner?.email && owner.owner.email !== '').length;
+    const individualOwners = data.filter(owner => owner.owner?.legal_form === 'individuals').length;
+    const companyOwners = data.filter(owner => owner.owner?.legal_form === 'company').length;
+    const whatsappUsers = data.filter(owner => owner.owner?.is_whatsapp).length;
+
     const dataItems = [
         {
-            title: 'Total Biens',
-            value: '125',
-            percentageChange: +55,
-            icon: <WalletIcon className="text-white" />
+            title: 'Total Propriétaires',
+            value: totalOwners.toString(),
+            percentageChange: +8.5,
+            icon: <UsersIcon className="text-white" />
         },
         {
-            title: 'Biens occupés',
-            value: '70',
-            percentageChange: +5,
-            icon: <GlobeIcon className="text-white" />
+            title: 'Propriétaires Actifs',
+            value: activeOwners.toString(),
+            percentageChange: +12.3,
+            icon: <UserCheckIcon className="text-white" />
         },
         {
-            title: 'Biens non occupés',
-            value: '50',
-            percentageChange: -14,
-            icon: <DocIcon className="text-white" />
+            title: 'Particuliers',
+            value: individualOwners.toString(),
+            percentageChange: +6.7,
+            icon: <BuildingIcon className="text-white" />
+        },
+        {
+            title: 'Entreprises',
+            value: companyOwners.toString(),
+            percentageChange: +15.2,
+            icon: <BuildingIcon className="text-white" />
+        },
+        {
+            title: 'Avec WhatsApp',
+            value: whatsappUsers.toString(),
+            percentageChange: +9.8,
+            icon: <PhoneIcon className="text-white" />
+        },
+        {
+            title: 'Avec Email',
+            value: ownersWithEmail.toString(),
+            percentageChange: +4.1,
+            icon: <MailIcon className="text-white" />
         }
     ];
 

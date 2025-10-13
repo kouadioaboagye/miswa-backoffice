@@ -49,7 +49,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             shouldDirty: true,
             shouldTouch: true 
           });
-          console.log('Propriétaire défini:', ownerId);
+       
           
           // Déclencher la validation après avoir défini la valeur
           setTimeout(() => {
@@ -341,16 +341,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
         </div>
       </section>
 
-      {/* Section de débogage (à retirer en production) */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="mt-4 p-3 bg-gray-100 border border-gray-300 rounded-md">
-          <p className="text-sm font-medium">Débogage:</p>
-          <p className="text-xs">Proprietaire: {getValues('proprietaire') || 'Non défini'}</p>
-          <p className="text-xs">Type batiment: {getValues('typebatiment') || 'Non défini'}</p>
-          <p className="text-xs">Ville: {getValues('ville') || 'Non défini'}</p>
-          <p className="text-xs">Erreur proprietaire: {errors.proprietaire?.message || 'Aucune'}</p>
-        </div>
-      )}
+    
     </div>
   );
 }

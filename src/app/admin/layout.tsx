@@ -49,6 +49,7 @@ export default function DashboardLayout({
                             variant={'ghost'}
                             size={'ghost_header'}
                             className="[&_svg]:size-8"
+                            onClick={() => router.push('/admin/dashboard')}
                         >
                             <MenuIcon />
                         </Button>
