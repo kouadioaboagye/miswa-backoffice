@@ -103,5 +103,8 @@ export type IBuildingDataModel = {
 export type APIResponseGetBuilding = {
   batiment: IBuildingDataModel;
   proprietes: Apartment[];
-  nombre_total_etages: number
+  nombre_total_etages: number;
+  nombre_proprietes_occupees: number;
+  nombre_total_proprietes: number;
+  nombre_proprietes_disponibles: number
 }

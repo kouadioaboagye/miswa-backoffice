@@ -83,7 +83,7 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                         </div>
                         <div className="flex items-center gap-2 text-[#778088]">
                             <Presentation className="w-5 h-5" />
-                            <span>Informations sur les étages et appartements</span>
+                            <span>{data?.nombre_total_etages} étages | {data?.nombre_total_proprietes} appartements | {data?.nombre_proprietes_occupees} appartements occupés</span>
                         </div>
                     </div>
                 </div>
