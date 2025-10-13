@@ -1,3 +1,4 @@
+import { Building } from "@/features/admin/module/property/components/forms/tables/building/columns";
 import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
 
 export type IPropertyDataModel = {
@@ -98,3 +99,9 @@ export type IBuildingDataModel = {
     };
   };
 };
+
+export type APIResponseGetBuilding = {
+  batiment: IBuildingDataModel;
+  proprietes: Apartment[];
+  nombre_total_etages: number
+}
