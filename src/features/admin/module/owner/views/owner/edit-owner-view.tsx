@@ -58,32 +58,32 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
 
   useEffect(() => {
     if (data) {
-      const [_, ...prenomParts] = data.legal_name ? data.legal_name.split(' ') : "";
+      const [_, ...prenomParts] = data.owner?.legal_name ? data.owner.legal_name.split(' ') : "";
       const prenom = prenomParts.join(' ') || '';
       
       form.reset({
-        typePersonne: data.legal_form || '',
+        typePersonne: data.owner?.legal_form || '',
         nom: data.name || '',
         prenom: prenom || '',
-        dateNaissance: data.birthdate || '',
-        lieuNaissance: data.birth_place || '', 
-        situationFamiliale: data.marital_status || '',
+        dateNaissance: data.owner?.birth_date || '',
+        lieuNaissance: data.owner?.birth_place || '', 
+        situationFamiliale: data.owner?.marital_status || '',
         bienProprietaire: '',
-        typePiece: data.identity_card_type || '',
-        numeroCNI: data.identity_card_number || '',
-        dateExpiration: data.identity_card_expiry_date || '',
-        telephonePrincipal: data.phonenumber || '',
-        email: data.email || '',
-        adresse: data.address || '',
-        commune: data.municipality || '',
-        quartier: data.street || '',
-        paysResidence: data.id_country || '',
-        profession: data.profession || '',
-        employeur: data.company_name || '',
-        revenuMensuel: data.avg_monthly_income || 1,
-        modeReception: data.payment_mode || '',
-        banque: data.banque || '',
-        titulaireCompte: data.titulaireCompte || '',
+        typePiece: data.owner?.identity_card_type || '',
+        numeroCNI: data.owner?.identity_card_number || '',
+        dateExpiration: data.owner?.identity_card_expiry_date || '',
+        telephonePrincipal: data.owner?.phonenumber || '',
+        email: data.owner?.email || '',
+        adresse: data.owner?.address || '',
+        commune: data.owner?.municipality || '',
+        quartier: data.owner?.street || '',
+        paysResidence: '',
+        profession: data.owner?.profession || '',
+        employeur: data.owner?.company_name || '',
+        revenuMensuel: data.owner?.avg_monthly_income || 1,
+        modeReception: data.owner?.payment_mode || '',
+        banque: '',
+        titulaireCompte: '',
         documents: [],
       });
     }
@@ -225,7 +225,7 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
       <SuccessModal
         isOpen={successModalOpen}
         title={`Propriétaire #${idOwner} mis à jour avec succès`}
-        description={`Le propriétaire ${data.legal_name} a été mis à jour avec succès.`}
+        description={`Le propriétaire ${data.owner?.legal_name || data.name} a été mis à jour avec succès.`}
         confirmText="Liste des propriétaires"
         onClose={() => setSuccessModalOpen(false)}
         onConfirm={() => router.push('/admin/module/owner')}
