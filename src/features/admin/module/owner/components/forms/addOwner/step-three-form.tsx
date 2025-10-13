@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/ui/button';
-import {  Trash } from 'lucide-react';
-import React, { useEffect } from 'react';
+import { Trash } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { addOwnerFormData } from './schemas';
 import { X } from '../../../../../../../../public/assets/icons/X';
@@ -9,11 +9,13 @@ import { BiFileEarmarkImage } from '../../../../../../../../public/assets/icons/
 
 interface StepThreeFormProps {
     form: UseFormReturn<addOwnerFormData>;
+    existingDocuments?: string[];
 }
 
-function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
+function StepThreeForm({ form, existingDocuments }: Readonly<StepThreeFormProps>) {
     const { setValue, watch } = form;
     const documents = watch('documents') || [];
+    const [existingDocs, setExistingDocs] = useState<string[]>(existingDocuments || []);
 
     useEffect(() => {
         // Ensure the initial value is set as an array
@@ -61,6 +63,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                                 />
                             </label>
                             <Button
+                                type='button'
                                 variant="outline_success"
                                 className="mt-4 ml-[20%]"
                                 onClick={() => document.getElementById('documentUpload')?.click()}
@@ -81,9 +84,22 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                     </p>
 
                     <div className="space-y-2">
+                        {existingDocs.length > 0 &&
+                            existingDocs.map((doc, index) => (
+                                <div key={index + 1} className="flex items-center text-green-600 my-1">
+                                    <BiFileEarmarkImage />
+                                    <span className='text-stone-950 ml-7'>{doc}</span>
+                                    <Trash
+                                        className="w-10 h-8 ml-auto text-red-500 cursor-pointer"
+                                        onClick={() =>
+                                            setExistingDocs(existingDocs.filter((_, i) => i !== index))
+                                        }
+                                    />
+                                </div>
+                            ))}
                         {documents.length > 0 &&
                             documents.map((file, index) => (
-                                <div key={index} className="flex items-center text-green-600 my-1">
+                                <div key={index + 1} className="flex items-center text-green-600 my-1">
                                     <BiFileEarmarkImage />
                                     <span className='text-stone-950 ml-7'>{file.name}</span>
                                     <span className="ml-auto text-gray-500">

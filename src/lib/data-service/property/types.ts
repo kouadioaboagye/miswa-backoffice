@@ -1,3 +1,5 @@
+import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
+
 export type IPropertyDataModel = {
     id: string | number;
     name: string;

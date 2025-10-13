@@ -3,6 +3,8 @@
  * C'est un moyen de tout centraliser pour une meilleur gestion des routes
  */
 
+import { root } from "postcss";
+
 const ROOTS = {
     AUTH: '/auth',
     ADMIN: '/admin'
@@ -31,21 +33,37 @@ export const paths = {
         },
         module: {
             root: `${ROOTS.ADMIN}/module`,
-            advertisements: `${ROOTS.ADMIN}/module/advertisements`,
+            advertisements: {
+                root: `${ROOTS.ADMIN}/module/advertisement`,
+            },
             owner: {
                 root: `${ROOTS.ADMIN}/module/owner`,
                 owners: `${ROOTS.ADMIN}/module/owner`,
                 payments: `${ROOTS.ADMIN}/module/owner/payment`,
                 contracts: `${ROOTS.ADMIN}/module/owner/contracts`
             },
-            tenant: `${ROOTS.ADMIN}/module/tenant`,
+            tenant: {
+                root: `${ROOTS.ADMIN}/module/tenant`,
+                tenants: `${ROOTS.ADMIN}/module/tenant/list`,
+                payments: `${ROOTS.ADMIN}/module/tenant/payments`,
+                contracts: `${ROOTS.ADMIN}/module/tenant/contracts`
+            },
             property: {
                 root: `${ROOTS.ADMIN}/module/property`,
                 building: {
-                    list:`${ROOTS.ADMIN}/module/property/building`,
+                    list: `${ROOTS.ADMIN}/module/property/building`,
                 }
             },
-        
+            advertisement: {
+                root: `${ROOTS.ADMIN}/module/advertisement`,
+                inprogress: `${ROOTS.ADMIN}/module/advertisement/inprogress`,
+                archived: `${ROOTS.ADMIN}/module/advertisement/archived`,
+                draft: `${ROOTS.ADMIN}/module/advertisement/draft`,
+                visit: {
+                    list:`${ROOTS.ADMIN}/module/advertisement/visit/list`,
+                    terminated: `${ROOTS.ADMIN}/module/advertisement/visit/terminated`,
+                }
+            }
+        }
     }
-}
 };

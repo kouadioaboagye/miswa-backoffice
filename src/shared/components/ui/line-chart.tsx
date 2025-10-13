@@ -1,6 +1,6 @@
 'use client';
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from './card';
 import type { ChartConfig } from './chart';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from './chart';
@@ -33,12 +33,12 @@ const chartConfig = {
     }
 } satisfies ChartConfig;
 
-export function ChartLineMultiple() {
+export function ChartLineMultiple({title}: Readonly<{title?: string}>) {
     return (
         <Card className="flex min-h-[58rem] flex-col justify-between pt-7">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">
-                    Evolution des biens et occupation
+                    {title || 'Evolution des biens et occupation'}
                 </CardTitle>
                 {/* <CardDescription>
                         Voici les biens récemment ajoutés à la plateforme.

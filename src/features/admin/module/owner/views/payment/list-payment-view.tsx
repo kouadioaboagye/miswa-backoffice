@@ -5,7 +5,6 @@ import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
-import PaymentTable from '../../components/tables/payment/payment-table';
 import { useRouter } from 'next/navigation';
 import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
@@ -14,6 +13,7 @@ import AddPaymentView from './add-payment-view';
 import { useState } from 'react';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import Loading from '@/app/loading';
+import PaymentTable from '@/features/admin/components/tables/payment/payment-table';
 
 const ListPaymentView = () => {
     const [addPaymentModalOpen, setAddPaymentModalOpen] = useState(false)

@@ -8,8 +8,9 @@ import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
 import { Plus, BuildingIcon, MapPinIcon, UsersIcon, GlobeIcon, EyeIcon, PhoneIcon } from 'lucide-react'
 import BuildingTable from '../../components/forms/tables/building/building-table'
-import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries'
 import { toast } from 'sonner'
+import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries'
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper'
 
 function ListBuildingView() {
     const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()
@@ -25,52 +26,29 @@ function ListBuildingView() {
         }
     };
 
-    // Calculer les métriques basées sur les données réelles
-    const totalBuildings = total || 0;
-    const publicBuildings = buildings.filter(building => building.is_public).length;
-    const buildingsWithPhotos = buildings.filter(building => building.photos && building.photos.length > 0).length;
-    const buildingsWithLocation = buildings.filter(building => building.latitude && building.longitude).length;
-    const buildingsWithBusiness = buildings.filter(building => building.business).length;
-    const buildingsInAbidjan = buildings.filter(building => building.municipality?.name === 'Abidjan').length;
+    const handleDetails = (id: string) => {
+        router.push(`/admin/module/property/building/details/${id}`);
+    };
 
-    const dataItems = [
-        {
-            title: 'Total Bâtiments',
-            value: totalBuildings.toString(),
-            percentageChange: +12.5,
-            icon: <BuildingIcon className="text-white" />
-        },
-        {
-            title: 'Bâtiments Publics',
-            value: publicBuildings.toString(),
-            percentageChange: +8.2,
-            icon: <GlobeIcon className="text-white" />
-        },
-        {
-            title: 'Avec Photos',
-            value: buildingsWithPhotos.toString(),
-            percentageChange: +15.3,
-            icon: <EyeIcon className="text-white" />
-        },
-        {
-            title: 'Avec Localisation',
-            value: buildingsWithLocation.toString(),
-            percentageChange: +6.7,
-            icon: <MapPinIcon className="text-white" />
-        },
-        {
-            title: 'Avec Propriétaire',
-            value: buildingsWithBusiness.toString(),
-            percentageChange: +9.8,
-            icon: <UsersIcon className="text-white" />
-        },
-        {
-            title: 'À Abidjan',
-            value: buildingsInAbidjan.toString(),
-            percentageChange: +4.1,
-            icon: <MapPinIcon className="text-white" />
+    const handleEdit = (id: string) => {
+        router.push(`/admin/module/property/building/edit/${id}`);
+    };
+
+    const handleDelete = async (id: string) => {
+        try {
+            await fetchWrapper(`buildings/${id}/force/`, {
+                method: 'DELETE',
+            });
+            toast.success('Bâtiment supprimé avec succès.');
+            await refetch();
+        } catch (error: any) {
+            if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
+                toast.error(error.detail.label_fr);
+            } else {
+                toast.error(error instanceof Error ? error.message : 'Oops, une erreur est survenue lors de la suppression.');
+            }
         }
-    ];
+    };
 
     return (
         <div className="flex flex-col gap-16">
@@ -103,7 +81,12 @@ function ListBuildingView() {
                     )
                 }}
             >
-                <BuildingTable data={buildings} />
+                <BuildingTable
+                    data={buildings}
+                    onDetails={handleDetails}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
             </DataTableLayout>
         </div>
     )

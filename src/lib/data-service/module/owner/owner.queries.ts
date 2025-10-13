@@ -29,3 +29,15 @@ export const useDeleteOwnerMutation = () => {
         },
     });
 };
+
+export const useGetOwnerByIdQuery = (businessId: string) => {
+    return useQuery({
+        queryKey: ['business', businessId],
+        queryFn: async () => {
+            return await fetchWrapper<IOwnerDataModel>(`businesses/${businessId}/`, {
+                method: 'GET',
+            });
+        },
+        enabled: !!businessId,
+    });
+};

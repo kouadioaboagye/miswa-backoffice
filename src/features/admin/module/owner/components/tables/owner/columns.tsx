@@ -45,9 +45,12 @@ const OwnerActions = ({ owner }: { owner: Owner }) => {
 // This type is used to define the shape of our data based on the API structure
 export type Owner = IOwnerDataModel;
 
-
 // Table columns based on Owner API structure
-export const columns: ColumnDef<Owner>[] = [
+export const columns = (
+  onDetails: (id: string) => void,
+  onEdit: (id: string) => void,
+  onDelete: (id: string) => Promise<void>
+): ColumnDef<Owner>[] => [
   {
     id: 'name',
     accessorKey: 'name',

@@ -10,6 +10,7 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
+                
                 // Couleur primaire principale
                 default: 'bg-[#14385c] text-white shadow hover:bg-[#14385c]/90',
                 // Couleur secondaire (vert)
@@ -37,8 +38,8 @@ const buttonVariants = cva(
                 // Bouton d'avertissement (jaune)
                 warning:
                     'bg-[#FFC107] text-[#1a1a1a] shadow-sm hover:bg-[#FFC107]/90',
-                // Bouton info (bleu cyan)
-                info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
+                // Bouton info (bleu)
+                info: 'bg-[#0088FF] text-white shadow-sm hover:bg-[#0088FF]/90',
                 outline_header:
                     'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
                 //Bouton for date picker in a form
@@ -95,7 +96,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
                 disabled={isLoading || props.disabled}
             >
-                {/* {isLoading ? (
+                {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
                     <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
@@ -103,7 +104,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                         {props.children}
                         {rightIcon}
                     </div>
-                )} */}
+                )}
             </Comp>
         );
     }
