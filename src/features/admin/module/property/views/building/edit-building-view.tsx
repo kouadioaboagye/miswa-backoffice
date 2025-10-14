@@ -55,7 +55,8 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     });
 
     useEffect(() => {
-        if (data) {
+        if (data && batiment && proprietaire) {
+            console.log(data?.proprietaire, "prop")
             form.reset({
                 nomBatiment: batiment?.name || '',
                 typeBatiment: batiment?.building_type || '',
@@ -133,7 +134,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const renderStep = () => {
         switch (currentStep) {
             case 1:
-                return <StepOneForm form={form} />;
+                return <StepOneForm form={form}/>;
             case 2:
                 return <StepTwoForm form={form} />;
             case 3:
