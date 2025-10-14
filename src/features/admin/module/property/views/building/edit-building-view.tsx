@@ -58,15 +58,14 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     });
 
     useEffect(() => {
-        if (data && batiment && proprietaire) {
-            console.log(data?.proprietaire, "prop")
+        if (data) {
             form.reset({
                 nomBatiment: batiment?.name,
-                typeBatiment: '',
+                typeBatiment: batiment?.building_type,
                 adresse: batiment?.address || '',
                 quartier: batiment?.street || '',
-                municipality: batiment?.id_municipality?.toString() || '',
-                business: proprietaire.id?.toString() || '',
+                municipality: batiment?.municipality?.id.toString() || '',
+                business: proprietaire?.id ? String(proprietaire.id) : '',
                 totalUnit: 1,
                 buildingYear: '',
                 landSurface: 1,
@@ -92,17 +91,18 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                     coverPicture: undefined,
                     otherMedia: [],
                 },
-                longitude: batiment?.longitude,
-                latitude: batiment?.latitude
+                longitude: batiment?.longitude || undefined,
+                latitude: batiment?.latitude || undefined
             });
         }
-    }, [data, form]);
+    }, [data])
 
     const handleNext = async () => {
         const fields = getStepFields(currentStep);
         const isValid = await form.trigger(fields as any);
 
         if (!isValid) {
+            console.log(form.formState.errors, "form.formState.errors")
             toast.warning("Veuillez remplir tous les champs obligatoires de cette étape!");
             return;
         }
@@ -160,7 +160,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const renderStep = () => {
         switch (currentStep) {
             case 1:
-                return <StepOneForm form={form}/>;
+                return <StepOneForm form={form} />;
             case 2:
                 return <StepTwoForm form={form} />;
             case 3:
@@ -253,12 +253,11 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         }
     }
 
-    if (isLoading) return <Loading />;
+    if (isLoading || !data ) return <Loading />;
     if (error) {
         toast.error('Erreur lors du chargement des données du bâtiment.');
         return <Loading />;
     }
-    if (!data) return <Loading />;
 
     return (
         <div className="p-4">
