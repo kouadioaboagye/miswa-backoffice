@@ -6,7 +6,7 @@ export const addBuildingFormSchema = z.object({
   adresse: z.string().min(1, { message: "Adresse requise" }),
   quartier: z.string().min(1, { message: "Quartier requis" }),
   municipality: z.string().min(1, { message: "Municipalité requise" }),
-  business: z.string().min(1, { message: "ID entreprise requis" }),
+  business: z.string().min(1, { message: "Propriétaire requis" }),
   totalUnit: z.number().min(1, { message: "Nombre d'unités requis" }),
   buildingYear: z.string().min(1, { message: "Année de construction requise" }),
   landSurface: z.number().min(1, { message: "Superficie requise" }),
@@ -35,6 +35,9 @@ export const addBuildingFormSchema = z.object({
     .refine((files) => !files || files.every((file: File) => file instanceof File), {
       message: "Veuillez uploader des fichiers valides",
     }),
+  documentUrls: z.array(z.string()).optional(),
+  coverUrl: z.string().optional(),
+  otherMediaUrls: z.array(z.string()).optional(),
   media: z.object({
     coverPicture: z
       .any()

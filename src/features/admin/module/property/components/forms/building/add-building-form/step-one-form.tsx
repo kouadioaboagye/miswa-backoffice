@@ -2,7 +2,7 @@ import { Label } from '@/shared/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Input } from '@/shared/components/ui/input';
 import { SectionTitle } from '@/shared/components/ui/section-title';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
 import { addBuildingFormData } from './schemas';
@@ -27,30 +27,30 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
         <SectionTitle content="1. Identification" />
         <div>
           <Label htmlFor="business" isRequired>Propriétaire</Label>
-              <Controller
-                name="business"
-                control={control}
-                disabled={isBusinessesLoading}
-                rules={{ required: 'Propriétaire requis' }}
-                render={({ field, fieldState: { error } }) => (
-                  <div>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={isBusinessesLoading ? 'Chargement...' : 'Sélectionnez'} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {businesses.length > 0 &&
-                          businesses.map((businesses, index) => (
-                            <SelectItem value={businesses.id.toString()} key={index + 1}>
-                              {businesses.name}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                    <InputErrorMessage message={error?.message} />
-                  </div>
-                )}
-              />
+          <Controller
+            name="business"
+            control={control}
+            disabled={isBusinessesLoading}
+            rules={{ required: 'Propriétaire requis' }}
+            render={({ field, fieldState: { error } }) => (
+              <div>
+                <Select value={field.value || ''} onValueChange={field.onChange} key={`business-${field.value}`}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={isBusinessesLoading ? 'Chargement...' : 'Sélectionnez'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {businesses.length > 0 &&
+                      businesses.map((businesses, index) => (
+                        <SelectItem value={businesses.id.toString()} key={index + 1}>
+                          {businesses.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <InputErrorMessage message={error?.message} />
+              </div>
+            )}
+          />
         </div>
         <div className="grid grid-cols-2 gap-10 mb-4">
           <div>
@@ -65,7 +65,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               control={form.control}
               rules={{ required: 'Sélectionnez un type' }}
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} key={`typeBatiment-${field.value}`}>
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionnez" />
                   </SelectTrigger>
@@ -99,7 +99,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
                 rules={{ required: 'Municipalité requise' }}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select value={field.value} onValueChange={field.onChange} key={`municipality-${field.value}`}>
                       <SelectTrigger>
                         <SelectValue placeholder={isMunicipalitiesLoading ? 'Chargement...' : 'Sélectionnez'} />
                       </SelectTrigger>
