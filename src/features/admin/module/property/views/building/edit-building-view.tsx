@@ -14,6 +14,7 @@ import { addBuildingFormData, addBuildingFormSchema } from '../../components/for
 import { useGetBuildingByIdQuery } from '@/lib/data-service/property/building.queries';
 import StepTwoForm from '../../components/forms/building/add-building-form/step-two-forn';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 
 interface EditBuildingViewProps {
     idBuilding: string;
@@ -26,6 +27,8 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const router = useRouter();
 
     const { data, isLoading, error } = useGetBuildingByIdQuery(idBuilding);
+    const batiment = data?.batiment
+    const proprietaire = data?.proprietaire
 
     const form = useForm<addBuildingFormData>({
         resolver: zodResolver(addBuildingFormSchema),
@@ -55,18 +58,19 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     });
 
     useEffect(() => {
-        if (data) {
+        if (data && batiment && proprietaire) {
+            console.log(data?.proprietaire, "prop")
             form.reset({
-                nomBatiment: data.name,
+                nomBatiment: batiment?.name,
                 typeBatiment: '',
-                adresse: data.address || '',
-                quartier: data.street || '',
-                municipality: data.id_municipality?.toString() || '',
-                business: data.id_business?.toString() || '',
+                adresse: batiment?.address || '',
+                quartier: batiment?.street || '',
+                municipality: batiment?.id_municipality?.toString() || '',
+                business: proprietaire.id?.toString() || '',
                 totalUnit: 1,
                 buildingYear: '',
                 landSurface: 1,
-                floorNumber: 1,
+                floorNumber: data.nombre_total_etages,
                 elevator: false,
                 internet: false,
                 water: false,
@@ -82,14 +86,14 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                     available: false,
                     amount: 0
                 },
-                description: data.description || '',
+                description: batiment?.description || '',
                 documents: [],
                 media: {
                     coverPicture: undefined,
                     otherMedia: [],
                 },
-                longitude: data.longitude,
-                latitude: data.latitude
+                longitude: batiment?.longitude,
+                latitude: batiment?.latitude
             });
         }
     }, [data, form]);
@@ -156,14 +160,14 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const renderStep = () => {
         switch (currentStep) {
             case 1:
-                return <StepOneForm form={form} />;
+                return <StepOneForm form={form}/>;
             case 2:
                 return <StepTwoForm form={form} />;
             case 3:
                 return <StepThreeForm
                     form={form}
-                    existingCoverUrl={data?.cover_url}
-                    existingPhotos={data?.photos}
+                    existingCoverUrl={batiment?.cover_url}
+                    existingPhotos={batiment?.photos}
                     existingDocuments={[]}
                 />
             default:
@@ -175,8 +179,6 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         return {
             name: values.nomBatiment,
             description: values.description,
-            cover_url: values.media?.coverPicture,
-            photos: values.media?.otherMedia,
             street: values.quartier,
             address: values.adresse,
             id_business: values.business,
@@ -193,7 +195,6 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             parking: values.parking,
             security: values.security,
             commonSpaces: values.commonSpaces,
-            documents: values.documents,
         };
     }
 
@@ -206,7 +207,40 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         setIsSubmitting(true);
 
         try {
-            const apiData = mapFormDataToAPI(values);
+            let coverUrl = batiment?.cover_url || "";
+            let otherMediaUrls: string[] = batiment?.photos || [];
+            let documentUrls: string[] = [];
+
+            if (values.media.coverPicture instanceof File) {
+                coverUrl = await uploadFile(values.media.coverPicture);
+            }
+
+            if (values.media.otherMedia && values.media.otherMedia.length > 0) {
+                const files = values.media.otherMedia.filter((m): m is File => m instanceof File);
+                otherMediaUrls = await uploadAllFiles(files);
+            }
+
+            if (values.documents && values.documents.length > 0) {
+                const files = values.documents.filter((d): d is File => d instanceof File);
+                documentUrls = await uploadAllFiles(files);
+            }
+
+            const mergedCoverUrl = coverUrl || batiment?.cover_url || "";
+            const mergedOtherMedia = [
+                ...(batiment?.photos || []),
+                ...otherMediaUrls,
+            ];
+            const mergedDocuments = [
+                ...(batiment?.documents || []),
+                ...documentUrls,
+            ];
+
+            const apiData = {
+                ...mapFormDataToAPI(values),
+                cover_url: mergedCoverUrl,
+                photos: mergedOtherMedia,
+                documents: mergedDocuments,
+            };
             await fetchWrapper(`buildings/${idBuilding}/`, {
                 method: 'PUT',
                 body: apiData,
@@ -222,7 +256,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     if (isLoading) return <Loading />;
     if (error) {
         toast.error('Erreur lors du chargement des données du bâtiment.');
-        return  <Loading />;
+        return <Loading />;
     }
     if (!data) return <Loading />;
 
@@ -232,7 +266,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             <SuccessModal
                 isOpen={successModalOpen}
                 title={`Bâtiment #${idBuilding} mis à jour avec succès`}
-                description={`Votre bien ${data.name} a été mis à jour avec succès.`}
+                description={`Votre bien ${batiment?.name} a été mis à jour avec succès.`}
                 confirmText="Liste des bâtiments"
                 onClose={() => setSuccessModalOpen(false)}
                 onConfirm={() => router.push('/admin/module/property/building')}
