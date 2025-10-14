@@ -14,6 +14,7 @@ import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwn
 import { addOwnerFormData, addOwnerFormSchema } from '@/features/admin/module/owner/components/forms/addOwner/schemas';
 import { useGetOwnerByIdQuery } from '@/lib/data-service/module/owner/owner.queries';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { formatDateForInput } from '@/shared/lib/helpers/iso-format';
 
 interface EditOwnerViewProps {
   idOwner: string;
@@ -60,33 +61,34 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
     if (data) {
       const [_, ...prenomParts] = data.owner?.legal_name ? data.owner.legal_name.split(' ') : "";
       const prenom = prenomParts.join(' ') || '';
+      const owner  = data.owner;
       
-      form.reset({
-        typePersonne: data.owner?.legal_form || '',
-        nom: data.name || '',
-        prenom: prenom || '',
-        dateNaissance: data.owner?.birth_date || '',
-        lieuNaissance: data.owner?.birth_place || '', 
-        situationFamiliale: data.owner?.marital_status || '',
-        bienProprietaire: '',
-        typePiece: data.owner?.identity_card_type || '',
-        numeroCNI: data.owner?.identity_card_number || '',
-        dateExpiration: data.owner?.identity_card_expiry_date || '',
-        telephonePrincipal: data.owner?.phonenumber || '',
-        email: data.owner?.email || '',
-        adresse: data.owner?.address || '',
-        commune: data.owner?.municipality || '',
-        quartier: data.owner?.street || '',
-        paysResidence: '',
-        profession: data.owner?.profession || '',
-        employeur: data.owner?.company_name || '',
-        revenuMensuel: data.owner?.avg_monthly_income || 1,
-        modeReception: data.owner?.payment_mode || '',
-        banque: '',
-        titulaireCompte: '',
-        documents: [],
-      });
-    }
+    form.reset({
+      typePersonne: owner?.legal_form || "",
+      nom: data?.name || "",
+      prenom: prenom || "",
+      dateNaissance: formatDateForInput(owner?.birth_date || ""),
+      lieuNaissance: owner?.birth_place || "",
+      situationFamiliale: owner?.marital_status || "",
+      bienProprietaire: "",
+      typePiece: owner?.identity_card_type || "",
+      numeroCNI: owner?.identity_card_number || "",
+      dateExpiration: formatDateForInput(owner?.identity_card_expiry_date || ""),
+      telephonePrincipal: owner?.phonenumber || "",
+      email: owner?.email || "",
+      adresse: owner?.address || "",
+      commune: owner?.municipality || "",
+      quartier: owner?.street || "",
+      paysResidence: "",
+      profession: owner?.profession || "",
+      employeur: owner?.company_name || "",
+      revenuMensuel: owner?.avg_monthly_income || 1,
+      modeReception: owner?.payment_mode || "",
+      banque: "",
+      titulaireCompte: "",
+      documents: [],
+    });
+  }
   }, [data, form]);
 
   const handleNext = async () => {
