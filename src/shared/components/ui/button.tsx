@@ -52,7 +52,8 @@ const buttonVariants = cva(
                 icon: 'size-[56px] rounded-[12px]',
                 outline_header: 'size-14 rounded-2xl',
                 ghost_header: 'size-14 rounded-2xl',
-                add: 'h-[4.5rem] rounded-3xl px-8 py-2'
+                add: 'h-[4.5rem] rounded-3xl px-8 py-2',
+                icon_header: 'size-9 border border-none'
             }
         },
         defaultVariants: {

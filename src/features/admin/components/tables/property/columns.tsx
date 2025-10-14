@@ -4,6 +4,7 @@ import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import type { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
+import Link from 'next/link';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
@@ -110,9 +111,11 @@ export const columns: ColumnDef<Property>[] = [
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-6">
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
-                        <EyeIcon2 />
-                    </button>
+                    <Link href={`/admin/property/details`}>
+                        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
+                            <EyeIcon2 />
+                        </button>
+                    </Link>
                     <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
                         <EditIcon />
                     </button>
