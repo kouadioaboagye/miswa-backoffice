@@ -77,7 +77,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                 latitude: batiment?.latitude || undefined,
             });
         }
-    }, [data])
+    }, [data, form]);
 
     const handleNext = async () => {
         const fields = getStepFields(currentStep);
