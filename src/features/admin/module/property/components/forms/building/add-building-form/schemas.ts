@@ -35,6 +35,9 @@ export const addBuildingFormSchema = z.object({
     .refine((files) => !files || files.every((file: File) => file instanceof File), {
       message: "Veuillez uploader des fichiers valides",
     }),
+  documentUrls: z.array(z.string()).optional(),
+  coverUrl: z.string().optional(),
+  otherMediaUrls: z.array(z.string()).optional(),
   media: z.object({
     coverPicture: z
       .any()
