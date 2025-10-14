@@ -6,7 +6,7 @@ export const addBuildingFormSchema = z.object({
   adresse: z.string().min(1, { message: "Adresse requise" }),
   quartier: z.string().min(1, { message: "Quartier requis" }),
   municipality: z.string().min(1, { message: "Municipalité requise" }),
-  business: z.string().min(1, { message: "ID entreprise requis" }),
+  business: z.string().min(1, { message: "Propriétaire requis" }),
   totalUnit: z.number().min(1, { message: "Nombre d'unités requis" }),
   buildingYear: z.string().min(1, { message: "Année de construction requise" }),
   landSurface: z.number().min(1, { message: "Superficie requise" }),

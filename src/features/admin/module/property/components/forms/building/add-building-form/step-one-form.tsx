@@ -32,11 +32,12 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
                 control={control}
                 disabled={isBusinessesLoading}
                 rules={{ required: 'Propriétaire requis' }}
+                defaultValue='1'
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select value={field.value || ''} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder={isBusinessesLoading ? 'Chargement...' : 'Sélectionnez'} />
+                        <SelectValue placeholder={isBusinessesLoading ? 'Chargement...' : 'Sélectionnez'}/>
                       </SelectTrigger>
                       <SelectContent>
                         {businesses.length > 0 &&

@@ -94,7 +94,7 @@ function StepThreeForm({ form, existingCoverUrl, existingPhotos, existingDocumen
                         <Button
                             type='button'
                             variant="outline_success"
-                            className="mt-4 ml-[20%]"
+                            className="mt-4 ml-[15%]"
                             onClick={() => document.getElementById('documentUpload')?.click()}
                         >
                             SÉLECTIONNER UN DOCUMENT

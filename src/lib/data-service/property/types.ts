@@ -1,5 +1,6 @@
 import { Building } from "@/features/admin/module/property/components/forms/tables/building/columns";
 import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
+import { IOwnerDataModel } from "../module/owner/types";
 
 export type IPropertyDataModel = {
     id: string | number;
@@ -52,6 +53,7 @@ export type IBuildingDataModel = {
   longitude?: number;
   latitude?: number;
   photos?: string[];
+  documents?: string[];
   is_public?: boolean;
   id_business?: number;
   id_municipality?: number;
@@ -103,6 +105,7 @@ export type IBuildingDataModel = {
 export type APIResponseGetBuilding = {
   batiment: IBuildingDataModel;
   proprietes: Apartment[];
+  proprietaire: IOwnerDataModel;
   nombre_total_etages: number;
   nombre_proprietes_occupees: number;
   nombre_total_proprietes: number;
