@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -13,8 +13,9 @@ import StepTwoForm from '@/features/admin/module/owner/components/forms/addOwner
 import StepThreeForm from '@/features/admin/module/owner/components/forms/addOwner/step-three-form';
 import { addOwnerFormData, addOwnerFormSchema } from '@/features/admin/module/owner/components/forms/addOwner/schemas';
 import { useGetOwnerByIdQuery } from '@/lib/data-service/module/owner/owner.queries';
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { formatDateForInput } from '@/shared/lib/helpers/iso-format';
+import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 
 interface EditOwnerViewProps {
   idOwner: string;
@@ -39,7 +40,7 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
       situationFamiliale: '',
       bienProprietaire: '',
       typePiece: '',
-      numeroCNI: '',
+      identity_card_number: '',
       dateExpiration: '',
       telephonePrincipal: '',
       email: '',
@@ -54,41 +55,47 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
       banque: '',
       titulaireCompte: '',
       documents: [],
+      documentUrls: [],
+      coverPicture: undefined,
+      coverPictureUrl: '',
     },
   });
 
   useEffect(() => {
     if (data) {
-      const [_, ...prenomParts] = data.owner?.legal_name ? data.owner.legal_name.split(' ') : "";
+      const [_, ...prenomParts] = data.owner?.legal_name ? data.owner.legal_name.split(' ') : [''];
       const prenom = prenomParts.join(' ') || '';
-      const owner  = data.owner;
-      
-    form.reset({
-      typePersonne: owner?.legal_form || "",
-      nom: data?.name || "",
-      prenom: prenom || "",
-      dateNaissance: formatDateForInput(owner?.birth_date || ""),
-      lieuNaissance: owner?.birth_place || "",
-      situationFamiliale: owner?.marital_status || "",
-      bienProprietaire: "",
-      typePiece: owner?.identity_card_type || "",
-      numeroCNI: owner?.identity_card_number || "",
-      dateExpiration: formatDateForInput(owner?.identity_card_expiry_date || ""),
-      telephonePrincipal: owner?.phonenumber || "",
-      email: owner?.email || "",
-      adresse: owner?.address || "",
-      commune: owner?.municipality || "",
-      quartier: owner?.street || "",
-      paysResidence: "",
-      profession: owner?.profession || "",
-      employeur: owner?.company_name || "",
-      revenuMensuel: owner?.avg_monthly_income || 1,
-      modeReception: owner?.payment_mode || "",
-      banque: "",
-      titulaireCompte: "",
-      documents: [],
-    });
-  }
+      const owner = data.owner;
+
+      form.reset({
+        typePersonne: owner?.legal_form || '',
+        nom: data?.name || '',
+        prenom: prenom || '',
+        dateNaissance: formatDateForInput(owner?.birth_date || ''),
+        lieuNaissance: owner?.birth_place || '',
+        situationFamiliale: owner?.marital_status || '',
+        bienProprietaire: '',
+        typePiece: owner?.identity_card_type || '',
+        identity_card_number: owner?.identity_card_number || '',
+        dateExpiration: formatDateForInput(owner?.identity_card_expiry_date || ''),
+        telephonePrincipal: owner?.phonenumber || '',
+        email: owner?.email || '',
+        adresse: owner?.address || '',
+        commune: owner?.municipality || '',
+        quartier: owner?.street || '',
+        paysResidence: '1',
+        profession: owner?.profession || '',
+        employeur: owner?.company_name || '',
+        revenuMensuel: owner?.avg_monthly_income || 1,
+        modeReception: owner?.payment_mode || '',
+        banque: '',
+        titulaireCompte: '',
+        documents: [],
+        documentUrls: data?.document_urls || [],
+        coverPicture: undefined,
+        coverPictureUrl: data?.cover_url || '',
+      });
+    }
   }, [data, form]);
 
   const handleNext = async () => {
@@ -124,7 +131,7 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
           'lieuNaissance',
           'situationFamiliale',
           'typePiece',
-          'numeroCNI',
+          'identity_card_number',
           'dateExpiration',
         ];
       case 2:
@@ -143,7 +150,7 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
           'titulaireCompte',
         ];
       case 3:
-        return ['documents', 'bienProprietaire'];
+        return ['documents', 'documentUrls', 'bienProprietaire', 'coverPicture', 'coverPictureUrl'];
       default:
         return [];
     }
@@ -166,26 +173,25 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
     return {
       name: values.nom,
       id_country: values.paysResidence,
-      owner: {
-        legal_name: `${values.nom} ${values.prenom}`.trim(),
-        legal_form: values.typePersonne,
-        email: values.email,
-        phonenumber: values.telephonePrincipal,
-        birth_date: values.dateNaissance,
-        birth_place: values.lieuNaissance,
-        marital_status: values.situationFamiliale,
-        identity_card_type: values.typePiece,
-        identity_card_number: values.numeroCNI,
-        identity_card_expiry_date: values.dateExpiration,
-        municipality: values.commune,
-        address: values.adresse,
-        street: values.quartier,
-        profession: values.profession,
-        company_name: values.employeur,
-        avg_monthly_income: values.revenuMensuel,
-        payment_mode: values.modeReception,
-        official_documents: values.documents,
-      },
+      legal_name: `${values.nom} ${values.prenom}`.trim(),
+      legal_form: values.typePersonne,
+      email: values.email,
+      phonenumber: values.telephonePrincipal,
+      birth_date: values.dateNaissance,
+      birth_place: values.lieuNaissance,
+      marital_status: values.situationFamiliale,
+      identity_card_type: values.typePiece,
+      identity_card_number: values.identity_card_number,
+      identity_card_expiry_date: values.dateExpiration,
+      municipality: values.commune,
+      address: values.adresse,
+      street: values.quartier,
+      profession: values.profession,
+      company_name: values.employeur,
+      avg_monthly_income: values.revenuMensuel,
+      payment_mode: values.modeReception,
+      official_documents: values.documentUrls,
+      profile_picture: values.coverPictureUrl,
     };
   }
 
@@ -197,8 +203,26 @@ function EditOwnerView({ idOwner }: Readonly<EditOwnerViewProps>) {
     setIsSubmitting(true);
 
     try {
-      const apiData = mapFormDataToAPI(values);
-      await fetchWrapper(`businesses/${idOwner}/`, {
+      let documentUrls = values.documentUrls || [];
+      let coverPictureUrl = values.coverPictureUrl || '';
+
+      if (values.documents && values.documents.length > 0) {
+        const files = values.documents.filter((d): d is File => d instanceof File);
+        const newDocumentUrls = await uploadAllFiles(files);
+        documentUrls = [...documentUrls, ...newDocumentUrls];
+      }
+
+      if (values.coverPicture instanceof File) {
+        coverPictureUrl = await uploadFile(values.coverPicture);
+      }
+
+      const apiData = {
+        ...mapFormDataToAPI(values),
+        documents: documentUrls,
+        cover_url: coverPictureUrl,
+      };
+
+      await fetchWrapper(`business-owners/${idOwner}/`, {
         method: 'PUT',
         body: apiData,
       });
