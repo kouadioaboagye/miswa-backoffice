@@ -13,8 +13,8 @@ import StepThreeForm from '../../components/forms/building/add-building-form/ste
 import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/building/add-building-form/schemas';
 import { useGetBuildingByIdQuery } from '@/lib/data-service/property/building.queries';
 import StepTwoForm from '../../components/forms/building/add-building-form/step-two-forn';
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
+import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 
 interface EditBuildingViewProps {
     idBuilding: string;
@@ -27,8 +27,8 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const router = useRouter();
 
     const { data, isLoading, error } = useGetBuildingByIdQuery(idBuilding);
-    const batiment = data?.batiment
-    const proprietaire = data?.proprietaire
+    const batiment = data?.batiment;
+    const proprietaire = data?.proprietaire;
 
     const form = useForm<addBuildingFormData>({
         resolver: zodResolver(addBuildingFormSchema),
@@ -52,6 +52,9 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             description: '',
             documents: [],
             media: { coverPicture: undefined, otherMedia: [] },
+            coverUrl: '',
+            otherMediaUrls: [],
+            documentUrls: [],
             longitude: undefined,
             latitude: undefined,
         },
@@ -60,8 +63,8 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     useEffect(() => {
         if (data) {
             form.reset({
-                nomBatiment: batiment?.name,
-                typeBatiment: batiment?.building_type,
+                nomBatiment: batiment?.name || '',
+                typeBatiment: batiment?.building_type || '',
                 adresse: batiment?.address || '',
                 quartier: batiment?.street || '',
                 municipality: batiment?.municipality?.id.toString() || '',
@@ -69,40 +72,31 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                 totalUnit: 1,
                 buildingYear: '',
                 landSurface: 1,
-                floorNumber: data.nombre_total_etages,
+                floorNumber: data?.nombre_total_etages || 1,
                 elevator: false,
                 internet: false,
                 water: false,
-                parking: {
-                    available: false,
-                    amount: 0,
-                },
-                security: {
-                    available: false,
-                    amount: 0,
-                },
-                commonSpaces: {
-                    available: false,
-                    amount: 0
-                },
+                parking: { available: false, amount: 0 },
+                security: { available: false, amount: 0 },
+                commonSpaces: { available: false, amount: 0 },
                 description: batiment?.description || '',
                 documents: [],
-                media: {
-                    coverPicture: undefined,
-                    otherMedia: [],
-                },
+                media: { coverPicture: undefined, otherMedia: [] },
+                coverUrl: batiment?.cover_url || '',
+                otherMediaUrls: batiment?.photos || [],
+                documentUrls: batiment?.documents || [],
                 longitude: batiment?.longitude || undefined,
-                latitude: batiment?.latitude || undefined
+                latitude: batiment?.latitude || undefined,
             });
         }
-    }, [data])
+    }, [data, form]);
 
     const handleNext = async () => {
         const fields = getStepFields(currentStep);
         const isValid = await form.trigger(fields as any);
 
         if (!isValid) {
-            console.log(form.formState.errors, "form.formState.errors")
+            console.log(form.formState.errors, "form.formState.errors");
             toast.warning("Veuillez remplir tous les champs obligatoires de cette étape!");
             return;
         }
@@ -164,12 +158,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
             case 2:
                 return <StepTwoForm form={form} />;
             case 3:
-                return <StepThreeForm
-                    form={form}
-                    existingCoverUrl={batiment?.cover_url}
-                    existingPhotos={batiment?.photos}
-                    existingDocuments={[]}
-                />
+                return <StepThreeForm form={form} />;
             default:
                 return null;
         }
@@ -199,7 +188,6 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     }
 
     async function onSubmit(values: addBuildingFormData) {
-        console.log(form.formState.isValid, form.formState.errors)
         if (!form.formState.isValid) {
             return;
         }
@@ -207,9 +195,9 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         setIsSubmitting(true);
 
         try {
-            let coverUrl = batiment?.cover_url || "";
-            let otherMediaUrls: string[] = batiment?.photos || [];
-            let documentUrls: string[] = [];
+            let coverUrl = values.coverUrl || '';
+            let otherMediaUrls = values.otherMediaUrls || [];
+            let documentUrls = values.documentUrls || []
 
             if (values.media.coverPicture instanceof File) {
                 coverUrl = await uploadFile(values.media.coverPicture);
@@ -217,30 +205,23 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
 
             if (values.media.otherMedia && values.media.otherMedia.length > 0) {
                 const files = values.media.otherMedia.filter((m): m is File => m instanceof File);
-                otherMediaUrls = await uploadAllFiles(files);
+                const newMediaUrls = await uploadAllFiles(files);
+                otherMediaUrls = [...otherMediaUrls, ...newMediaUrls];
             }
 
             if (values.documents && values.documents.length > 0) {
                 const files = values.documents.filter((d): d is File => d instanceof File);
-                documentUrls = await uploadAllFiles(files);
+                const newDocumentUrls = await uploadAllFiles(files);
+                documentUrls = [...documentUrls, ...newDocumentUrls];
             }
-
-            const mergedCoverUrl = coverUrl || batiment?.cover_url || "";
-            const mergedOtherMedia = [
-                ...(batiment?.photos || []),
-                ...otherMediaUrls,
-            ];
-            const mergedDocuments = [
-                ...(batiment?.documents || []),
-                ...documentUrls,
-            ];
 
             const apiData = {
                 ...mapFormDataToAPI(values),
-                cover_url: mergedCoverUrl,
-                photos: mergedOtherMedia,
-                documents: mergedDocuments,
+                cover_url: coverUrl,
+                photos: otherMediaUrls,
+                documents: documentUrls,
             };
+
             await fetchWrapper(`buildings/${idBuilding}/`, {
                 method: 'PUT',
                 body: apiData,
@@ -253,7 +234,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
         }
     }
 
-    if (isLoading || !data ) return <Loading />;
+    if (isLoading || !data) return <Loading />;
     if (error) {
         toast.error('Erreur lors du chargement des données du bâtiment.');
         return <Loading />;
