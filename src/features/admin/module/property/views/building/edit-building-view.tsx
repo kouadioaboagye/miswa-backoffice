@@ -55,8 +55,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     });
 
     useEffect(() => {
-        if (data && batiment && proprietaire) {
-            console.log(data?.proprietaire, "prop")
+        if (data) {
             form.reset({
                 nomBatiment: batiment?.name || '',
                 typeBatiment: batiment?.building_type || '',
@@ -78,7 +77,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
                 latitude: batiment?.latitude || undefined,
             });
         }
-    }, [data, form]);
+    }, [data])
 
     const handleNext = async () => {
         const fields = getStepFields(currentStep);
@@ -134,7 +133,7 @@ function EditBuildingView({ idBuilding }: Readonly<EditBuildingViewProps>) {
     const renderStep = () => {
         switch (currentStep) {
             case 1:
-                return <StepOneForm form={form}/>;
+                return <StepOneForm form={form} />;
             case 2:
                 return <StepTwoForm form={form} />;
             case 3:
