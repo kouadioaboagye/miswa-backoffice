@@ -75,7 +75,7 @@ const baseMainNav = [
         ]
     }
 ]
-type ModuleKey = 'property' | 'owner' | 'tenant' | 'advertisement';
+type ModuleKey = 'property' | 'owner' | 'tenant' | 'advertisement' | 'contract';
 
 const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
     property: [
@@ -228,6 +228,41 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             ]
         },
     ],
+
+    contract: [
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.root,
+            items: []
+        },
+        {
+            label: 'Contrat en attente',
+            icon: (
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.pending,
+            items: []
+        },
+        {
+            label: 'Contrat en cours',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.active,
+            items: []
+        },
+        {
+            label: 'Contrat terminé',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.terminated,
+            items: []
+        }
+    ],
 }
 
 const moduleNav: module[] = [
@@ -267,7 +302,7 @@ const moduleNav: module[] = [
 
 // Type guard pour vérifier si c'est une clé valide
 function isModuleKey(key: string): key is ModuleKey {
-    return ['property', 'owner', 'tenant', 'advertisement'].includes(key);
+    return ['property', 'owner', 'tenant', 'advertisement', 'contract'].includes(key);
 }
 
 export const getMainNav = (activeModule: string) => {
