@@ -25,13 +25,13 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
                         height={30}
                         alt="cover"
                     />
-                    <span className="ml-4 text-2xl text-gray-700">{data?.name}</span>
+                    <span className="ml-4 text-2xl text-gray-700">{data?.owner?.legal_name}</span>
                 </div>
                 <div className="rounded-3xl bg-white p-4">
                     <Button
                         variant={'success'}
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
-                        onClick={()=> router.push(`/admin/module/owner/edit/${idOwner}`)}
+                        onClick={() => router.push(`/admin/module/owner/edit/${idOwner}`)}
                         leftIcon={<Edit className="text-withe" />}
                     >
                         Modifier
@@ -67,7 +67,15 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-medium text-[#1F1F1FB2]">Date de naissance</span>
-                            <span className="text-[#222222E5] font-medium">{data?.owner?.birth_date || '-'}</span>
+                            <span className="text-[#222222E5] font-medium">
+                                {data?.owner?.birth_date
+                                    ? new Date(data.owner.birth_date).toLocaleDateString("fr-FR", {
+                                        day: "2-digit",
+                                        month: "long",
+                                        year: "numeric",
+                                    })
+                                    : "-"}
+                            </span>
                         </div>
                     </div>
                 </div>

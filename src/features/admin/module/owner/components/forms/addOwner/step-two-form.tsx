@@ -69,7 +69,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
               rules={{ required: 'Pays de résidence requis' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`paysResidence-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder={isCountriesLoading ? 'Chargement...' : 'Sélectionnez'} />
                     </SelectTrigger>
@@ -99,6 +99,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                     value={field.value}
                     onValueChange={field.onChange}
                     disabled={isMunicipalitiesLoading || !selectedCountryId}
+                    key={`commune-${field.value}`}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder={isMunicipalitiesLoading ? 'Chargement...' : 'Sélectionnez'} />
@@ -142,7 +143,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
               rules={{ required: 'Profession requise' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`profession-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
@@ -192,7 +193,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
               rules={{ required: 'Mode de réception requis' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`modeReception-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>

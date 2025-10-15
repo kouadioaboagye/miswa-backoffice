@@ -58,7 +58,7 @@ function AddOwnerView() {
           'lieuNaissance',
           'situationFamiliale',
           'typePiece',
-          'numeroCNI',
+          'identity_card_number',
           'dateExpiration',
         ];
       case 2:
@@ -112,7 +112,7 @@ function AddOwnerView() {
         birth_place: values?.lieuNaissance,
         marital_status: values?.situationFamiliale,
         identity_card_type: values?.typePiece,
-        identity_card_number: values.numeroCNI,
+        identity_card_number: values.identity_card_number,
         identity_card_expiry_date: values.dateExpiration,
         municipality: values.commune,
         address: values.adresse,
