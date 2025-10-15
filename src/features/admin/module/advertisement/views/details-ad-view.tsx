@@ -5,9 +5,12 @@ import Image from "next/image";
 import { Calendar, Check, Edit, Map, MapPin, Presentation, Star, Trash, Trash2, User } from "lucide-react";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
+import ConfirmModal from "@/shared/components/ui/confirm-modal";
+import { useState } from "react";
 
 const AdDetailView = ({ idAd }: { idAd: string }) => {
     const router = useRouter()
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     // const { data, isLoading, error } = useGetAdByIdQuery(idBuilding)
     // if (error) {
     //     toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
@@ -22,6 +25,16 @@ const AdDetailView = ({ idAd }: { idAd: string }) => {
     return (
         <div className="flex flex-col space-y-20">
             {/* {isLoading  && <Loading/>} */}
+            <ConfirmModal
+                isOpen={confirmModalOpen}
+                onClose={() => setConfirmModalOpen(false)}
+                title="Attention"
+                message={`Attention vous souhaitez archiver l’annonce [Nom_de_l’annonces], si vous validez, cette annonce disparaitra de la liste des annonces en cours.`}
+                confirmText="Archiver"
+                onConfirm={() => {}}
+                cancelText="Annuler"
+                variant="danger"
+            />
             <div className="w-full space-y-10">
                 <div className="flex flex-1 items-center justify-between w-full">
                     <div>
@@ -42,7 +55,7 @@ const AdDetailView = ({ idAd }: { idAd: string }) => {
                         <Button
                             variant={'destructive'}
                             className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8 bg-[#FF5F57]"
-                            onClick={() => router.push(`/admin/module/advertisement/edit/${idAd}`)}
+                            onClick={() => setConfirmModalOpen(true)}
                             leftIcon={<Trash2 className="text-withe" />}
                         >
                             Archiver
