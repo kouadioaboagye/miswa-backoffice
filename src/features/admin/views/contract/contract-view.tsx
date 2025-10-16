@@ -93,7 +93,7 @@ const ContractView = ({status="default"}: {status?: string}) => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={() => router.push('/admin/contracts/contrat-form')}
+                            onClick={() => router.push('/admin/module/contract/add')}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU CONTRAT</span>

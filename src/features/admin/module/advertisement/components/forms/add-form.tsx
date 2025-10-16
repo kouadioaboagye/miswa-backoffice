@@ -1,13 +1,8 @@
 "use client"
 
-import React, { useState } from 'react'
-import { Controller, useForm, UseFormReturn } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Loading from '@/app/loading';
-import { toast } from 'sonner';
-import SuccessModal from '@/shared/components/ui/success-modal';
-import { useRouter } from 'next/navigation';
-import { addAdvertisementFormData, addAdvertisementFormSchema } from './schemas';
+import React from 'react'
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { addAdvertisementFormData } from './schemas';
 import { Label } from '@/shared/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
