@@ -7,10 +7,10 @@ import React from 'react'
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
 import { Plus, BuildingIcon, MapPinIcon, UsersIcon, GlobeIcon, EyeIcon, PhoneIcon } from 'lucide-react'
-import BuildingTable from '../../components/forms/tables/building/building-table'
 import { toast } from 'sonner'
 import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries'
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper'
+import BuildingTable from '../../components/tables/building/building-table'
 
 function ListBuildingView() {
     const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()

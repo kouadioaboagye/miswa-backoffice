@@ -1,8 +1,7 @@
-import { Building } from "@/features/admin/module/property/components/forms/tables/building/columns";
-import { Apartment } from "@/features/admin/module/property/components/forms/tables/building/details/columns";
+import { Apartment } from "@/features/admin/module/property/components/tables/building/details/columns";
 import { IOwnerDataModel } from "../module/owner/types";
 
-export type IPropertyDataModel = {
+export type IAssetDataModel = {
     id: string | number;
     name: string;
     description?: string;

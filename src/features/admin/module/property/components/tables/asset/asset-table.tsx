@@ -1,10 +1,10 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
-import { columns, Property } from './columns';
 import { ColumnDef } from '@tanstack/react-table';
+import { Asset } from './columns';
 
-interface PropertyTableProps {
-    data: Property[];
-    columns: ColumnDef<Property>[];
+interface AssetTableProps {
+    data: Asset[];
+    columns: ColumnDef<Asset>[];
     totalItems?: number;
     pageSize?: number;
     onPageChange?: (page: number) => void;
@@ -12,7 +12,7 @@ interface PropertyTableProps {
     isLoading?: boolean;
 }
 
-const PropertyTable = ({ 
+const AssetTable = ({ 
     data, 
     columns, 
     totalItems = 0,
@@ -20,7 +20,7 @@ const PropertyTable = ({
     onPageChange,
     currentPage = 1,
     isLoading = false
-}: PropertyTableProps) => {
+}: AssetTableProps) => {
     return (
         <DataTable 
             columns={columns} 
@@ -34,4 +34,5 @@ const PropertyTable = ({
     );
 };
 
-export default PropertyTable;
+export default AssetTable;
+

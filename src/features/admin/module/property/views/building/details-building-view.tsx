@@ -3,11 +3,11 @@
 import { Button } from "@/shared/components/ui/button";
 import Image from "next/image";
 import { Edit, MapPin, Presentation } from "lucide-react";
-import ApartmentBuildingTable from "../../components/forms/tables/building/details/apartment-building-table";
 import { useGetBuildingByIdQuery } from "@/lib/data-service/property/building.queries";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
+import ApartmentBuildingTable from "../../components/tables/building/details/apartment-building-table";
 
 const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
     const router = useRouter()

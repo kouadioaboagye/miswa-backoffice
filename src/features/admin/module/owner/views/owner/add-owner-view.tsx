@@ -13,6 +13,7 @@ import SuccessModal from '@/shared/components/ui/success-modal';
 import Stepper from '@/shared/components/ui/stepper';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { useRouter } from 'next/navigation';
+import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 
 function AddOwnerView() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -35,7 +36,7 @@ function AddOwnerView() {
 
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
-    }else {
+    } else {
       console.log(form.getValues(), form.formState.isValid)
       form.handleSubmit(onSubmit)();
     }
@@ -134,7 +135,24 @@ function AddOwnerView() {
     setIsSubmitting(true);
 
     try {
-      const apiData = mapFormDataToAPI(values);
+      let documentUrls = values.documentUrls || [];
+      let coverPictureUrl = values.coverPictureUrl || '';
+
+      if (values.documents && values.documents.length > 0) {
+        const files = values.documents.filter((d): d is File => d instanceof File);
+        const newDocumentUrls = await uploadAllFiles(files);
+        documentUrls = [...documentUrls, ...newDocumentUrls];
+      }
+
+      if (values.coverPicture instanceof File) {
+        coverPictureUrl = await uploadFile(values.coverPicture);
+      }
+
+      const apiData = {
+        ...mapFormDataToAPI(values),
+        documents: documentUrls,
+        cover_url: coverPictureUrl,
+      };
       await fetchWrapper("businesses/", {
         method: "POST",
         body: apiData

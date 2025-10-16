@@ -4,9 +4,9 @@ import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import type { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
-import EyeIcon2 from '../../../../../../../../../../public/assets/icons/eye-icon-2';
-import EditIcon from '../../../../../../../../../../public/assets/icons/edit-icon';
-import DeleteIcon2 from '../../../../../../../../../../public/assets/icons/delete-icon-2';
+import EyeIcon2 from '../../../../../../../../../public/assets/icons/eye-icon-2';
+import EditIcon from '../../../../../../../../../public/assets/icons/edit-icon';
+import DeleteIcon2 from '../../../../../../../../../public/assets/icons/delete-icon-2';
 
 // This type is used to define the shape of our data.
 export type Apartment = {
