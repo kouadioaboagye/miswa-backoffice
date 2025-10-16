@@ -60,9 +60,15 @@ export const paths = {
                 archived: `${ROOTS.ADMIN}/module/advertisement/archived`,
                 draft: `${ROOTS.ADMIN}/module/advertisement/draft`,
                 visit: {
-                    list:`${ROOTS.ADMIN}/module/advertisement/visit/list`,
+                    list: `${ROOTS.ADMIN}/module/advertisement/visit/list`,
                     terminated: `${ROOTS.ADMIN}/module/advertisement/visit/terminated`,
                 }
+            },
+            contract: {
+                root: `${ROOTS.ADMIN}/module/contract`,
+                active: `${ROOTS.ADMIN}/module/contract/active`,
+                terminated: `${ROOTS.ADMIN}/module/contract/terminated`,
+                pending: `${ROOTS.ADMIN}/module/contract/pending`,
             }
         }
     }

@@ -1,14 +1,39 @@
-import { DataTable } from '@/shared/components/ui/data-table/data-table';
-import { columns, fakeProperties } from './columns';
+'use client';
+
+import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
+import { ColumnDef } from '@tanstack/react-table';
+import { Contract } from './columns';
 
 interface ContractTableProps {
-  onDetails: (id: string) => void;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => Promise<void>;
+    data: Contract[];
+    columns: ColumnDef<Contract>[];
+    totalItems?: number;
+    pageSize?: number;
+    onPageChange?: (page: number) => void;
+    currentPage?: number;
+    isLoading?: boolean;
 }
 
-const ContractTable = ({ onDetails, onEdit, onDelete }: ContractTableProps) => {
-    return <DataTable columns={columns(onDetails, onEdit, onDelete)} data={fakeProperties} />;
+const ContractTable = ({
+    data,
+    columns,
+    totalItems = 0,
+    pageSize = 10,
+    onPageChange,
+    currentPage = 1,
+    isLoading = false
+}: ContractTableProps) => {
+    return (
+        <DataTable
+            columns={columns}
+            data={data}
+            totalItems={totalItems}
+            pageSize={pageSize}
+            onPageChange={onPageChange}
+            currentPage={currentPage}
+            isLoading={isLoading}
+        />
+    );
 };
 
 export default ContractTable;
