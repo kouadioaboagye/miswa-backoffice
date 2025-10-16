@@ -1,6 +1,7 @@
 'use client';
 
 import UserPill from '@/shared/components/atoms/user-pill';
+import MapLeftlet from '@/shared/components/leftlet-map/map';
 import InterventionCaroussel from '@/shared/components/molecules/intervention-caroussel';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
@@ -18,6 +19,33 @@ const PropertyViewDetails = () => {
     //         isOverlayCanClosed: true
     //     });
     // };
+
+    const imageTable: { url: string; alt: string }[] = [
+        {
+            url: '/assets/images/image4.jpg',
+            alt: 'Touré Mack'
+        },
+        {
+            url: '/assets/images/image1.jpg',
+            alt: 'Touré Mack'
+        },
+        {
+            url: '/assets/images/image2.jpg',
+            alt: 'Touré Mack'
+        },
+        {
+            url: '/assets/images/image3.jpg',
+            alt: 'Touré Mack'
+        },
+        {
+            url: '/assets/images/image5.jpg',
+            alt: 'Touré Mack'
+        },
+        {
+            url: '/assets/images/image6.jpg',
+            alt: 'Touré Mack'
+        }
+    ];
 
     return (
         <div className="flex flex-col gap-12 px-4">
@@ -48,7 +76,7 @@ const PropertyViewDetails = () => {
                     <span className="text-[1.3rem]">MODIFIER</span>{' '}
                 </Button>
             </div>
-            <InterventionCaroussel />
+            <InterventionCaroussel images={imageTable} />
             <div className="flex flex-col gap-4">
                 <h3>Appartement 4 pièce (Cité AGC Modeste Grand Bassam)</h3>
                 <div className="flex gap-32 items-center">
@@ -147,7 +175,9 @@ const PropertyViewDetails = () => {
                     <LocationIcon2 />
                     <h3>Géolocalisation du bien</h3>
                 </div>
-                <div className="h-[30rem] border border-[#16527D33] rounded-[1.2rem]"></div>
+                <div className="h-[30rem] border border-[#16527D33] rounded-[1.2rem]">
+                    <MapLeftlet />
+                </div>
             </div>
         </div>
     );

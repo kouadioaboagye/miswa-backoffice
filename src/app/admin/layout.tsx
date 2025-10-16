@@ -25,9 +25,9 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <SidebarProvider className="bg-[#14385C]">
+        <SidebarProvider className="bg-[#14385C] h-screen">
             <AppSidebar variant="inset" />
-            <SidebarInset className="overflow-hidden px-14">
+            <SidebarInset className="px-14">
                 <header className="flex h-32 items-center justify-between border-b border-b-[#E5E7EB] px-4">
                     <SearchForm
                         inputClassNames="rounded-md w-[300px]"
