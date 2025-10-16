@@ -1,12 +1,12 @@
 'use client';
 
+import { paths } from '@/config/app-route.config';
 import { Button } from '@/shared/components/ui/button';
 import { ChevronDownIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { UserIcon } from '../../../../public/assets/icons/user-icon';
 import Logo from '../atoms/logo';
-import { useRouter } from 'next/navigation';
-import { paths } from '@/config/app-route.config';
 // import { ChevronDownIcon } from '@/public/assets/icons/chevron-down-icon';
 // import { BeneficiaireIcon } from '@/public/assets/icons/beneficiaire-icon';
 
@@ -15,7 +15,10 @@ interface NavbarProps {
     backgroundColor?: string;
 }
 
-const Navbar = ({ activeLink = 'louer', backgroundColor = 'white' }: NavbarProps) => {
+const Navbar = ({
+    activeLink = 'louer',
+    backgroundColor = 'white'
+}: NavbarProps) => {
     const router = useRouter();
 
     const navigationLinks = [
@@ -26,7 +29,11 @@ const Navbar = ({ activeLink = 'louer', backgroundColor = 'white' }: NavbarProps
     ];
 
     return (
-        <nav className={`h-[84px] rounded-2xl ${backgroundColor === 'white' ? 'bg-white' : 'bg-[#F6FFF9]'} sm:w-[95%] md:w-[90%]`}>
+        <nav
+            className={`h-[84px] rounded-2xl ${
+                backgroundColor === 'white' ? 'bg-white' : 'bg-[#F6FFF9]'
+            } sm:w-[95%] md:w-[90%]`}
+        >
             <div className="flex h-full items-center justify-between px-5">
                 {/* Logo */}
                 <div className="flex items-center gap-3">
@@ -67,7 +74,6 @@ const Navbar = ({ activeLink = 'louer', backgroundColor = 'white' }: NavbarProps
                         Mon compte
                         <ChevronDownIcon className="size-4" />
                     </Button>
-
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -87,8 +93,6 @@ const Navbar = ({ activeLink = 'louer', backgroundColor = 'white' }: NavbarProps
                     </svg>
                 </button>
             </div>
-
-            
         </nav>
     );
 };

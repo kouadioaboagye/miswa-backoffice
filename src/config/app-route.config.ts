@@ -35,9 +35,20 @@ export const paths = {
         module: {
             root: `${ROOTS.ADMIN}/module`,
             advertisements: `${ROOTS.ADMIN}/module/advertisements`,
-            owner: `${ROOTS.ADMIN}/module/owner`,
+            owner: {
+                root: `${ROOTS.ADMIN}/module/owner`,
+                owners: `${ROOTS.ADMIN}/module/owner`,
+                payments: `${ROOTS.ADMIN}/module/owner/payment`,
+                contracts: `${ROOTS.ADMIN}/module/owner/contracts`
+            },
             tenant: `${ROOTS.ADMIN}/module/tenant`,
-            property: `${ROOTS.ADMIN}/module/property`
-        }
+            property: {
+                root: `${ROOTS.ADMIN}/module/property`,
+                building: {
+                    list:`${ROOTS.ADMIN}/module/property/building`,
+                }
+            },
+        
     }
+}
 };

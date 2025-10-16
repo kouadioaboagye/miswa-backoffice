@@ -1,3 +1,4 @@
+"use client"
 import { AppSidebar } from '@/shared/components/organisms/sections/app-sidebar';
 import {
     Avatar,
@@ -18,12 +19,22 @@ import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
 import { ChevronDown } from 'lucide-react';
 import MenuIcon from '../../../public/assets/icons/menu';
 import RingIcon from '../../../public/assets/icons/ring';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { checkAuthSession } from '@/lib/auth/utils';
 
 export default function DashboardLayout({
     children
 }: {
     children: React.ReactNode;
 }) {
+    const router = useRouter()
+    useEffect(() => {
+        if(!checkAuthSession()) {
+            router.push('/auth/login')
+        }
+    }, [])
+    
     return (
         <SidebarProvider className="bg-[#14385C] h-screen">
             <AppSidebar variant="inset" />
@@ -38,6 +49,7 @@ export default function DashboardLayout({
                             variant={'ghost'}
                             size={'ghost_header'}
                             className="[&_svg]:size-8"
+                            onClick={() => router.push('/admin/dashboard')}
                         >
                             <MenuIcon />
                         </Button>

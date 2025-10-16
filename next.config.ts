@@ -1,19 +1,38 @@
 /** @type {import('next').NextConfig} */
-import { createEnv } from './src/config/env';
-createEnv();
 const nextConfig = {
-    reactStrictMode: true,
-    output: 'standalone',
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-                port: '',
-                pathname: '/**'
-            }
-        ]
-    }
-};
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.miswa.ci',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'api.miswa.ci',
+        port: '',
+        pathname: '/**',
+      },
+      // Ajoutez d'autres domaines si nécessaire
+      {
+        protocol: 'https',
+        hostname: 'image.example',
+        port: '',
+        pathname: '/**',
+      },
 
-export default nextConfig;
+      {
+
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+
+       
+      }
+    ],
+  },
+}
+
+module.exports = nextConfig

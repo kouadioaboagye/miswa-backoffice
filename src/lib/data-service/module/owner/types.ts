@@ -1,0 +1,31 @@
+export type IOwnerDataModel = {
+    id: number;
+    name: string;
+    description?: string | null;
+    cover_url?: string | null;
+    is_default: boolean;
+    owner?: {
+        legal_form: string;
+        legal_name: string;
+        birth_date?: string;
+        birth_place?: string;
+        marital_status?: string;
+        identity_card_type?: string;
+        identity_card_number?: string;
+        identity_card_issue_date?: string;
+        identity_card_issue_place?: string;
+        identity_card_expiry_date?: string;
+        phonenumber?: string;
+        is_whatsapp?: boolean;
+        email?: string;
+        zip_code?: string;
+        municipality?: string;
+        address?: string;
+        street?: string;
+        profession?: string;
+        company_name?: string;
+        avg_monthly_income?: number;
+        payment_mode?: string;
+        id: number;
+    };
+};

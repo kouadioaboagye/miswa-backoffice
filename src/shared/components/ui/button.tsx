@@ -3,7 +3,6 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { ButtonLoader } from '../../../../public/assets/icons/button-loader';
 
 const buttonVariants = cva(
     'inline-flex h-full items-center justify-center gap-[10px] whitespace-nowrap text-[1.5rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -41,7 +40,10 @@ const buttonVariants = cva(
                 // Bouton info (bleu cyan)
                 info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
                 outline_header:
-                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground'
+                    'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
+                //Bouton for date picker in a form
+                date_picker:
+                    'bg-[#F3F9FF] text-[1.4rem] focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]'
             },
             size: {
                 default:
@@ -94,7 +96,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
                 disabled={isLoading || props.disabled}
             >
-                {isLoading ? (
+                {/* {isLoading ? (
                     <ButtonLoader style={{ fontSize: '3rem' }} />
                 ) : (
                     <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
@@ -102,7 +104,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                         {props.children}
                         {rightIcon}
                     </div>
-                )}
+                )} */}
             </Comp>
         );
     }

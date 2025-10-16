@@ -1,5 +1,7 @@
+import PropertyView from '@/features/admin/views/property/property-view';
+
 const page = () => {
-    return <div>page</div>;
+    return <PropertyView />;
 };
 
 export default page;
