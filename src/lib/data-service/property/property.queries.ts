@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient, UseQueryResult } from "@tanstack/react-query";
-import { IAssetDataModel, IBuildingDataModel } from "./types";
+import { APIResponseDashboardProperty, IAssetDataModel, IBuildingDataModel } from "./types";
 import { APIResponseList } from "../types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
@@ -70,11 +70,11 @@ export const useUpdatePropertyMutation = () => {
     });
 }
 
-export const useDashboardPropertyDataQuery = (): UseQueryResult<APIResponseList<any>> => {
+export const useDashboardPropertyDataQuery = (): UseQueryResult<APIResponseDashboardProperty> => {
     return useQuery({
         queryKey: ['dashboard'],
         queryFn: async () => {
-            return await fetchWrapper<APIResponseList<any>>(`dashboard/properties`, {
+            return await fetchWrapper<APIResponseDashboardProperty>(`dashboard/properties/`, {
                 method: 'GET',
             });
         }

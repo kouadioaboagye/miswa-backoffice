@@ -2,44 +2,44 @@ import { Apartment } from "@/features/admin/module/property/components/tables/bu
 import { IOwnerDataModel } from "../module/owner/types";
 
 export type IAssetDataModel = {
-    id: string | number;
+  id: string | number;
+  name: string;
+  description?: string;
+  cover_url?: string;
+  reference?: string;
+  street?: string;
+  address?: string;
+  google_plus_code?: string;
+  latitude?: number;
+  longitude?: number;
+  rooms_count?: number;
+  likes_count?: number;
+  views_count?: number;
+  building_steps_level?: number | null;
+  built_year?: number;
+  area_m2?: number;
+  monthly_rent_amount?: number;
+  is_busy: boolean;
+  is_public?: boolean;
+  busy_until?: string | null;
+  is_active?: boolean;
+  is_banned?: boolean;
+  photos?: string[];
+  videos?: string[];
+  official_documents?: string[];
+  id_building?: number;
+  id_business?: number;
+  id_municipality?: number;
+  business?: {
     name: string;
-    description?: string;
-    cover_url?: string;
-    reference?: string;
-    street?: string;
-    address?: string;
-    google_plus_code?: string;
-    latitude?: number;
-    longitude?: number;
-    rooms_count?: number;
-    likes_count?: number;
-    views_count?: number;
-    building_steps_level?: number | null;
-    built_year?: number;
-    area_m2?: number;
-    monthly_rent_amount?: number;
-    is_busy: boolean;
-    is_public?: boolean;
-    busy_until?: string | null;
-    is_active?: boolean;
-    is_banned?: boolean;
-    photos?: string[];
-    videos?: string[];
-    official_documents?: string[];
-    id_building?: number;
-    id_business?: number;
-    id_municipality?: number;
-    business?: {
-        name: string;
-        description?: string | null;
-        cover_url?: string | null;
-        is_default?: boolean;
-        id: number;
-    };
-    images?: string[];
-    created_at: string;
-    updated_at: string;
+    description?: string | null;
+    cover_url?: string | null;
+    is_default?: boolean;
+    id: number;
+  };
+  images?: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export type IBuildingDataModel = {
@@ -111,3 +111,13 @@ export type APIResponseGetBuilding = {
   nombre_total_proprietes: number;
   nombre_proprietes_disponibles: number
 }
+
+export type APIResponseDashboardProperty = {
+  overview: {
+    total_properties: number;
+    public_properties: number;
+    private_properties: number;
+    busy_properties: number;
+    available_properties: number;
+  }
+};

@@ -7,25 +7,24 @@ import { ChartLineMultiple } from '@/shared/components/ui/line-chart';
 import { useDashboardPropertyDataQuery } from '@/lib/data-service/property/property.queries';
 
 const DashboardPropertyView = () => {
-    const { data: response, isLoading, error, refetch } = useDashboardPropertyDataQuery()
-    const { data, total } = response || { data: [], total: 0 }
-    console.log('Dashboard Property Data:', response);
+    const { data, isLoading, error, refetch } = useDashboardPropertyDataQuery();
+    const overview = data?.overview;
     const dataItems = [
         {
             title: 'Total Biens',
-            value: '2',
+            value: overview?.total_properties.toString() || '0',
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
-            title: 'Total Batiment',
-            value: '2',
+            title: 'Biens disponibles',
+            value: overview?.available_properties.toString() || '0',
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
             title: 'Biens occupés',
-            value: '0',
+            value: overview?.busy_properties.toString() || '0',
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         }
