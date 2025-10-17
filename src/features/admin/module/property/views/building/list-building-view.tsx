@@ -3,17 +3,20 @@
 import DataTableLayout from '@/shared/components/layouts/data-table-layout'
 import GlobalDataCard from '@/shared/components/molecules/global-data-card'
 import { Button } from '@/shared/components/ui/button'
-import React from 'react'
+import React, { useState } from 'react'
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon'
 import { useRouter } from 'next/navigation'
-import { Plus, BuildingIcon, MapPinIcon, UsersIcon, GlobeIcon, EyeIcon, PhoneIcon } from 'lucide-react'
+import { Plus, BuildingIcon, MapPinIcon, UsersIcon, GlobeIcon, EyeIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries'
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper'
 import BuildingTable from '../../components/tables/building/building-table'
+import { columns } from '../../components/tables/building/columns'
 
 function ListBuildingView() {
-    const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery()
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
+    const { data: buildingsResponse, isLoading, error, refetch, isRefetching } = useListBuildingsQuery(currentPage, pageSize)
     const { data: buildings, total } = buildingsResponse || { data: [], total: 0 }
     const router = useRouter();
 
@@ -26,31 +29,10 @@ function ListBuildingView() {
         }
     };
 
-    const handleDetails = (id: string) => {
-        router.push(`/admin/module/property/building/details/${id}`);
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
     };
 
-    const handleEdit = (id: string) => {
-        router.push(`/admin/module/property/building/edit/${id}`);
-    };
-
-    const handleDelete = async (id: string) => {
-        try {
-            await fetchWrapper(`buildings/${id}/force/`, {
-                method: 'DELETE',
-            });
-            toast.success('Bâtiment supprimé avec succès.');
-            await refetch();
-        } catch (error: any) {
-            if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
-                toast.error(error.detail.label_fr);
-            } else {
-                toast.error(error instanceof Error ? error.message : 'Oops, une erreur est survenue lors de la suppression.');
-            }
-        }
-    };
-
-    // Calculer les métriques basées sur les données réelles
     const totalBuildings = total || 0;
     const publicBuildings = buildings.filter(building => building.is_public).length;
     const privateBuildings = buildings.filter(building => !building.is_public).length;
@@ -130,9 +112,12 @@ function ListBuildingView() {
             >
                 <BuildingTable
                     data={buildings}
-                    onDetails={handleDetails}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    columns={columns}
+                    totalItems={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoading || isRefetching}
                 />
             </DataTableLayout>
         </div>

@@ -8,11 +8,26 @@ import { toast } from "sonner";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 import ApartmentBuildingTable from "../../components/tables/building/details/apartment-building-table";
+import { useState } from "react";
+import { columns } from "../../components/tables/building/details/columns";
 
 const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
     const router = useRouter()
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
     const { data, isLoading, error } = useGetBuildingByIdQuery(idBuilding)
     const batiment = data?.batiment;
+    const totalItems = data?.proprietes?.length || 0;
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    const paginatedData = data?.proprietes?.slice(
+        (currentPage - 1) * pageSize,
+        currentPage * pageSize
+    ) || [];
+
     if (error) {
         toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
     }
@@ -21,7 +36,7 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
 
     return (
         <div className="flex flex-col space-y-20">
-            {isLoading  && <Loading/>}
+            {isLoading && <Loading />}
             <div className="w-full space-y-10">
                 <div className="flex flex-1 items-center justify-between w-full">
                     <div>
@@ -43,8 +58,8 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
                             <Button
                                 variant={'success'}
                                 className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
-                                onClick={()=> router.push(`/admin/module/property/building/edit/${idBuilding}`)}
-                                rightIcon={<Edit className="text-withe"/>}
+                                onClick={() => router.push(`/admin/module/property/building/edit/${idBuilding}`)}
+                                rightIcon={<Edit className="text-withe" />}
                             >
                                 Modifier
                             </Button>
@@ -96,7 +111,15 @@ const BuildingDetailView = ({ idBuilding }: { idBuilding: string }) => {
             </div>
             <div>
                 <h2 className="text-[24px] font-bold mb-2">Appartements  du batiment</h2>
-                <ApartmentBuildingTable data={data?.proprietes || []}/>
+                <ApartmentBuildingTable
+                    data={paginatedData}
+                    columns={columns}
+                    totalItems={totalItems}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoading}
+                />
             </div>
         </div>
     );

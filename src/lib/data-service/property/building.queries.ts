@@ -3,11 +3,11 @@ import { APIResponseList } from "../types";
 import { APIResponseGetBuilding, IBuildingDataModel } from "./types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
-export const useListBuildingsQuery = (): UseQueryResult<APIResponseList<IBuildingDataModel>> => {
+export const useListBuildingsQuery = (page: number = 1, limit: number = 10): UseQueryResult<APIResponseList<IBuildingDataModel>> => {
     return useQuery({
         queryKey: ['buildings'],
         queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IBuildingDataModel>>('buildings/', {
+            return await fetchWrapper<APIResponseList<IBuildingDataModel>>(`buildings//?page=${page}&limit=${limit}`, {
                 method: 'GET',
             });
         }
