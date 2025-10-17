@@ -53,10 +53,12 @@ export type IBuildingDataModel = {
   latitude?: number;
   photos?: string[];
   building_type?: string;
+  construction_year?: number;
   documents?: string[];
   is_public?: boolean;
   id_business?: number;
   id_municipality?: number;
+  city?: string;
   business?: {
     name: string;
     description?: string | null;
