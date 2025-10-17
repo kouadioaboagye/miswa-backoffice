@@ -11,21 +11,6 @@ export const addBuildingFormSchema = z.object({
   buildingYear: z.string().min(1, { message: "Année de construction requise" }),
   landSurface: z.number().min(1, { message: "Superficie requise" }),
   floorNumber: z.number().min(1, { message: "Nombre d'étages requis" }),
-  elevator: z.boolean(),
-  internet: z.boolean(),
-  water: z.boolean(),
-  parking: z.object({
-    available: z.boolean(),
-    amount: z.number().min(0),
-  }),
-  security: z.object({
-    available: z.boolean(),
-    amount: z.number().min(0),
-  }),
-  commonSpaces: z.object({
-    available: z.boolean(),
-    amount: z.number().min(0),
-  }),
   description: z.string().optional(),
   longitude: z.number().optional(),
   latitude: z.number().optional(),
