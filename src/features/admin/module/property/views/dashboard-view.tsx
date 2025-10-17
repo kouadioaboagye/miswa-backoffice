@@ -1,9 +1,15 @@
+"use client"
+
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { GlobeIcon, WalletIcon } from 'lucide-react';
 import DocIcon from '../../../../../../public/assets/icons/doc-icon';
 import { ChartLineMultiple } from '@/shared/components/ui/line-chart';
+import { useDashboardPropertyDataQuery } from '@/lib/data-service/property/property.queries';
 
 const DashboardPropertyView = () => {
+    const { data: response, isLoading, error, refetch } = useDashboardPropertyDataQuery()
+    const { data, total } = response || { data: [], total: 0 }
+    console.log('Dashboard Property Data:', response);
     const dataItems = [
         {
             title: 'Total Biens',
