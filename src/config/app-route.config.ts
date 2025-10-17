@@ -52,6 +52,9 @@ export const paths = {
                 root: `${ROOTS.ADMIN}/module/property`,
                 building: {
                     list: `${ROOTS.ADMIN}/module/property/building`,
+                },
+                asset: {
+                    list: `${ROOTS.ADMIN}/module/property/asset`,
                 }
             },
             advertisement: {
