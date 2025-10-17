@@ -32,10 +32,14 @@ const AssetActions = ({ asset }: { asset: Asset }) => {
     router.push(`/admin/property/edit/${String(asset.id)}`);
   };
 
+    const handleDetails = () => {
+    router.push(`/admin/module/property/asset/details/${String(asset.id)}`);
+  };
+
   return (
     <>
       <div className="flex items-center gap-6">
-        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
+        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10" onClick={handleDetails}>
           <EyeIcon2 />
         </button>
         <button
