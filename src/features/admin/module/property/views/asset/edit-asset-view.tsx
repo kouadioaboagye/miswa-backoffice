@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import { Button } from '@/shared/components/ui/button';
 import { useGetPropertyQuery, useUpdatePropertyMutation } from '@/lib/data-service/property/property.queries';
-import { EditPropertyForm, editPropertyFormSchema } from '../../components/forms/assets/edit-property-form-schema';
-import { EditPropertyFormComponent } from '../../components/forms/assets/edit-property-form';
+import { EditAssetForm, editAssetFormSchema } from '../../components/forms/assets/edit-asset-form-schema';
+import { EditAssetFormComponent } from '../../components/forms/assets/edit-asset-form';
 
 function EditAssetView() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -20,19 +20,16 @@ function EditAssetView() {
   const params = useParams();
   const propertyId = params.id as string;
 
-  const form = useForm<EditPropertyForm>({
-    resolver: zodResolver(editPropertyFormSchema),
+  const form = useForm<EditAssetForm>({
+    resolver: zodResolver(editAssetFormSchema),
     mode: 'onChange',
   });
 
-  // Récupérer les données de la propriété
   const { data: property, isLoading, error } = useGetPropertyQuery(propertyId);
   const updatePropertyMutation = useUpdatePropertyMutation();
 
-  // Pré-remplir le formulaire quand les données sont chargées
   useEffect(() => {
     if (property) {
-      // Mapper les données de l'API vers le formulaire
       form.reset({
         name: property.name,
         description: property.description || '',
@@ -53,7 +50,7 @@ function EditAssetView() {
     }
   }, [property, form]);
 
-  const onSubmit = async (data: EditPropertyForm) => {
+  const onSubmit = async (data: EditAssetForm) => {
     try {
       setIsSubmitting(true);
       
@@ -93,7 +90,7 @@ function EditAssetView() {
 
   const handleSuccessConfirm = () => {
     setSuccessModalOpen(false);
-    router.push('/admin/property');
+    router.push('/admin/module/property/asset');
   };
 
   const handleSuccessClose = () => {
@@ -130,8 +127,8 @@ function EditAssetView() {
       />
       
       <h1 className="text-4xl font-bold text-gray-900 mb-8">Modification du Bien</h1>
-      
-      <EditPropertyFormComponent
+
+      <EditAssetFormComponent
         form={form}
         onSubmit={onSubmit}
         isSubmitting={isSubmitting}

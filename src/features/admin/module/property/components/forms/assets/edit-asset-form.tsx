@@ -7,20 +7,20 @@ import { Textarea } from '@/shared/components/ui/textarea';
 import { Switch } from '@/shared/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { UseFormReturn } from 'react-hook-form';
-import { EditPropertyForm } from './edit-property-form-schema';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
+import { EditAssetForm } from './edit-asset-form-schema';
 
-interface EditPropertyFormComponentProps {
-  form: UseFormReturn<EditPropertyForm>;
-  onSubmit: (data: EditPropertyForm) => void;
+interface EditAssetFormComponentProps {
+  form: UseFormReturn<EditAssetForm>;
+  onSubmit: (data: EditAssetForm) => void;
   isSubmitting: boolean;
 }
 
-export const EditPropertyFormComponent = ({ 
+export const EditAssetFormComponent = ({ 
   form, 
   onSubmit, 
   isSubmitting 
-}: EditPropertyFormComponentProps) => {
+}: EditAssetFormComponentProps) => {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   return (

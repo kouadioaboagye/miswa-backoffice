@@ -37,14 +37,14 @@ const BuildingActions = ({ building }: BuildingActionsProps) => {
     try {
       await deleteBuildingMutation.mutateAsync(String(building.id));
       toast.success('Bâtiment supprimé avec succès.');
-      setIsDeleteModalOpen(false);
     } catch (error: any) {
-      setIsDeleteModalOpen(false);
       if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
         toast.error(error.detail.label_fr);
       } else {
         toast.error(error instanceof Error ? error.message : 'Oops, une erreur est survenue lors de la suppression.');
       }
+    } finally{
+      setIsDeleteModalOpen(false);
     }
   };
 

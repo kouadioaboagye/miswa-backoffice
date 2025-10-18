@@ -11,6 +11,8 @@ import EditIcon from '../../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../../public/assets/icons/delete-icon-2';
 import ConfirmModal from '@/shared/components/ui/confirm-modal';
 import { IAssetDataModel } from '@/lib/data-service/property/types';
+import { useDeletePropertyMutation } from '@/lib/data-service/property/property.queries';
+import { toast } from 'sonner';
 
 export type Asset = Partial<IAssetDataModel> & {
   id: string | number;
@@ -27,13 +29,25 @@ export type Asset = Partial<IAssetDataModel> & {
 const AssetActions = ({ asset }: { asset: Asset }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const router = useRouter();
+  const deleteAssetMutation = useDeletePropertyMutation();
 
   const handleEdit = () => {
-    router.push(`/admin/property/edit/${String(asset.id)}`);
+    router.push(`/admin/module/property/asset/edit/${String(asset.id)}`);
   };
 
-    const handleDetails = () => {
+  const handleDetails = () => {
     router.push(`/admin/module/property/asset/details/${String(asset.id)}`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteAssetMutation.mutateAsync(String(asset.id));
+      toast.success(`Le bien "${asset.name}" a été supprimé avec succès`);
+    } catch {
+      toast.error('Erreur lors de la suppression du bien. Veuillez réessayer.');
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
   };
 
   return (
@@ -62,7 +76,7 @@ const AssetActions = ({ asset }: { asset: Asset }) => {
         title="Attention"
         message={`Attention vous souhaitez supprimer le bien ${asset.name}, si vous validez, ce bien disparaitra de la liste des biens.`}
         confirmText="Supprimer"
-        onConfirm={() => {}}
+        onConfirm={handleDelete}
         cancelText="Annuler"
         variant="danger"
       />

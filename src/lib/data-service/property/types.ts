@@ -36,6 +36,13 @@ export type IAssetDataModel = {
     cover_url?: string | null;
     is_default?: boolean;
     id: number;
+    owner?: {
+      legal_form: string;
+      legal_name: string;
+      birth_date?: string;
+      birth_place?: string;
+      cover_url?: string;
+    }
   };
   images?: string[];
   created_at: string;

@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-// Schéma simplifié pour l'édition de propriété
-export const editPropertyFormSchema = z.object({
+export const editAssetFormSchema = z.object({
   name: z.string().min(1, { message: 'Le nom du bien est requis' }),
   description: z.string().min(1, { message: 'La description est requise' }),
   reference: z.string().optional(),
@@ -19,4 +18,4 @@ export const editPropertyFormSchema = z.object({
   is_active: z.boolean().optional(),
 });
 
-export type EditPropertyForm = z.infer<typeof editPropertyFormSchema>;
+export type EditAssetForm = z.infer<typeof editAssetFormSchema>;
