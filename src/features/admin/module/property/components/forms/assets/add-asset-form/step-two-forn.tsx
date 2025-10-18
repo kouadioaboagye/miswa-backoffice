@@ -20,57 +20,57 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
             <section className="space-y-6">
                 <SectionTitle content="2. Équipements et commodités" />
                 <div className="space-y-6">
-                        <div className="flex items-center space-x-4">
-                            <Controller
-                                name="parking"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <Switch
-                                        id="parking"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                )}
-                            />
-                            <Label htmlFor="parking">
-                                Parking
-                            </Label>
-                            <InputErrorMessage message={errors.parking?.message} />
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <Controller
-                                name="internet"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <Switch
-                                        id="internet"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                )}
-                            />
-                            <Label htmlFor="internet">
-                                Accès internet/fibre
-                            </Label>
-                            <InputErrorMessage message={errors.internet?.message} />
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <Controller
-                                name="water"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <Switch
-                                        id="water"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                )}
-                            />
-                            <Label htmlFor="water">
-                                Système eau/électricité
-                            </Label>
-                            <InputErrorMessage message={errors.water?.message} />
-                        </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="parking"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="parking"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="parking">
+                            Parking
+                        </Label>
+                        <InputErrorMessage message={errors.parking?.message} />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="internet"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="internet"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="internet">
+                            Accès internet/fibre
+                        </Label>
+                        <InputErrorMessage message={errors.internet?.message} />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="water"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="water"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="water">
+                            Système eau/électricité
+                        </Label>
+                        <InputErrorMessage message={errors.water?.message} />
+                    </div>
                 </div>
             </section>
             <section className="space-y-6">
@@ -112,17 +112,17 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                     </div>
                 </div>
             </section>
-                                <div>
-                        <Label htmlFor="description" isRequired>Description du bien</Label><br />
-                        <Controller
-                            name="description"
-                            control={form.control}
-                            render={({ field }) => (
-                                <Textarea id="description" rows={5} {...field} />
-                            )}
-                        />
-                        <InputErrorMessage message={errors.description?.message} />
-                    </div>
+            <div>
+                <Label htmlFor="description">Description du bien</Label><br />
+                <Controller
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                        <Textarea id="description" rows={5} {...field} />
+                    )}
+                />
+                <InputErrorMessage message={errors.description?.message} />
+            </div>
         </div>
     );
 }

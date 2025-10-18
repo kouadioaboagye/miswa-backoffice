@@ -53,6 +53,9 @@ export const addAssetFormSchema = z.object({
     }).min(0,),
     is_public: z.boolean().optional(),
     is_active: z.boolean().optional(),
+    longitude: z.number().optional(),
+    latitude: z.number().optional(),
+    id_business: z.number().optional(),
 });
 
 export type addAssetFormData = z.infer<typeof addAssetFormSchema>;

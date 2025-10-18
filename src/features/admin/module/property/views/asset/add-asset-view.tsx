@@ -13,6 +13,7 @@ import StepTwoForm from '../../components/forms/assets/add-asset-form/step-two-f
 import StepThreeForm from '../../components/forms/assets/add-asset-form/step-three-form';
 import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { useRouter } from 'next/navigation';
 
 function mapFormDataToAPI(values: addAssetFormData): any {
     return {
@@ -30,6 +31,9 @@ function mapFormDataToAPI(values: addAssetFormData): any {
         internet: values.internet,
         water: values.water,
         parking: values.parking,
+        longitude: values.longitude,
+        latitude: values.latitude,
+        id_business: values.id_business,
     };
 }
 
@@ -37,6 +41,7 @@ function AddAssetView() {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [successModalOpen, setSuccessModalOpen] = useState(false)
+    const router = useRouter();
 
     const form = useForm<addAssetFormData>({
         resolver: zodResolver(addAssetFormSchema),
@@ -45,7 +50,16 @@ function AddAssetView() {
             parking: false,
             water: false,
             is_public: false,
-            is_active: false
+            is_active: false,
+            description: '',
+            documents: [],
+            media: { coverPicture: undefined, otherMedia: [] },
+            coverUrl: '',
+            otherMediaUrls: [],
+            documentUrls: [],
+            longitude: 0,
+            latitude: 0,
+            id_business: 1
         },
     });
 
@@ -81,6 +95,7 @@ function AddAssetView() {
     const handleNext = async () => {
         const fields = getStepFields(currentStep);
         const isValid = await form.trigger(fields as any);
+        console.log(form.formState.errors, "form.formState.errors");
 
         if (!isValid) {
             console.log(form.formState.errors, "form.formState.errors");
@@ -166,11 +181,11 @@ function AddAssetView() {
             {isSubmitting && <Loading />}
             <SuccessModal
                 isOpen={successModalOpen}
-                title='Bâtiment #id_batiment crée avec succès'
-                description='Votre bien #Nom_complet_du_batiment à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications'
-                confirmText='Liste des bâtiments'
+                title={`Bien crée avec succès`}
+                description={`Votre bien ${form.getValues("name")} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
+                confirmText='Liste des bien'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => console.log("liste")}
+                onConfirm={() => router.push('/admin/property/module/asset')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bien</h1>
             <Stepper
