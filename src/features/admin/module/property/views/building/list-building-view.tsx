@@ -112,7 +112,7 @@ function ListBuildingView() {
             >
                 <BuildingTable
                     data={buildings}
-                    columns={columns}
+                    columns={columns(refetch)}
                     totalItems={total}
                     pageSize={pageSize}
                     onPageChange={handlePageChange}

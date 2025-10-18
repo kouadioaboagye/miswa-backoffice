@@ -15,7 +15,12 @@ import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 
 export type Building = IBuildingDataModel;
 
-const BuildingActions = ({ building }: { building: Building }) => {
+interface BuildingActionsProps {
+  building: Building;
+  refetch: () => void;
+}
+
+const BuildingActions = ({ building, refetch }: BuildingActionsProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const router = useRouter();
 
@@ -34,6 +39,7 @@ const BuildingActions = ({ building }: { building: Building }) => {
       });
       toast.success('Bâtiment supprimé avec succès.');
       setIsDeleteModalOpen(false);
+      refetch();
     } catch (error: any) {
       setIsDeleteModalOpen(false);
       if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
@@ -84,7 +90,7 @@ const BuildingActions = ({ building }: { building: Building }) => {
   );
 };
 
-export const columns: ColumnDef<Building>[] = [
+export const columns = (refetch: () => void): ColumnDef<Building>[] => [
   {
     id: 'cover_url',
     accessorKey: 'cover_url',
@@ -157,6 +163,6 @@ export const columns: ColumnDef<Building>[] = [
     id: 'actions',
     accessorKey: 'actions',
     header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Actions</span>,
-    cell: ({ row }) => <BuildingActions building={row.original} />
+    cell: ({ row }) => <BuildingActions building={row.original} refetch={refetch} />
   }
 ];

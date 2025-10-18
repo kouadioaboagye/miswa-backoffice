@@ -13,11 +13,13 @@ import StepThreeForm from '../../components/forms/building/add-building-form/ste
 import Stepper from '@/shared/components/ui/stepper';
 import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { useRouter } from 'next/navigation';
 
 function AddPropertyView() {
     const [currentStep, setCurrentStep] = useState(1);
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [successModalOpen, setSuccessModalOpen] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
+    const router = useRouter();
 
     const form = useForm<addBuildingFormData>({
         resolver: zodResolver(addBuildingFormSchema),
@@ -162,7 +164,7 @@ function AddPropertyView() {
                 description={`Votre bien ${form.getValues('nomBatiment')} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
                 confirmText='Liste des bâtiments'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => console.log("liste")}
+                onConfirm={() => router.push('/admin/properties/buildings')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bâtiment</h1>
             <Stepper
