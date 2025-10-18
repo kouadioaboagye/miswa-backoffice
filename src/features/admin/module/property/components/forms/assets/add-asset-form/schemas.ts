@@ -1,59 +1,58 @@
 import z from "zod";
 
 export const addAssetFormSchema = z.object({
-    name: z.string().min(1, { message: 'Nom requis' }),
+    building: z.string({required_error: 'Veuillez sélectionner un type bâtiment'}),
     reference: z.string().min(1, { message: 'Référence interne requise' }),
-    description: z.string().optional(),
-    cover_url: z
-        .any()
-        .optional()
-        .refine((file) => !file || file instanceof File, {
-            message: 'Veuillez uploader un fichier valide pour la photo de couverture',
-        }),
-    photos: z
-        .array(z.any())
-        .optional()
-        .refine((files) => !files || files.every((file: File) => file instanceof File), {
-            message: 'Veuillez uploader des fichiers valides pour les autres médias',
-        }),
-    official_documents: z
-        .array(z.any())
-        .optional()
-        .refine((files) => !files || files.every((file: File) => file instanceof File), {
-            message: 'Veuillez uploader des fichiers valides',
-        }),
-    videos: z.array(z.string()).optional(),
-    google_plus_code: z.string().optional(),
-    address: z.string().min(1, { message: 'Adresse requise' }),
-    latitude: z.number().min(-90).max(90, { message: 'Latitude doit être entre -90 et 90' }),
-    longitude: z.number().min(-180).max(180, { message: 'Longitude doit être entre -180 et 180' }),
-    street: z.string().optional(),
-    is_public: z.boolean(),
-    is_busy: z.boolean(),
-    busy_until: z.string().nullable().optional(),
-    monthly_rent_amount: z.number().positive({ message: 'Le loyer doit être positif' }),
-    built_year: z.number().int().min(1800).max(new Date().getFullYear(), {
-        message: `L'année de construction doit être entre 1800 et ${new Date().getFullYear()}`,
-    }),
-    area_m2: z.number().positive({ message: 'La superficie doit être positive' }),
-    building_steps_level: z.number().int().min(0, { message: 'L\'étage doit être un nombre positif ou zéro' }),
-    id_business: z.number().int().positive({ message: 'ID business doit être positif' }),
-    id_building: z.number().int().positive({ message: 'ID building doit être positif' }),
-    elevator: z.boolean(),
+    name: z.string().min(1, { message: 'Nom requis' }),
+    area_m2: z.number({        
+        required_error: 'Le superficie est requise',
+        invalid_type_error: 'La superficie doit être positive'
+    }).min(0),
     internet: z.boolean(),
     water: z.boolean(),
-    parking: z.object({
-        available: z.boolean(),
-        amount: z.number().min(0)
+    parking: z.boolean(),
+    description: z.string().optional(),
+    building_steps_level: z.number({        
+        required_error: 'Le niveau est requis',
+        invalid_type_error: 'Le niveau est requis'
     }),
-    security: z.object({
-        available: z.boolean(),
-        amount: z.number().min(0)
+    documents: z
+        .array(z.any())
+        .optional()
+        .refine((files) => !files || files.every((file: File) => file instanceof File), {
+            message: "Veuillez uploader des fichiers valides",
+        }),
+    documentUrls: z.array(z.string()).optional(),
+    coverUrl: z.string().optional(),
+    otherMediaUrls: z.array(z.string()).optional(),
+    media: z.object({
+        coverPicture: z
+            .any()
+            .optional()
+            .refine((file) => !file || file instanceof File, {
+                message: "Veuillez uploader un fichier valide pour la photo de couverture",
+            }),
+        otherMedia: z
+            .array(z.any())
+            .optional()
+            .refine((files) => !files || files.every((file: File) => file instanceof File), {
+                message: "Veuillez uploader des fichiers valides pour les autres médias",
+            }),
     }),
-    commonSpaces: z.object({
-        available: z.boolean(),
-        amount: z.number().min(0)
-    }),
+    rooms_count: z.number({        
+        required_error: 'Le nombre de pièces est requis',
+        invalid_type_error: 'Veuillez entrer un chiffre valide'
+    }).min(1),
+    built_year: z.number({
+        required_error: 'L\'année de construction est requise',
+        invalid_type_error: 'L\'année doit être supérieure ou égale à 1900'
+    }).min(1900),
+    monthly_rent_amount: z.number({        
+        required_error: 'Le loyer est requis',
+        invalid_type_error: 'Le montant du loyer doit être positif'
+    }).min(0,),
+    is_public: z.boolean().optional(),
+    is_active: z.boolean().optional(),
 });
 
 export type addAssetFormData = z.infer<typeof addAssetFormSchema>;
