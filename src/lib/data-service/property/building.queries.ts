@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { APIResponseList } from "../types";
 import { APIResponseGetBuilding, IBuildingDataModel } from "./types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
@@ -25,3 +25,17 @@ export const useGetBuildingByIdQuery = (buildingId: string) => {
         enabled: !!buildingId,
     });
 };
+
+export const useDeleteBuildingMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async (buildingId: string) => {
+            return await fetchWrapper(`buildings/${buildingId}/`, {
+                method: 'DELETE',
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['buildings'] });
+        },
+    });
+}

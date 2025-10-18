@@ -12,17 +12,18 @@ import ConfirmModal from '@/shared/components/ui/confirm-modal';
 import { IBuildingDataModel } from '@/lib/data-service/property/types';
 import { toast } from 'sonner';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
+import { useDeleteBuildingMutation } from '@/lib/data-service/property/building.queries';
 
 export type Building = IBuildingDataModel;
 
 interface BuildingActionsProps {
   building: Building;
-  refetch: () => void;
 }
 
-const BuildingActions = ({ building, refetch }: BuildingActionsProps) => {
+const BuildingActions = ({ building }: BuildingActionsProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const router = useRouter();
+  const deleteBuildingMutation = useDeleteBuildingMutation();
 
   const handleDetails = () => {
     router.push(`/admin/module/property/building/details/${String(building.id)}`);
@@ -34,12 +35,9 @@ const BuildingActions = ({ building, refetch }: BuildingActionsProps) => {
 
   const handleDelete = async () => {
     try {
-      await fetchWrapper(`buildings/${building.id}/force/`, {
-        method: 'DELETE',
-      });
+      await deleteBuildingMutation.mutateAsync(String(building.id));
       toast.success('Bâtiment supprimé avec succès.');
       setIsDeleteModalOpen(false);
-      refetch();
     } catch (error: any) {
       setIsDeleteModalOpen(false);
       if (error?.detail?.code === 'BUILDING_HAS_PROPERTIES') {
@@ -90,7 +88,7 @@ const BuildingActions = ({ building, refetch }: BuildingActionsProps) => {
   );
 };
 
-export const columns = (refetch: () => void): ColumnDef<Building>[] => [
+export const columns: ColumnDef<Building>[] = [
   {
     id: 'cover_url',
     accessorKey: 'cover_url',
@@ -163,6 +161,6 @@ export const columns = (refetch: () => void): ColumnDef<Building>[] => [
     id: 'actions',
     accessorKey: 'actions',
     header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Actions</span>,
-    cell: ({ row }) => <BuildingActions building={row.original} refetch={refetch} />
+    cell: ({ row }) => <BuildingActions building={row.original} />
   }
 ];

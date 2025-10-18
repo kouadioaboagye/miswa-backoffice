@@ -164,7 +164,7 @@ function AddPropertyView() {
                 description={`Votre bien ${form.getValues('nomBatiment')} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
                 confirmText='Liste des bâtiments'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => router.push('/admin/properties/buildings')}
+                onConfirm={() => router.push('/admin/module/property/building')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bâtiment</h1>
             <Stepper
