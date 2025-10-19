@@ -6,21 +6,24 @@ import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import RefreshIcon from '../../../../../../public/assets/icons/refresh-icon';
-import { useListAdvertisementQuery } from '@/lib/data-service/module/advertisement/advertisement.queries.ts';
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { AdTable } from '../components/tables/ad-table';
+import { useState } from 'react';
+import { columns } from '../components/tables/columns';
+import { useListAdvertisementQuery } from '@/lib/data-service/module/advertisement/advertisement.queries.ts';
 
 const ListAdView = ({ status }: { status: string }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
     const {
         data: response,
         isLoading,
         error,
         refetch,
         isRefetching,
-    } = useListAdvertisementQuery();
+    } = useListAdvertisementQuery(currentPage, pageSize, status);
 
     const { data = [], total = 0 } = response ?? {};
-
     const router = useRouter();
 
     const handleRefresh = async () => {
@@ -28,26 +31,12 @@ const ListAdView = ({ status }: { status: string }) => {
             await refetch();
             toast.success('Liste des annonces actualisée avec succès.');
         } catch {
-            toast.error('Erreur lors de l’actualisation des données.');
+            toast.error('Erreur lors de l’actualisation des annonces.');
         }
     };
 
-    const handleDetails = (id: string) =>
-        router.push(`/admin/module/advertisement/details/${id}`);
-
-    const handleEdit = (id: string) =>
-        router.push(`/admin/module/advertisement/edit/${id}`);
-
-    const handleDelete = async (id: string) => {
-        try {
-            await fetchWrapper(`advertisement/${id}/force/`, { method: 'DELETE' });
-            toast.success('Annonce supprimée avec succès.');
-            await refetch();
-        } catch (e: any) {
-            toast.error(
-                e instanceof Error ? e.message : 'Erreur lors de la suppression.'
-            );
-        }
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
     };
 
     const getTitle = () => {
@@ -62,7 +51,7 @@ const ListAdView = ({ status }: { status: string }) => {
                 return 'Liste des annonces';
         }
     };
-    
+
     return (
         <div className="flex flex-col gap-16">
             <DataTableLayout
@@ -95,9 +84,12 @@ const ListAdView = ({ status }: { status: string }) => {
             >
                 <AdTable
                     data={data}
-                    onDetails={handleDetails}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    columns={columns}
+                    totalItems={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoading || isRefetching}
                 />
             </DataTableLayout>
         </div>
