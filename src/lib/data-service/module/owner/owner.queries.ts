@@ -3,11 +3,11 @@ import { APIResponseList } from "../../types";
 import { IOwnerDataModel } from "./types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
-export const useListOwnersQuery = (): UseQueryResult<APIResponseList<IOwnerDataModel>> => {
+export const useListOwnersQuery = (page: number = 1, limit: number = 10): UseQueryResult<APIResponseList<IOwnerDataModel>> => {
     return useQuery({
-        queryKey: ['businesses'],
+        queryKey: ['businesses', page, limit],
         queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IOwnerDataModel>>('businesses/', {
+            return await fetchWrapper<APIResponseList<IOwnerDataModel>>(`businesses/?page=${page}&limit=${limit}`, {
                 method: 'GET',
             });
         },
