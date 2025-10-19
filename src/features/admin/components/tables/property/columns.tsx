@@ -7,14 +7,14 @@ import { formatDate } from 'date-fns';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
-import { IPropertyDataModel } from '@/lib/data-service/property/types';
+import { IAssetDataModel } from '@/lib/data-service/property/types';
 import { DeletePropertyModal } from '../../modals/delete-property-modal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Property = Partial<IPropertyDataModel> & {
+export type Property = Partial<IAssetDataModel> & {
     id: string | number;
     name: string;
     cover_url?: string;

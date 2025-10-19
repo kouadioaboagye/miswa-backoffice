@@ -17,184 +17,112 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
 
     return (
         <div className='space-y-20'>
-            <section className='space-y-6'>
-                <SectionTitle content="1. Identification" />
-                <div className="grid grid-cols-2 gap-10">
-                    <div className='grid grid-cols-3 gap-10'>
-                        <div>
-                            <Label htmlFor="built_year" isRequired>Année de construction</Label>
-                            <Input
-                                id="built_year"
-                                type='number'
-                                placeholder="1995"
-                                {...form.register('built_year', { valueAsNumber: true })}
-                            />
-                            <InputErrorMessage message={errors.built_year?.message} />
-                        </div>
-                        <div>
-                            <Label htmlFor="area_m2" isRequired>Superficie (m²)</Label>
-                            <Input
-                                id="area_m2"
-                                type='number'
-                                placeholder="150"
-                                {...form.register('area_m2', { valueAsNumber: true })}
-                            />
-                            <InputErrorMessage message={errors.area_m2?.message} />
-                        </div>
-                        <div>
-                            <Label htmlFor="building_steps_level" isRequired>Niveau d'étage</Label>
-                            <Input
-                                id="building_steps_level"
-                                type='number'
-                                placeholder="1"
-                                {...form.register('building_steps_level', { valueAsNumber: true })}
-                            />
-                            <InputErrorMessage message={errors.building_steps_level?.message} />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section className="space-y-6">
                 <SectionTitle content="2. Équipements et commodités" />
                 <div className="space-y-6">
-                    <div className="flex w-full">
-                        <div className='w-1/4 space-y-10'>
-                            <div className="flex items-center space-x-4">
-                                <Controller
-                                    name="elevator"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <Switch
-                                            id="elevator"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    )}
-                                />
-                                <Label htmlFor="elevator">
-                                    Ascenseur
-                                </Label>
-                                <InputErrorMessage message={errors.elevator?.message} />
-                            </div>
-                            <div className="flex items-center space-x-4">
-                                <Controller
-                                    name="internet"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <Switch
-                                            id="internet"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    )}
-                                />
-                                <Label htmlFor="internet">
-                                    Accès internet/fibre
-                                </Label>
-                                <InputErrorMessage message={errors.internet?.message} />
-                            </div>
-                            <div className="flex items-center space-x-4">
-                                <Controller
-                                    name="water"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <Switch
-                                            id="water"
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    )}
-                                />
-                                <Label htmlFor="water">
-                                    Système eau/électricité
-                                </Label>
-                                <InputErrorMessage message={errors.water?.message} />
-                            </div>
-                            <div></div>
-                        </div>
-                        <div className='w-3/4 grid grid-cols-3 gap-4'>
-                            <div>
-                                <div className="flex items-center space-x-4">
-                                    <Controller
-                                        name="parking.available"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <Switch
-                                                id="parking.available"
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        )}
-                                    />
-                                    <Label htmlFor="parking.available">
-                                        Parking
-                                    </Label>
-                                    <InputErrorMessage message={errors.parking?.available?.message} />
-                                </div>
-                                <div className='mt-4'>
-                                    <Input id="parking.amount" type='number' placeholder="10" {...form.register('parking.amount', { valueAsNumber: true })} />
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex items-center space-x-4">
-                                    <Controller
-                                        name="security.available"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <Switch
-                                                id="security.available"
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        )}
-                                    />
-                                    <Label htmlFor="security.available">
-                                        Sécurité
-                                    </Label>
-                                    <InputErrorMessage message={errors.security?.available?.message} />
-                                </div>
-                                <div className='mt-4'>
-                                    <Input id="security.amount" type='number' placeholder="10" {...form.register('security.amount', { valueAsNumber: true })} />
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex items-center space-x-4">
-                                    <Controller
-                                        name="commonSpaces.available"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <Switch
-                                                id="commonSpaces.available"
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        )}
-                                    />
-                                    <Label htmlFor="commonSpaces.available">
-                                        Espaces communs
-                                    </Label>
-                                    <InputErrorMessage message={errors.commonSpaces?.available?.message} />
-                                </div>
-                                <div className='mt-4'>
-                                    <Input id="commonSpaces.amount" type='number' placeholder="10" {...form.register('commonSpaces.amount', { valueAsNumber: true })} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <Label htmlFor="description" isRequired>Description du bien</Label><br />
+                    <div className="flex items-center space-x-4">
                         <Controller
-                            name="description"
+                            name="parking"
                             control={form.control}
                             render={({ field }) => (
-                                <Textarea id="description" rows={5} {...field} />
+                                <Switch
+                                    id="parking"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
                             )}
                         />
-                        <InputErrorMessage message={errors.description?.message} />
+                        <Label htmlFor="parking">
+                            Parking
+                        </Label>
+                        <InputErrorMessage message={errors.parking?.message} />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="internet"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="internet"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="internet">
+                            Accès internet/fibre
+                        </Label>
+                        <InputErrorMessage message={errors.internet?.message} />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="water"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="water"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="water">
+                            Système eau/électricité
+                        </Label>
+                        <InputErrorMessage message={errors.water?.message} />
                     </div>
                 </div>
             </section>
+            <section className="space-y-6">
+                <SectionTitle content="2. Statut" />
+                <div className='space-y-6'>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="is_public"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="is_public"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="is_public">
+                            Bien public
+                        </Label>
+                        <InputErrorMessage message={errors.is_public?.message} />
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <Controller
+                            name="is_active"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    id="is_active"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Label htmlFor="is_active">
+                            Bien actif
+                        </Label>
+                        <InputErrorMessage message={errors.is_active?.message} />
+                    </div>
+                </div>
+            </section>
+            <div>
+                <Label htmlFor="description">Description du bien</Label><br />
+                <Controller
+                    name="description"
+                    control={form.control}
+                    render={({ field }) => (
+                        <Textarea id="description" rows={5} {...field} />
+                    )}
+                />
+                <InputErrorMessage message={errors.description?.message} />
+            </div>
         </div>
     );
 }

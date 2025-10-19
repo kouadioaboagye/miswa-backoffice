@@ -13,16 +13,16 @@ interface StepThreeFormProps {
 
 function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
     const { setValue, watch } = form;
-    const official_documents = watch('official_documents') || [];
-    const otherMedia = watch('photos') || [];
-    const coverPicture = watch('cover_url');
+    const official_documents = watch('documents') || [];
+    const otherMedia = watch('media.otherMedia') || [];
+    const coverPicture = watch('media.coverPicture');
 
     useEffect(() => {
         if (!Array.isArray(official_documents)) {
-            setValue('official_documents', []);
+            setValue('documents', []);
         }
         if (!Array.isArray(otherMedia)) {
-            setValue('photos', []);
+            setValue('media.otherMedia', []);
         }
     }, [official_documents, otherMedia, setValue]);
 
@@ -31,7 +31,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
         if (files) {
             const currentFiles = official_documents || [];
             const newFiles = Array.from(files);
-            setValue('official_documents', [...currentFiles, ...newFiles]);
+            setValue('documents', [...currentFiles, ...newFiles]);
             event.target.value = '';
         }
     };
@@ -39,7 +39,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
     const handleCoverPictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            setValue('cover_url', file);
+            setValue('media.coverPicture', file);
             event.target.value = '';
         }
     };
@@ -49,7 +49,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
         if (files) {
             const currentFiles = otherMedia || [];
             const newFiles = Array.from(files);
-            setValue('photos', [...currentFiles, ...newFiles]);
+            setValue('media.otherMedia', [...currentFiles, ...newFiles]);
             event.target.value = '';
         }
     };
@@ -57,17 +57,17 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
     const handleRemoveDocument = (index: number) => {
         const currentFiles = official_documents || [];
         const updatedFiles = currentFiles.filter((_, i) => i !== index);
-        setValue('official_documents', updatedFiles);
+        setValue('documents', updatedFiles);
     };
 
     const handleRemoveCoverPicture = () => {
-        setValue('cover_url', undefined);
+        setValue('media.coverPicture', undefined);
     };
 
     const handleRemoveOtherMedia = (index: number) => {
         const currentFiles = otherMedia || [];
         const updatedFiles = currentFiles.filter((_, i) => i !== index);
-        setValue('photos', updatedFiles);
+        setValue('media.otherMedia', updatedFiles);
     };
 
     return (

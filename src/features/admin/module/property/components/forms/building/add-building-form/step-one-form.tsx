@@ -51,6 +51,31 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               </div>
             )}
           />
+          <Controller
+            name="business"
+            control={control}
+            disabled={isBusinessesLoading}
+            rules={{ required: 'Propriétaire requis' }}
+            defaultValue='1'
+            render={({ field, fieldState: { error } }) => (
+              <div>
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={isBusinessesLoading ? 'Chargement...' : 'Sélectionnez'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {businesses.length > 0 &&
+                      businesses.map((businesses, index) => (
+                        <SelectItem value={businesses.id.toString()} key={index + 1}>
+                          {businesses.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <InputErrorMessage message={error?.message} />
+              </div>
+            )}
+          />
         </div>
         <div className="grid grid-cols-2 gap-10 mb-4">
           <div>

@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient, UseQueryResult } from "@tanstack/react-query";
-import { IBuildingDataModel, IPropertyDataModel } from "./types";
+import { APIResponseDashboardProperty, IAssetDataModel, IBuildingDataModel } from "./types";
 import { APIResponseList } from "../types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
-export const useListPropertiesQuery = (page: number = 1, limit: number = 10): UseQueryResult<APIResponseList<IPropertyDataModel>> => {
+export const useListPropertiesQuery = (page: number = 1, limit: number = 10): UseQueryResult<APIResponseList<IAssetDataModel>> => {
     return useQuery({
         queryKey: ['properties', page, limit],
         queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IPropertyDataModel>>(`properties/?page=${page}&limit=${limit}`, {
+            return await fetchWrapper<APIResponseList<IAssetDataModel>>(`properties/?page=${page}&limit=${limit}`, {
                 method: 'GET',
             });
         }
@@ -45,7 +45,7 @@ export const useGetPropertyQuery = (propertyId: string) => {
     return useQuery({
         queryKey: ['property', propertyId],
         queryFn: async () => {
-            return await fetchWrapper<IPropertyDataModel>(`properties/${propertyId}/`, {
+            return await fetchWrapper<IAssetDataModel>(`properties/${propertyId}/`, {
                 method: 'GET',
             });
         },
@@ -57,16 +57,26 @@ export const useUpdatePropertyMutation = () => {
     const queryClient = useQueryClient();
     
     return useMutation({
-        mutationFn: async ({ propertyId, data }: { propertyId: string; data: Partial<IPropertyDataModel> }) => {
-            return await fetchWrapper<IPropertyDataModel>(`properties/${propertyId}/`, {
+        mutationFn: async ({ propertyId, data }: { propertyId: string; data: Partial<IAssetDataModel> }) => {
+            return await fetchWrapper<IAssetDataModel>(`properties/${propertyId}/`, {
                 method: 'PUT',
                 body: data,
             });
         },
         onSuccess: (_, variables) => {
-            // Invalidate and refetch properties list and specific property
             queryClient.invalidateQueries({ queryKey: ['properties'] });
             queryClient.invalidateQueries({ queryKey: ['property', variables.propertyId] });
         },
     });
+}
+
+export const useDashboardPropertyDataQuery = (): UseQueryResult<APIResponseDashboardProperty> => {
+    return useQuery({
+        queryKey: ['dashboard'],
+        queryFn: async () => {
+            return await fetchWrapper<APIResponseDashboardProperty>(`dashboard/properties/`, {
+                method: 'GET',
+            });
+        }
+    })
 }
