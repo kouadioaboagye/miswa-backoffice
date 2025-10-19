@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { APIResponseList } from "../../types";
-import { IOwnerDataModel } from "./types";
+import { APIResponseDashboardOwner, IOwnerDataModel } from "./types";
 import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
 
-export const useListOwnersQuery = (): UseQueryResult<APIResponseList<IOwnerDataModel>> => {
+export const useListOwnersQuery = (page: number = 1, limit: number = 10): UseQueryResult<APIResponseList<IOwnerDataModel>> => {
     return useQuery({
-        queryKey: ['businesses'],
+        queryKey: ['businesses', page, limit],
         queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IOwnerDataModel>>('businesses/', {
+            return await fetchWrapper<APIResponseList<IOwnerDataModel>>(`businesses/?page=${page}&limit=${limit}`, {
                 method: 'GET',
             });
         },
@@ -41,3 +41,14 @@ export const useGetOwnerByIdQuery = (businessId: string) => {
         enabled: !!businessId,
     });
 };
+
+export const useDashboardOwnerDataQuery = (): UseQueryResult<APIResponseDashboardOwner> => {
+    return useQuery({
+        queryKey: ['dashboard'],
+        queryFn: async () => {
+            return await fetchWrapper<APIResponseDashboardOwner>(`dashboard/businesses/`, {
+                method: 'GET',
+            });
+        }
+    })
+}

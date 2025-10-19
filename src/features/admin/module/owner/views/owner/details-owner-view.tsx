@@ -20,10 +20,11 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
             <div className="flex flex-1 items-center justify-between w-full mb-10">
                 <div className="flex px-10 bg-white shadow-[0px_8px_10px_0px_#11928F66] rounded-full py-4 items-center justify-center border-1 border-[#11928F66]">
                     <Image
-                        src={data?.cover_url || "/assets/images/default-cover.png"}
-                        width={30}
-                        height={30}
+                        src={data?.owner?.cover_url || "/assets/images/default-cover.png"}
+                        width={35}
+                        height={35}
                         alt="cover"
+                        className="h-[35px] w-[35px] rounded-full object-cover"
                     />
                     <span className="ml-4 text-2xl text-gray-700">{data?.owner?.legal_name}</span>
                 </div>
@@ -44,9 +45,9 @@ function OwnerDetailView({ idOwner }: Readonly<{ idOwner: string }>) {
             <div className='flex flex-col md:flex-row absolute top-[35%] left-[15%] bg-[#F8FAFC] rounded-[24px] p-10 w-[70%] mx-auto h-auto space-x-10'>
                 <div className='w-full md:w-1/3 flex justify-center mb-6 md:mb-0'>
                     <Image
-                        src={data?.cover_url || "/assets/images/default-cover.png"}
-                        width={30}
-                        height={30}
+                        src={data?.owner?.cover_url || "/assets/images/default-cover.png"}
+                        width={290}
+                        height={290}
                         alt="cover"
                         className='h-[290px] w-[290px] rounded-[12px]'
                     />

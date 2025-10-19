@@ -106,20 +106,20 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
     ],
 
     owner: [
-        // {
-        //     label: 'Dashboard',
-        //     icon: (
-        //         <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-        //     ),
-        //     href: paths.admin.module.owner.root,
-        //     items: []
-        // },
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner.root,
+            items: []
+        },
         {
             label: 'Liste des propriétaires',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.owner.owners,
+            href: paths.admin.module.owner.list,
             items: []
         },
         {
