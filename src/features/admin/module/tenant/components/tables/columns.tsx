@@ -7,7 +7,6 @@ import { formatDate } from 'date-fns';
 import EyeIcon2 from '../../../../../../../public/assets/icons/eye-icon-2';
 import EditIcon from '../../../../../../../public/assets/icons/edit-icon';
 import DeleteIcon2 from '../../../../../../../public/assets/icons/delete-icon-2';
-import { IPropertyDataModel } from '@/lib/data-service/property/types';
 
 export type Tenant = Partial<ITenantDataModel> & {
   id: string;
