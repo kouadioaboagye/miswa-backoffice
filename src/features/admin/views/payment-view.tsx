@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import PaymentTable from '../components/tables/payment/payment-table';
 import { useListPaymentsQuery } from '@/lib/data-service/payment/payment.queries';
+import { columns } from '../components/tables/payment/columns';
 
 const PaymentView = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -92,6 +93,7 @@ const PaymentView = () => {
                 <PaymentTable
                     data={data}
                     totalItems={total}
+                    columns={columns}
                     pageSize={pageSize}
                     onPageChange={handlePageChange}
                     currentPage={currentPage}

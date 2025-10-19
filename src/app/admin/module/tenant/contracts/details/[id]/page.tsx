@@ -1,6 +1,6 @@
 "use client"
 
-import DetailsContractView from "@/features/admin/views/contract/details-contract-view";
+import DetailsContractView from "@/features/admin/module/tenant/views/contract/details-contract-view";
 import { useParams } from "next/navigation";
 
 const page = () => {
