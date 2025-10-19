@@ -3,7 +3,7 @@
  * C'est un moyen de tout centraliser pour une meilleur gestion des routes
  */
 
-import { root } from "postcss";
+import { list, root } from "postcss";
 
 const ROOTS = {
     AUTH: '/auth',
@@ -38,7 +38,7 @@ export const paths = {
             },
             owner: {
                 root: `${ROOTS.ADMIN}/module/owner`,
-                owners: `${ROOTS.ADMIN}/module/owner`,
+                list: `${ROOTS.ADMIN}/module/owner/list`,
                 payments: `${ROOTS.ADMIN}/module/owner/payment`,
                 contracts: `${ROOTS.ADMIN}/module/owner/contracts`
             },

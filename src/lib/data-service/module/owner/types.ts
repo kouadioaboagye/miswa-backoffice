@@ -31,3 +31,11 @@ export type IOwnerDataModel = {
         cover_url?: string;
     };
 };
+
+export type APIResponseDashboardOwner = {
+  overview: {
+    total_businesses: number;
+    active_businesses: number;
+    default_businesses: number;
+  }
+};

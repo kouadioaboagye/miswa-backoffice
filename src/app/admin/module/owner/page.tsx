@@ -1,7 +1,7 @@
-import ListOwnerView from "@/features/admin/module/owner/views/owner/list-owner-view";
+import DashboardOwnerView from "@/features/admin/module/owner/views/dashboard-view";
 
 const page = () => {
-    return <ListOwnerView/>;
+    return <DashboardOwnerView />;
 };
 
 export default page;
