@@ -1,10 +1,12 @@
+'use client';
+
 import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
 import { ColumnDef } from '@tanstack/react-table';
-import { Payment } from './columns';
+import { Contract } from './columns';
 
-interface PaymentTableProps {
-    data: Payment[];
-    columns: ColumnDef<Payment>[];
+interface ContractTableProps {
+    data: Contract[];
+    columns: ColumnDef<Contract>[];
     totalItems?: number;
     pageSize?: number;
     onPageChange?: (page: number) => void;
@@ -12,7 +14,7 @@ interface PaymentTableProps {
     isLoading?: boolean;
 }
 
-const PaymentTable = ({
+const ContractTable = ({
     data,
     columns,
     totalItems = 0,
@@ -20,7 +22,7 @@ const PaymentTable = ({
     onPageChange,
     currentPage = 1,
     isLoading = false
-}: PaymentTableProps) => {
+}: ContractTableProps) => {
     return (
         <DataTable
             columns={columns}
@@ -34,4 +36,4 @@ const PaymentTable = ({
     );
 };
 
-export default PaymentTable;
+export default ContractTable;

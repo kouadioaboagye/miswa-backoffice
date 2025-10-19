@@ -1,13 +1,13 @@
 import Loading from '@/app/loading';
+import { fakePayments, columns } from '@/features/admin/components/tables/payment/columns';
+import PaymentTable from '@/features/admin/components/tables/payment/payment-table';
 import { useGetContractByIdQuery } from '@/lib/data-service/contract/contract.queries';
 import { Button } from '@/shared/components/ui/button';
-import { Edit, Lock, Plus, Printer } from 'lucide-react';
+import { Edit, Lock, Printer } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
-import PaymentTable from '../../components/tables/payment/payment-table';
-import { fakePayments, columns } from '../../components/tables/payment/columns';
 
 function DetailsContractView({ idContract }: Readonly<{ idContract: string }>) {
     const router = useRouter();
@@ -159,8 +159,8 @@ function DetailsContractView({ idContract }: Readonly<{ idContract: string }>) {
                 </h1>
                 <PaymentTable
                     data={fakePayments}
-                    columns={columns}
                     totalItems={fakePayments.length}
+                    columns={columns}
                     pageSize={pageSize}
                     onPageChange={handlePageChange}
                     currentPage={currentPage}

@@ -4,14 +4,14 @@ import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
-import EditIcon from '../../../../../../public/assets/icons/edit-icon';
-import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import ConfirmModal from '@/shared/components/ui/confirm-modal';
 import { useDeleteContractMutation } from '@/lib/data-service/contract/contract.queries';
+import EyeIcon2 from '../../../../../../../../public/assets/icons/eye-icon-2';
+import EditIcon from '../../../../../../../../public/assets/icons/edit-icon';
+import DeleteIcon2 from '../../../../../../../../public/assets/icons/delete-icon-2';
 
 export type Contract = {
     id: string | number;
@@ -44,11 +44,11 @@ const ContractActions = ({ contract }: { contract: Contract }) => {
     const deleteContractMutation = useDeleteContractMutation();
 
     const handleDetails = () => {
-        router.push(`/admin/module/contract/details/${String(contract.id)}`);
+        router.push(`/admin/module/tenant/contracts/details/${String(contract.id)}`);
     };
 
     const handleEdit = () => {
-        router.push(`/admin/module/contract/edit/${String(contract.id)}`);
+        router.push(`/admin/module/tenant/contracts/edit/${String(contract.id)}`);
     };
 
     const handleDelete = async () => {

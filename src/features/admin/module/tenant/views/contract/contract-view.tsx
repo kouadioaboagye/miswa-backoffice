@@ -4,13 +4,13 @@ import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
-import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
-import ContractTable from '../../components/tables/contract/contract-table';
 import { useListContractsQuery } from '@/lib/data-service/contract/contract.queries';
-import { columns } from '../../components/tables/contract/columns';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
+import ContractTable from '../../components/tables/contract/contract-table';
+import { columns } from '../../components/tables/contract/columns';
 
 const ContractView = ({ status = "default" }: { status?: string }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +86,7 @@ const ContractView = ({ status = "default" }: { status?: string }) => {
                     )
                 }}
             >
-                <ContractTable 
+                <ContractTable
                     data={data}
                     columns={columns}
                     totalItems={total}
