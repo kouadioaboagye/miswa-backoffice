@@ -28,5 +28,6 @@ export type IOwnerDataModel = {
         avg_monthly_income?: number;
         payment_mode?: string;
         id: number;
+        cover_url?: string;
     };
 };
