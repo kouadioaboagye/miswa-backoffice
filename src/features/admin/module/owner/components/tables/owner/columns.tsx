@@ -27,16 +27,19 @@ const OwnerActions = ({ owner }: { owner: Owner }) => {
     router.push(`/admin/module/owner/edit/${owner.id}`);
   };
 
-  const handleDelete = async () => {
-    try {
-      await deleteOwnerMutation.mutateAsync(owner.id);
-      toast.success(`Propriétaire "${owner.name}" supprimé avec succès.`);
-    } catch {
-      toast.error('Erreur lors de la suppression du propriétaire.');
-    } finally {
-      setIsDeleteModalOpen(false);
-    }
-  };
+const handleDelete = async () => {
+  try {
+    await deleteOwnerMutation.mutateAsync(owner.id);
+    toast.success(`Propriétaire "${owner.name}" supprimé avec succès.`);
+  } catch (error: any) {
+    const errorMessage = error.detail 
+      ? error.detail.label_fr 
+      : 'Erreur lors de la suppression du propriétaire.';
+    toast.error(errorMessage);
+  } finally {
+    setIsDeleteModalOpen(false);
+  }
+};
 
   return (
     <>
