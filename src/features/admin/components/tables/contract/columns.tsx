@@ -7,12 +7,11 @@ import { format } from 'date-fns';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
-import { IContractDataModel } from '@/lib/data-service/contract/types';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import ConfirmModal from '@/shared/components/ui/confirm-modal';
+import { useDeleteContractMutation } from '@/lib/data-service/contract/contract.queries';
 
 export type Contract = {
     id: string | number;
@@ -26,28 +25,39 @@ export type Contract = {
     status: 'En cours' | 'Terminé' | 'En attente';
 };
 
+// Mock data for 20 contracts
+export const fakeContracts: Contract[] = Array.from({ length: 20 }).map((_, idx) => ({
+    id: `contract-${idx + 1}`,
+    reference: `CONTRACT-${1000 + idx + 1}`,
+    type: "Bail de location",
+    property: {
+        name: `Appartement Cité AGC ${idx + 1}`,
+        cover_url: `https://picsum.photos/1024/1024?random=${idx + 1}`
+    },
+    start_date: new Date(Date.now() - idx * 24 * 60 * 60 * 1000).toISOString(),
+    status: idx % 3 === 0 ? 'En cours' : idx % 3 === 1 ? 'Terminé' : 'En attente'
+}));
 
 const ContractActions = ({ contract }: { contract: Contract }) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const router = useRouter();
+    const deleteContractMutation = useDeleteContractMutation();
 
     const handleDetails = () => {
-        router.push(`/admin/module/tenant/contracts/details/${String(contract.id)}`);
+        router.push(`/admin/module/contract/details/${String(contract.id)}`);
     };
 
     const handleEdit = () => {
-        router.push(`/admin/module/tenant/contracts/edit/${String(contract.id)}`);
+        router.push(`/admin/module/contract/edit/${String(contract.id)}`);
     };
 
     const handleDelete = async () => {
         try {
-            await fetchWrapper(`contracts/${contract.id}/force/`, {
-                method: 'DELETE',
-            });
-            toast.success('Contrat supprimé avec succès.');
+            await deleteContractMutation.mutateAsync(String(contract.id));
+            toast.success(`Le contrat "${contract.reference}" a été supprimé avec succès`);
             setIsDeleteModalOpen(false);
-        } catch (error: any) {
-            toast.error(error instanceof Error ? error.message : 'Erreur lors de la suppression du contrat.');
+        } catch {
+            toast.error('Erreur lors de la suppression du contrat. Veuillez réessayer.');
         }
     };
 
@@ -77,9 +87,9 @@ const ContractActions = ({ contract }: { contract: Contract }) => {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 title="Attention"
-                message={`Attention vous souhaitez supprimer le contrat [Nom_de_l’annonces], si vous validez, ce contrat disparaitra de la liste des contrats.`}
+                message={`Attention, vous souhaitez supprimer le contrat ${contract.reference}, si vous validez, ce contrat disparaîtra de la liste des contrats.`}
                 confirmText="Supprimer"
-                onConfirm={() => handleDelete}
+                onConfirm={handleDelete}
                 cancelText="Annuler"
                 variant="danger"
             />
@@ -88,7 +98,7 @@ const ContractActions = ({ contract }: { contract: Contract }) => {
 };
 
 export const columns: ColumnDef<Contract>[] = [
-        {
+    {
         id: 'reference',
         accessorKey: 'reference',
         header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Référence</span>,
@@ -96,7 +106,7 @@ export const columns: ColumnDef<Contract>[] = [
             <span className="text-lg font-medium text-[#0088FF] underline" style={{ fontSize: '14px' }}>{row.original.reference}</span>
         ),
     },
-            {
+    {
         id: 'type',
         accessorKey: 'type',
         header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Type</span>,
@@ -133,8 +143,8 @@ export const columns: ColumnDef<Contract>[] = [
             <Badge
                 variant={
                     row.original.status === 'En cours' ? 'success' :
-                        row.original.status === 'Terminé' ? 'failed' :
-                            'pending'
+                    row.original.status === 'Terminé' ? 'failed' :
+                    'secondary'
                 }
                 className="text-lg font-medium"
                 style={{ fontSize: '14px' }}
@@ -145,7 +155,7 @@ export const columns: ColumnDef<Contract>[] = [
     },
     {
         id: 'actions',
-        accessorKey: '',
+        accessorKey: 'actions',
         header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Actions</span>,
         cell: ({ row }) => <ContractActions contract={row.original} />,
     },

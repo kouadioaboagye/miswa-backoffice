@@ -6,39 +6,27 @@ import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
 import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
 import ContractTable from '../../components/tables/contract/contract-table';
-import { useListContractsQuery } from '@/lib/data-service/contract/contract.queries'; // Assuming this exists
-import { columns, Contract } from '../../components/tables/contract/columns';
+import { useListContractsQuery } from '@/lib/data-service/contract/contract.queries';
+import { columns } from '../../components/tables/contract/columns';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const ContractView = ({status="default"}: {status?: string}) => {
+const ContractView = ({ status = "default" }: { status?: string }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
 
-    const fakeContracts: Contract[] = Array.from({ length: 11 }).map((_, idx) => ({
-    id: `contract-${idx}`,
-    reference: `CONTRACT-${1000 + idx}`,
-    type:"Bail de location",
-    property: {
-        name: `Appartement Cité AGC ${idx + 1}`,
-        cover_url: `https://picsum.photos/1024/1024?random=${idx}`
-    },
-    start_date: new Date(Date.now() - idx * 24 * 60 * 60 * 1000).toISOString(),
-    status: status !== "default" ? status as 'En cours' | 'Terminé' | 'En attente' : idx % 3 === 0 ? 'En cours' : idx % 3 === 1 ? 'Terminé' : 'En attente'
-}));
-    
-    // const { data: response, isLoading, error, refetch } = useListContractsQuery(currentPage, pageSize);
-    // const { data = [], total = 0 } = response || {};
+    const { data: response, isLoading, error, refetch, isRefetching } = useListContractsQuery(currentPage, pageSize, status);
+    const { data = [], total = 0 } = response || {};
 
     const router = useRouter();
 
     const handleRefresh = async () => {
         try {
-            //await refetch();
+            await refetch();
             toast.success('Liste des contrats actualisée avec succès.');
         } catch {
-            toast.error('Erreur lors de l’actualisation des données.');
+            toast.error('Erreur lors de l’actualisation des contrats.');
         }
     };
 
@@ -49,19 +37,19 @@ const ContractView = ({status="default"}: {status?: string}) => {
     const dataItems = [
         {
             title: 'Total Contrats',
-            value: Number(fakeContracts.length),
+            value: total.toString(),
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
-            title: 'Contrats terminés',
-            value: '20',
+            title: 'Contrats Terminés',
+            value: data.filter(contract => contract.status === 'Terminé').length.toString(),
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         },
         {
             title: 'Contrats Actifs',
-            value: '30',
+            value: data.filter(contract => contract.status === 'En cours').length.toString(),
             percentageChange: 0,
             icon: <WalletIcon className="text-white" />
         }
@@ -79,13 +67,10 @@ const ContractView = ({status="default"}: {status?: string}) => {
                             size={'add'}
                             className="text-white [&_svg]:size-8"
                             onClick={handleRefresh}
-                            //disabled={isLoading}
+                            disabled={isLoading || isRefetching}
                         >
                             <RefreshIcon />{' '}
-                            <span className="text-[1.3rem]">
-                                {/* {isLoading ? 'CHARGEMENT...' : 'RAFRAICHIR'} */}
-                                RAFRAICHIR
-                            </span>
+                            <span className="text-[1.3rem]">RAFRAICHIR</span>
                         </Button>
                     ),
                     add: (
@@ -102,13 +87,13 @@ const ContractView = ({status="default"}: {status?: string}) => {
                 }}
             >
                 <ContractTable 
-                    data={fakeContracts}
+                    data={data}
                     columns={columns}
-                    totalItems={Number(fakeContracts.length)}
+                    totalItems={total}
                     pageSize={pageSize}
                     onPageChange={handlePageChange}
                     currentPage={currentPage}
-                    //isLoading={isLoading}
+                    isLoading={isLoading || isRefetching}
                 />
             </DataTableLayout>
         </div>
