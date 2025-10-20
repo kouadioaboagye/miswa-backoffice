@@ -80,11 +80,11 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             <Input id="area_m2" placeholder="100" {...form.register('area_m2', { valueAsNumber: true })} />
             <InputErrorMessage message={errors.area_m2?.message} />
           </div>
-          <div>
+          {/* <div>
             <Label htmlFor="built_year" isRequired>Année de construction</Label>
             <Input id="built_year" placeholder="2000" {...form.register('built_year', { valueAsNumber: true })} />
             <InputErrorMessage message={errors.built_year?.message} />
-          </div>
+          </div> */}
           <div>
             <Label htmlFor="rooms_count" isRequired>Nombre de pièces</Label>
             <Input id="rooms_count" placeholder="1" {...form.register('rooms_count', { valueAsNumber: true })} />

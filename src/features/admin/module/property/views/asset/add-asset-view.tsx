@@ -21,7 +21,7 @@ function mapFormDataToAPI(values: addAssetFormData): any {
         description: values.description,
         reference: values.reference,
         rooms_count: values.rooms_count,
-        built_year: values.built_year,
+        // built_year: values.built_year,
         building_steps_level: values.building_steps_level,
         area_m2: values.area_m2,
         monthly_rent_amount: values.monthly_rent_amount,

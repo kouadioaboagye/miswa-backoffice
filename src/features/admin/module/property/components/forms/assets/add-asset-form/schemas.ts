@@ -41,10 +41,10 @@ export const addAssetFormSchema = z.object({
         required_error: 'Le nombre de pièces est requis',
         invalid_type_error: 'Veuillez entrer un chiffre valide'
     }).min(1),
-    built_year: z.number({
-        required_error: 'L\'année de construction est requise',
-        invalid_type_error: 'L\'année doit être supérieure ou égale à 1900'
-    }).min(1900),
+    // built_year: z.number({
+    //     required_error: 'L\'année de construction est requise',
+    //     invalid_type_error: 'L\'année doit être supérieure ou égale à 1900'
+    // }).min(1900),
     monthly_rent_amount: z.number({        
         required_error: 'Le loyer est requis',
         invalid_type_error: 'Le montant du loyer doit être positif'
