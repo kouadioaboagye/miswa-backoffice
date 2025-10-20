@@ -1,16 +1,17 @@
 'use client';
 
+import { IPropertyDataModel } from '@/lib/data-service/property/types';
 import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import type { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
-import { IPropertyDataModel } from '@/lib/data-service/property/types';
 import { DeletePropertyModal } from '../../modals/delete-property-modal';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -114,7 +115,21 @@ export const columns: ColumnDef<Property>[] = [
         accessorKey: '',
         header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Actions</span>,
         cell: ({ row }) => {
-            return <PropertyActions property={row.original} />;
+            return (
+                <div className="flex items-center gap-6">
+                    <Link href={`/admin/property/details`}>
+                        <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
+                            <EyeIcon2 />
+                        </button>
+                    </Link>
+                    <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
+                        <EditIcon />
+                    </button>
+                    <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
+                        <DeleteIcon2 />
+                    </button>
+                </div>
+            );
         }
     }
 ];

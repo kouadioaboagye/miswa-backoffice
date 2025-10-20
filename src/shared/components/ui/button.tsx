@@ -3,7 +3,6 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { ButtonLoader } from '../../../../public/assets/icons/button-loader';
 
 const buttonVariants = cva(
     'inline-flex h-full items-center justify-center gap-[10px] whitespace-nowrap text-[1.5rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -19,11 +18,12 @@ const buttonVariants = cva(
                 accent: 'bg-[#F27D42] text-white shadow-sm hover:bg-[#F27D42]/90',
                 // Couleur destructive (rouge)
                 destructive:
-                    'bg-[#DC3545] text-white shadow-sm hover:bg-[#DC3545]/90',
+                    'bg-[#FF5F57] text-white shadow-sm hover:bg-[#DC3545]/90',
                 // Bouton outline avec bordure
                 outline:
                     'border-2 border-[#14385c] bg-transparent text-[#14385c] shadow-sm hover:bg-[#14385c] hover:text-white',
-                outline_success : 'border-2 border-[#28A745] bg-transparent text-[#28A745] shadow-sm hover:bg-[#28A745] hover:text-white',
+                outline_green:
+                    'border border-[#1EA64A] bg-transparent text-[#1EA64A] hover:bg-[#1EA64A] hover:text-white',
                 // Bouton ghost
                 ghost: 'text-[#14385c] hover:bg-gray-200 hover:text-accent-foreground',
                 // Bouton de lien
@@ -42,7 +42,8 @@ const buttonVariants = cva(
                 outline_header:
                     'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
                 //Bouton for date picker in a form
-                date_picker: 'bg-[#F3F9FF] text-[1.4rem] focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]'
+                date_picker:
+                    'bg-[#F3F9FF] text-[1.4rem] focus-within:ring-2 focus-within:ring-[#0E4D79] focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border border-[#CBD5E0]'
             },
             size: {
                 default:
@@ -54,7 +55,7 @@ const buttonVariants = cva(
                 outline_header: 'size-14 rounded-2xl',
                 ghost_header: 'size-14 rounded-2xl',
                 add: 'h-[4.5rem] rounded-3xl px-8 py-2',
-                date_picker: 'h-[50px] rounded-xl gap-3 px-3 py-6',
+                icon_header: 'size-9 border border-none'
             }
         },
         defaultVariants: {

@@ -28,7 +28,7 @@ const baseMainNav = [
         icon: (
             <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        href: paths.admin.property,
+        href: paths.admin.property.root,
         items: []
     },
     {
@@ -74,7 +74,7 @@ const baseMainNav = [
             }
         ]
     }
-]
+];
 type ModuleKey = 'property' | 'owner' | 'tenant';
 
 const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
@@ -102,7 +102,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             ),
             href: paths.admin.module.property.root,
             items: []
-        },
+        }
     ],
 
     owner: [
@@ -137,7 +137,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             ),
             href: paths.admin.module.owner.contracts,
             items: []
-        },
+        }
     ],
 
     tenant: [
@@ -158,8 +158,8 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             href: paths.admin.property,
             items: []
         }
-    ],
-}
+    ]
+};
 
 const moduleNav: module[] = [
     {
@@ -168,23 +168,23 @@ const moduleNav: module[] = [
             <HomeHouseIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.property.root,
-        value: "property"
+        value: 'property'
     },
     {
         label: 'Propriétaires',
         icon: (
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.owner.root,
-         value: "owner"
+        defaultHref: paths.admin.module.owner.root,
+        value: 'owner'
     },
     {
         label: 'Locataires',
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-         defaultHref: paths.admin.module.tenant,
-         value: "tenant"
+        defaultHref: paths.admin.module.tenant,
+        value: 'tenant'
     },
     {
         label: 'Annonces',
@@ -192,9 +192,9 @@ const moduleNav: module[] = [
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.advertisements,
-        value: "advertisements"
+        value: 'advertisements'
     }
-]
+];
 
 // Type guard pour vérifier si c'est une clé valide
 function isModuleKey(key: string): key is ModuleKey {
@@ -203,11 +203,12 @@ function isModuleKey(key: string): key is ModuleKey {
 
 export const getMainNav = (activeModule: string) => {
     if (isModuleKey(activeModule)) {
-        return moduleNavigations[activeModule as keyof typeof moduleNavigations];
+        return moduleNavigations[
+            activeModule as keyof typeof moduleNavigations
+        ];
     }
     return baseMainNav;
 };
-
 
 export const menus = {
     module_nav: moduleNav

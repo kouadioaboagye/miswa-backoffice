@@ -1,41 +1,22 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
-
-interface UserPillProps {
-  name: string;
-  email?: string;
-  avatar?: string;
-  size?: 'sm' | 'md' | 'lg';
-}
-
-export const UserPill = ({ name, email, avatar, size = 'md' }: UserPillProps) => {
-  const sizeClasses = {
-    sm: 'h-6 w-6 text-xs',
-    md: 'h-8 w-8 text-sm',
-    lg: 'h-10 w-10 text-base'
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  return (
-    <div className="flex items-center gap-2">
-      <Avatar className={sizeClasses[size]}>
-        <AvatarImage src={avatar} />
-        <AvatarFallback>{getInitials(name)}</AvatarFallback>
-      </Avatar>
-      <div className="flex flex-col">
-        <span className="font-medium">{name}</span>
-        {email && <span className="text-sm text-gray-500">{email}</span>}
-      </div>
-    </div>
-  );
+type Props = {
+    fullName: string;
+    src: string;
+};
+const UserPill = ({ fullName, src }: Props) => {
+    return (
+        <div className="h-[4rem] bg-white rounded-full gap-2 shadow-[0_8px_20px_0px_#11928F66] flex items-center py-2 pl-3 pr-4">
+            <div className="size-12 rounded-full overflow-hidden flex items-center justify-center bg-red-300">
+                <img
+                    src={src}
+                    alt={fullName}
+                    width={1024}
+                    height={1024}
+                    className="size-full object-cover"
+                />
+            </div>
+            <p className="text-[1.4rem] font-semibold">{fullName}</p>
+        </div>
+    );
 };
 
 export default UserPill;
-

@@ -1,85 +1,114 @@
-import { useState } from 'react';
-import { Button } from '@/shared/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { cn } from '../../../../lib/utils';
 
-interface InterventionCarousselProps {
-  images: string[];
-  title?: string;
-  className?: string;
+interface PropertyImage {
+    url: string;
+    alt: string;
 }
 
-export const InterventionCaroussel = ({ 
-  images, 
-  title = "Intervention Images",
-  className = ""
-}: InterventionCarousselProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface PropertyGalleryProps {
+    images: PropertyImage[];
+}
 
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
+const InterventionCaroussel = ({ images }: PropertyGalleryProps) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+    const mainImage = images[selectedIndex];
+    const firstLastImage = images[images.length - 1];
+    const secondLastImage = images[images.length - 2];
+    const bottomThumbnails = images.slice(0, 6);
 
-  if (!images || images.length === 0) {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'ArrowRight') {
+                setSelectedIndex(
+                    (prevIndex) => (prevIndex + 1) % images.length
+                );
+            } else if (event.key === 'ArrowLeft') {
+                setSelectedIndex(
+                    (prevIndex) =>
+                        (prevIndex - 1 + images.length) % images.length
+                );
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    });
+
+    useEffect(() => {
+        if (images.length === 0) return;
+
+        const interval = setInterval(() => {
+            setSelectedIndex((current) => (current + 1) % images.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [images.length]);
+
     return (
-      <div className={`flex items-center justify-center h-64 bg-gray-100 rounded-lg ${className}`}>
-        <p className="text-gray-500">Aucune image disponible</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`relative ${className}`}>
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      <div className="relative overflow-hidden rounded-lg">
-        <img
-          src={images[currentIndex]}
-          alt={`${title} ${currentIndex + 1}`}
-          className="w-full h-64 object-cover"
-        />
-        
-        {images.length > 1 && (
-          <>
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-              onClick={prevImage}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-              onClick={nextImage}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </>
-        )}
-      </div>
-      
-      {images.length > 1 && (
-        <div className="flex justify-center mt-4 space-x-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`w-2 h-2 rounded-full ${
-                index === currentIndex ? 'bg-blue-500' : 'bg-gray-300'
-              }`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
+        <div className="grid grid-cols-6 h-[30rem] gap-10">
+            <div className="col-span-5 h-full bg-red-300 rounded-[1rem] flex relative justify-center items-end overflow-hidden">
+                <Image
+                    src={mainImage?.url || '/placeholder.svg'}
+                    alt={mainImage?.alt || 'Property image'}
+                    fill
+                    className="object-cover"
+                    priority
+                />
+                <div className="flex gap-4 h-[6rem] absolute mb-16 z-10">
+                    {bottomThumbnails.map((image, index) => {
+                        const isSelected = index === selectedIndex;
+                        console.log(isSelected);
+                        return (
+                            <div
+                                key={index}
+                                className={cn(
+                                    'h-full border-[6px] border-white w-[10rem] bg-slate-300 rounded-[4px] cursor-pointer',
+                                    {
+                                        ' border-[#0E4D79]': isSelected
+                                    }
+                                )}
+                                onClick={() => setSelectedIndex(index)}
+                            >
+                                <Image
+                                    src={image.url || '/placeholder.svg'}
+                                    alt={image.alt}
+                                    width={100}
+                                    height={50}
+                                    className="object-cover size-full"
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="col-span-1 grid grid-rows-2 gap-10">
+                <div className="bg-orange-300 rounded-[1rem] overflow-hidden">
+                    <Image
+                        src={firstLastImage?.url || '/placeholder.svg'}
+                        alt={firstLastImage?.alt || 'Property image'}
+                        width={100}
+                        height={50}
+                        className="object-cover size-full"
+                    />
+                </div>
+                <div className="bg-blue-300 rounded-[1rem] overflow-hidden">
+                    <Image
+                        src={secondLastImage?.url || '/placeholder.svg'}
+                        alt={secondLastImage?.alt || 'Property image'}
+                        width={100}
+                        height={50}
+                        className="object-cover size-full"
+                    />
+                </div>
+            </div>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default InterventionCaroussel;
-
