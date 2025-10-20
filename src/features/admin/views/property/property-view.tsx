@@ -1,14 +1,14 @@
 "use client"
+import { useListPropertiesQuery } from '@/lib/data-service/property/property.queries';
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
-import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
-import PropertyTable from '../../components/tables/property/property-table';
-import { useListPropertiesQuery } from '@/lib/data-service/property/property.queries';
-import { columns } from '../../components/tables/property/columns';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import RefreshIcon from '../../../../../public/assets/icons/refresh-icon';
+import { columns } from '../../components/tables/property/columns';
+import PropertyTable from '../../components/tables/property/property-table';
 
 const PropertyView = () => {
     const [currentPage, setCurrentPage] = useState(1);

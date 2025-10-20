@@ -1,9 +1,9 @@
 // components/global-modal.tsx
 'use client';
 
+import { cn } from '@/shared/lib/utils';
 import { useModalStore } from '@/shared/store/useModalStore';
 import { Dialog, DialogContent } from '../ui/dialog';
-import { cn } from '@/shared/lib/utils';
 
 const GlobalModal = () => {
     const { isOpen, views, goBackModal, isOverlayCanClosed } = useModalStore();
@@ -21,7 +21,7 @@ const GlobalModal = () => {
                     <DialogContent
                         key={index}
                         className={cn(
-                            'min-w-fit transition-all duration-300',
+                            'min-w-fit transition-all duration-300 p-8',
                             !isTop &&
                                 'pointer-events-none scale-[0.97] opacity-70 blur-[1px]'
                         )}

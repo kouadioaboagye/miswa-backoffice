@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/shared/components/ui/button';
-import { useModalStore } from '@/shared/store/useModalStore';
 import Image from 'next/image';
 import CadenasIcon from '../../../../public/assets/icons/cadenas';
 import DeleteWhiteIcon from '../../../../public/assets/icons/delete-icon';
@@ -9,29 +8,6 @@ import EditIcon2 from '../../../../public/assets/icons/edit-icon2';
 import MedalIcon from '../../../../public/assets/icons/medal-icon';
 
 const UserDetails = () => {
-    const { openModal } = useModalStore();
-
-    // const handleOpenSendMessageDialog = () => {
-    //     openModal({
-    //         view: <SendInterventionSendMessageForm />,
-    //         isOverlayCanClosed: true
-    //     });
-    // };
-
-    // const handleOpenRejectRequestModal = () => {
-    //     openModal({
-    //         view: <RejectRequestInterventionForm />,
-    //         isOverlayCanClosed: true
-    //     });
-    // };
-
-    // const handleOpenTreateInterventionModal = () => {
-    //     openModal({
-    //         view: <TreateIntervention />,
-    //         isOverlayCanClosed: true
-    //     });
-    // };
-
     return (
         <div className="flex flex-col gap-12 px-4">
             <div className="flex items-center justify-between p-2">

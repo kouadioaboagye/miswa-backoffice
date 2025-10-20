@@ -7,7 +7,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const labelVariants = cva(
-  'text-[16px] font-medium leading-none text-[#718096] peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+    'text-[1.2rem] font-medium leading-none text-[#718096] peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
 );
 
 interface LabelProps
@@ -29,3 +29,4 @@ const Label = React.forwardRef<
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };
+

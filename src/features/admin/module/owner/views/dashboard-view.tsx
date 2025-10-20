@@ -11,19 +11,19 @@ const DashboardOwnerView = () => {
     const dataItems = [
         {
             title: 'Total propriétaires',
-            value: overview?.total_businesses.toString() || '0',
+            value: overview?.total_businesses?.toString() || '0',
             percentageChange: 0,
             icon: <GlobeIcon className="text-white" />
         },
         {
             title: 'Propriétaires actifs',
-            value: overview?.active_businesses.toString() || '0',
+            value: overview?.active_businesses?.toString() || '0',
             percentageChange: 0,
             icon: <GlobeIcon className="text-white" />
         },
         {
             title: 'Propriétaires inactifs',
-            value: overview?.default_businesses.toString() || '0',
+            value: overview?.default_businesses?.toString() || '0',
             percentageChange: 0,
             icon: <GlobeIcon className="text-white" />
         }
@@ -46,7 +46,7 @@ const DashboardOwnerView = () => {
 
     const ownerConfig = {
         active: { label: "Propriétaires actifs", color: "var(--chart-1)" },
-        inactive: { label: "Propriétaires inactifs", color: "var(--chart-2)"},
+        inactive: { label: "Propriétaires inactifs", color: "var(--chart-2)" }
     };
 
     return (

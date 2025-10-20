@@ -1,31 +1,7 @@
+@import 'leaflet/dist/leaflet.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Styles pour les sliders de budget et surface */
-.slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-}
-
-.slider-thumb::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 0;
-    height: 0;
-    background: transparent;
-    cursor: pointer;
-}
-
-.slider-thumb::-moz-range-thumb {
-    width: 0;
-    height: 0;
-    background: transparent;
-    cursor: pointer;
-    border: none;
-}
 
 /* urbanist-latin-wght-normal */
 
@@ -236,6 +212,12 @@ hr::after {
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari and Opera */
+    }
+    .left-point {
+        clip-path: polygon(25% 0%, 100% 1%, 100% 100%, 25% 100%, 0% 50%);
+    }
+    .right-point {
+        clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
     }
 }
 
