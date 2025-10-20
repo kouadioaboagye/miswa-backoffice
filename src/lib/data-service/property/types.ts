@@ -30,7 +30,11 @@ export type IAssetDataModel = {
   id_building?: number;
   id_business?: number;
   id_municipality?: number;
-  business?: {
+  building?: {
+    id: number;
+    name: string;
+    description?: string | null;
+      business?: {
     name: string;
     description?: string | null;
     cover_url?: string | null;
@@ -43,6 +47,7 @@ export type IAssetDataModel = {
       birth_place?: string;
       cover_url?: string;
     }
+  };
   };
   images?: string[];
   features?: {

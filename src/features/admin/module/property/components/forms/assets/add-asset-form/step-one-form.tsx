@@ -74,7 +74,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
       </section>
       <section className='space-y-6'>
         <SectionTitle content="2. Caractéristiques" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <Label htmlFor="area_m2" isRequired>Superficie(m²)</Label>
             <Input id="area_m2" placeholder="100" {...form.register('area_m2', { valueAsNumber: true })} />

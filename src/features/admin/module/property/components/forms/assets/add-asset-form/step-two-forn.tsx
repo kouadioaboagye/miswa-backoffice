@@ -15,7 +15,7 @@ interface StepTwoFormProps {
 
 function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
     const { errors } = form.formState;
-    const [selectedFeatures, setSelectedFeatures] = useState<number[]>([]);
+    const [selectedFeatures, setSelectedFeatures] = useState<number[]>(form.getValues('features') || []);
     const { data: features, isLoading, error } = useGetFeaturesQuery();
 
     const handleFeatureToggle = (featureId: number) => {

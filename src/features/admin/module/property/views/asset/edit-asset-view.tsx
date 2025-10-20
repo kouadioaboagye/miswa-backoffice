@@ -63,7 +63,7 @@ function EditAssetView() {
                 monthly_rent_amount: property.monthly_rent_amount || 0,
                 is_public: property.is_public || false,
                 is_active: property.is_active || false,
-                building: property.id_building?.toString() || '',
+                building: property?.building?.id?.toString() || '',
                 features: property.features?.map((feature) => feature.id) || [],
                 documents: [],
                 media: { coverPicture: undefined, otherMedia: [] },
