@@ -17,44 +17,37 @@ function AllModulesView() {
     const modules = [
         {
             icon: <HomeHouseIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des Biens',
+            title: 'Gestion des biens',
             href: paths.admin.module.property.root
         },
         {
             icon: <ProprioIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des Propriétaires',
+            title: 'Gestion des propriétaires',
             href: paths.admin.module.owner.root
         },
         {
             icon: <LocataireIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des Locataires',
+            title: 'Gestion des locataires',
             href: paths.admin.module.tenant.root
         },
         {
             icon: <MicrophoneIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des Annonces',
+            title: 'Gestion des annonces',
             href: paths.admin.module.advertisements.root
         },
         {
             icon: <ContractIcon className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des Contrats',
+            title: 'Gestion des contrats',
             href: paths.admin.module.contract.root
         },
         {
             icon: <WalletIcon2 className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Gestion',
-            subtitle: 'des paiements',
+            title: 'Gestion des paiements',
             href: paths.admin.module.root
         },
         {
             icon: <SettingIcon2 className="-ml-4 group-data-[collapsible=icon]:ml-0" />,
-            title: 'Module',
-            subtitle: 'Configuration',
+            title: 'Module configuration',
             href: paths.admin.module.root
         },
     ];
@@ -68,7 +61,6 @@ function AllModulesView() {
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold text-slate-800 mb-1">{module.title}</h2>
-                            <p className="text-xl text-slate-600">{module.subtitle}</p>
                         </div>
                     </div>
                 </button>
