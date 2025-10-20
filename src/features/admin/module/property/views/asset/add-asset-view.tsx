@@ -14,7 +14,6 @@ import StepThreeForm from '../../components/forms/assets/add-asset-form/step-thr
 import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { useRouter } from 'next/navigation';
-import { useGetFeaturesQuery } from '@/lib/data-service/feature/feature.queries';
 
 function mapFormDataToAPI(values: addAssetFormData): any {
     return {
@@ -29,12 +28,9 @@ function mapFormDataToAPI(values: addAssetFormData): any {
         is_public: values.is_public,
         is_active: values.is_active,
         id_building: values.building,
-        internet: values.internet,
-        water: values.water,
-        parking: values.parking,
         longitude: values.longitude,
         latitude: values.latitude,
-        id_business: values.id_business,
+        features: values.features,
     };
 }
 
@@ -47,9 +43,6 @@ function AddAssetView() {
     const form = useForm<addAssetFormData>({
         resolver: zodResolver(addAssetFormSchema),
         defaultValues: {
-            internet: false,
-            parking: false,
-            water: false,
             is_public: false,
             is_active: false,
             description: '',
@@ -60,7 +53,6 @@ function AddAssetView() {
             documentUrls: [],
             longitude: 0,
             latitude: 0,
-            id_business: 1
         },
     });
 
@@ -79,12 +71,10 @@ function AddAssetView() {
                 ];
             case 2:
                 return [
-                    'internet',
-                    'water',
-                    'parking',
                     'is_public',
                     'is_active',
                     'description',
+                    'features',
                 ];
             case 3:
                 return ['documents', 'media.coverPicture', 'media.otherMedia'];

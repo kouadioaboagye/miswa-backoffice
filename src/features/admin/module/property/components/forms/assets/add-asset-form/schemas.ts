@@ -9,9 +9,6 @@ export const addAssetFormSchema = z.object({
         required_error: 'Le superficie est requise',
         invalid_type_error: 'La superficie doit être positive'
     }).min(0),
-    internet: z.boolean(),
-    water: z.boolean(),
-    parking: z.boolean(),
     description: z.string().optional(),
     building_steps_level: z.number({        
         required_error: 'Le niveau est requis',
@@ -56,7 +53,6 @@ export const addAssetFormSchema = z.object({
     is_active: z.boolean().optional(),
     longitude: z.number().optional(),
     latitude: z.number().optional(),
-    id_business: z.number().optional(),
     features: z.array(z.number()).optional(),
 });
 
