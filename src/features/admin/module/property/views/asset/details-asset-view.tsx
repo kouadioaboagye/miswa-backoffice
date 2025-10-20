@@ -122,7 +122,7 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                             {asset?.description}
                         </p>
                     </div>
-                    {/* <div>
+                    <div>
                         <h2 className="text-[24px] font-bold mb-2">Commodités</h2>
                         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                             {amenities.map((amenity, index) => (
@@ -141,7 +141,7 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                                 </div>
                             ))}
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>
