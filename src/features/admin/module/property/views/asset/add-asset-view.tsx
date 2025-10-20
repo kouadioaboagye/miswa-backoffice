@@ -14,6 +14,7 @@ import StepThreeForm from '../../components/forms/assets/add-asset-form/step-thr
 import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { useRouter } from 'next/navigation';
+import { useGetFeaturesQuery } from '@/lib/data-service/feature/feature.queries';
 
 function mapFormDataToAPI(values: addAssetFormData): any {
     return {
@@ -185,7 +186,7 @@ function AddAssetView() {
                 description={`Votre bien ${form.getValues("name")} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
                 confirmText='Liste des bien'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => router.push('/admin/property/module/asset')}
+                onConfirm={() => router.push('/admin/module/property/asset')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bien</h1>
             <Stepper

@@ -1,3 +1,4 @@
+import { features } from "process";
 import z from "zod";
 
 export const addAssetFormSchema = z.object({
@@ -56,6 +57,7 @@ export const addAssetFormSchema = z.object({
     longitude: z.number().optional(),
     latitude: z.number().optional(),
     id_business: z.number().optional(),
+    features: z.array(z.number()).optional(),
 });
 
 export type addAssetFormData = z.infer<typeof addAssetFormSchema>;
