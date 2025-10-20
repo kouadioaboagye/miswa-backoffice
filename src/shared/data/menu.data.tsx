@@ -74,8 +74,8 @@ const baseMainNav = [
             }
         ]
     }
-];
-type ModuleKey = 'property' | 'owner' | 'tenant';
+]
+type ModuleKey = 'property' | 'owner' | 'tenant' | 'advertisement' | 'contract';
 
 const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
     property: [
@@ -84,7 +84,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.dashboard,
+            href: paths.admin.module.property.root,
             items: []
         },
         {
@@ -100,26 +100,26 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.property.root,
+            href: paths.admin.module.property.asset.list,
             items: []
         }
     ],
 
     owner: [
-        // {
-        //     label: 'Dashboard',
-        //     icon: (
-        //         <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-        //     ),
-        //     href: paths.admin.module.owner.root,
-        //     items: []
-        // },
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.owner.root,
+            items: []
+        },
         {
             label: 'Liste des propriétaires',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.owner.owners,
+            href: paths.admin.module.owner.list,
             items: []
         },
         {
@@ -146,20 +146,124 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.dashboard,
+            href: paths.admin.module.tenant.root,
             items: []
         },
-
         {
-            label: 'Tenants',
+            label: 'Liste des locataires',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.property,
+            href: paths.admin.module.tenant.tenants,
+            items: []
+        },
+        {
+            label: 'Paiements',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.tenant.payments,
+            items: []
+        },
+        {
+            label: 'Contrat de location',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.tenant.contracts,
+            items: []
+        },
+    ],
+
+    advertisement: [
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.root,
+            items: []
+        },
+        {
+            label: 'Annonces en cours',
+            icon: (
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.inprogress,
+            items: []
+        },
+        {
+            label: 'Annonces achevées',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.archived,
+            items: []
+        },
+        {
+            label: 'Annonces en brouillon',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.draft,
+            items: []
+        },
+        {
+            label: 'Visites',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.advertisement.draft,
+            items: [
+                {
+                    label: 'Liste des visites',
+                    icon: '',
+                    href: paths.admin.module.advertisement.visit.list
+                },
+                {
+                    label: 'Visites terminées',
+                    icon: '',
+                    href: paths.admin.module.advertisement.visit.terminated
+                }
+            ]
+        },
+    ],
+
+    contract: [
+        {
+            label: 'Dashboard',
+            icon: (
+                <MageDashboardFill className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.root,
+            items: []
+        },
+        {
+            label: 'Contrat en attente',
+            icon: (
+                <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.pending,
+            items: []
+        },
+        {
+            label: 'Contrat en cours',
+            icon: (
+                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.active,
+            items: []
+        },
+        {
+            label: 'Contrat terminé',
+            icon: (
+                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
+            ),
+            href: paths.admin.module.contract.terminated,
             items: []
         }
-    ]
-};
+    ],
+}
 
 const moduleNav: module[] = [
     {
@@ -176,29 +280,29 @@ const moduleNav: module[] = [
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.owner.root,
-        value: 'owner'
+        value: "owner"
     },
     {
         label: 'Locataires',
         icon: (
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.tenant,
-        value: 'tenant'
+        defaultHref: paths.admin.module.tenant.root,
+        value: "tenant"
     },
     {
         label: 'Annonces',
         icon: (
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
-        defaultHref: paths.admin.module.advertisements,
-        value: 'advertisements'
+        defaultHref: paths.admin.module.advertisement.root,
+        value: "advertisement"
     }
 ];
 
 // Type guard pour vérifier si c'est une clé valide
 function isModuleKey(key: string): key is ModuleKey {
-    return ['property', 'owner', 'tenant'].includes(key);
+    return ['property', 'owner', 'tenant', 'advertisement', 'contract'].includes(key);
 }
 
 export const getMainNav = (activeModule: string) => {

@@ -46,12 +46,12 @@ const InterventionViewDetails = () => {
                         </span>
                     </h3>
                     <UserPill
-                        fullName="Touré Mack"
-                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                        name="Touré Mack"
+                        avatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
                     />
                     <UserPill
-                        fullName="KOUAHO Stephane"
-                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                        name="KOUAHO Stephane"
+                        avatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
                     />
                 </div>
                 <Button
@@ -64,7 +64,13 @@ const InterventionViewDetails = () => {
                     <BasilArrowRightOutline />
                 </Button>
             </div>
-            <InterventionCaroussel />
+            <InterventionCaroussel 
+                images={[
+                    "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                ]}
+                title="Images de l'intervention"
+            />
             <div className="flex gap-4">
                 <h3>Description De l’intervention</h3>
                 <Badge variant={'pending'} className="text-[1.1rem]">

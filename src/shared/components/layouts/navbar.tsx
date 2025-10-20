@@ -71,7 +71,7 @@ const Navbar = ({
                         <div className="flex items-center justify-center rounded-xl bg-[#1EA64A] p-3 [&_svg]:size-8">
                             <UserIcon className="text-white [&_svg]:size-8" />
                         </div>
-                        Mon compte
+                        Se connecter
                         <ChevronDownIcon className="size-4" />
                     </Button>
                 </div>

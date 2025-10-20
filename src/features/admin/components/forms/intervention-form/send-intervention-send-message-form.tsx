@@ -21,7 +21,11 @@ import FlagIcon from '../../../../../../public/assets/icons/flag';
 
 const SendInterventionSendMessageForm = () => {
     const form = useForm({
-        defaultValues: {}
+        defaultValues: {
+            recipient: '',
+            title: '',
+            content: ''
+        }
     });
 
     const onSubmit: SubmitHandler<any> = async (credentials) => {
@@ -40,7 +44,7 @@ const SendInterventionSendMessageForm = () => {
                 <h3>Envoyer un message</h3>
                 <FormField
                     control={form.control}
-                    name=""
+                    name="recipient"
                     render={({ field }) => (
                         <FormItem>
                             <Label>Qui souhaitez vous envoyer le message</Label>
@@ -50,7 +54,7 @@ const SendInterventionSendMessageForm = () => {
                             >
                                 <FormControl>
                                     <SelectTrigger className="border border-gray-300">
-                                        <SelectValue placeholder="Type de contrat" />
+                                        <SelectValue placeholder="Sélectionner un destinataire" />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
@@ -71,7 +75,7 @@ const SendInterventionSendMessageForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name=""
+                    name="title"
                     render={({ field }) => (
                         <FormItem className="col-span-2 -mt-[0.8rem]">
                             <Label>Titre du message*</Label>
@@ -87,14 +91,14 @@ const SendInterventionSendMessageForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name=""
+                    name="content"
                     render={({ field }) => (
                         <FormItem className="col-span-2 -mt-[0.8rem]">
                             <Label>Contenu*</Label>
                             <FormControl>
                                 <Textarea
                                     rows={7}
-                                    placeholder="M..."
+                                    placeholder="Contenu du message..."
                                     {...field}
                                 />
                             </FormControl>

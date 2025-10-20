@@ -5,7 +5,6 @@ import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, WalletIcon } from 'lucide-react';
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
-import PaymentTable from '../../components/tables/payment/payment-table';
 import { useRouter } from 'next/navigation';
 import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
 import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
@@ -14,12 +13,17 @@ import AddPaymentView from './add-payment-view';
 import { useState } from 'react';
 import SuccessModal from '@/shared/components/ui/success-modal';
 import Loading from '@/app/loading';
+import PaymentTable from '@/features/admin/components/tables/payment/payment-table';
+import { useListPaymentsQuery } from '@/lib/data-service/payment/payment.queries';
+import { columns } from '@/features/admin/components/tables/payment/columns';
 
 const ListPaymentView = () => {
     const [addPaymentModalOpen, setAddPaymentModalOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
     const [successModalOpen, setSuccessModalOpen] = useState(false);
-    const router = useRouter();
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
     const dataItems = [
         {
             title: 'Total Biens',
@@ -41,6 +45,13 @@ const ListPaymentView = () => {
         }
     ];
 
+    const { data: response, isLoading: isLoadingPayments, error, refetch, isRefetching } = useListPaymentsQuery(currentPage, pageSize);
+    const { data, total } = response || { data: [], total: 0 };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     return (
         <div className="flex flex-col gap-16">
             <ContentModal
@@ -53,7 +64,7 @@ const ListPaymentView = () => {
                     setSuccessModalOpen={(value) => setSuccessModalOpen(value)}
                 />
             </ContentModal>
-            {isLoading && <Loading/>}
+            {isLoading && <Loading />}
             <SuccessModal
                 isOpen={successModalOpen}
                 title='Paiment #id_propriétaire initié avec succès'
@@ -89,7 +100,15 @@ const ListPaymentView = () => {
                     )
                 }}
             >
-                <PaymentTable />
+                <PaymentTable
+                    data={data}
+                    totalItems={total}
+                    columns={columns}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoadingPayments || isRefetching}
+                />
             </DataTableLayout>
         </div>
     );

@@ -49,9 +49,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const getActiveModule = () => {
         if (path.includes(paths.admin.module.property.root)) return 'property';
         if (path.includes(paths.admin.module.owner.root)) return 'owner';
-        if (path.includes(paths.admin.module.tenant)) return 'tenant';
-        if (path.includes(paths.admin.module.advertisements))
-            return 'advertisements';
+        if (path.includes(paths.admin.module.tenant.root)) return 'tenant';
+        if (path.includes(paths.admin.module.advertisement.root)) return 'advertisement';
+        if (path.includes(paths.admin.module.contract.root)) return 'contract';
         return 'default';
     };
 

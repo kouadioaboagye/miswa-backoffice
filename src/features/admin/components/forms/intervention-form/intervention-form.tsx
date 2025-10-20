@@ -26,13 +26,23 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import FeatherUploadCloud from '../../../../../../public/assets/icons/feather_upload-cloud';
 import FileIcon from '../../../../../../public/assets/icons/file-icon';
 
+interface InterventionFormData {
+    doc?: File;
+    property?: string;
+    description?: string;
+}
+
 const InterventionForm = () => {
     const [dragActive, setDragActive] = useState(false);
-    const form = useForm({
-        defaultValues: {}
+    const form = useForm<InterventionFormData>({
+        defaultValues: {
+            doc: undefined,
+            property: '',
+            description: ''
+        }
     });
 
-    const onSubmit: SubmitHandler<any> = async (credentials) => {
+    const onSubmit: SubmitHandler<InterventionFormData> = async (credentials) => {
         console.log(credentials);
     };
 
@@ -160,7 +170,7 @@ const InterventionForm = () => {
 
                     <FormField
                         control={form.control}
-                        name=""
+                        name="property"
                         render={({ field }) => (
                             <FormItem className="col-span-2">
                                 <Label>Bien concerné</Label>
@@ -201,7 +211,7 @@ const InterventionForm = () => {
                     </div>
                     <FormField
                         control={form.control}
-                        name=""
+                        name="description"
                         render={({ field }) => (
                             <FormItem className="col-span-6">
                                 <Label>Description du Bien</Label>

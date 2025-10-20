@@ -1,101 +1,104 @@
-'use client';
+"use client";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from './card';
-import type { ChartConfig } from './chart';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from './chart';
+import React from "react";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./chart";
 
-export const description = 'A multiple line chart';
+export const description = "A reusable dynamic multi-line chart";
 
-const chartData = [
-    { month: 'January', desktop: 186, mobile: 80 },
-    { month: 'February', desktop: 305, mobile: 200 },
-    { month: 'March', desktop: 237, mobile: 120 },
-    { month: 'April', desktop: 73, mobile: 190 },
-    { month: 'May', desktop: 209, mobile: 130 },
-    { month: 'June', desktop: 214, mobile: 140 },
-    { month: 'July', desktop: 220, mobile: 150 },
-    { month: 'August', desktop: 240, mobile: 180 },
-    { month: 'September', desktop: 260, mobile: 210 },
-    { month: 'October', desktop: 280, mobile: 240 },
-    { month: 'November', desktop: 200, mobile: 160 },
-    { month: 'December', desktop: 160, mobile: 120 }
-];
+type DynamicChartConfig = Record<
+  string,
+  {
+    label: string;
+    color: string;
+  }
+>;
 
-const chartConfig = {
-    desktop: {
-        label: 'Desktop',
-        color: 'var(--chart-1)'
-    },
-    mobile: {
-        label: 'Mobile',
-        color: 'var(--chart-2)'
-    }
-} satisfies ChartConfig;
+interface ChartLineMultipleProps {
+  title?: string;
+  data: Record<string, any>[];
+  xKey: string;
+  yKeys: string[];
+  config: DynamicChartConfig;
+  yDomain?: [number, number | "auto"];
+}
 
-export function ChartLineMultiple() {
-    return (
-        <Card className="flex min-h-[58rem] flex-col justify-between pt-7">
-            <CardHeader>
-                <CardTitle className="text-2xl font-bold">
-                    Evolution des biens et occupation
-                </CardTitle>
-                {/* <CardDescription>
-                        Voici les biens récemment ajoutés à la plateforme.
-                    </CardDescription> */}
-            </CardHeader>
-            <CardContent className="h-[40rem]">
-                <ChartContainer config={chartConfig} className="size-full">
-                    <LineChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                            left: 5,
-                            right: 12,
-                            bottom: 12
-                        }}
-                    >
-                        <CartesianGrid
-                            vertical={false}
-                            strokeDasharray={'10'}
-                        />
-                        <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
-                            tick={{ fontSize: 12 }}
-                        />
-                        <YAxis
-                            dataKey="desktop"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            domain={[0, 400]}
-                            tick={{ fontSize: 12 }}
-                        />
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent />}
-                        />
-                        <Line
-                            dataKey="desktop"
-                            type="monotone"
-                            stroke="var(--color-desktop)"
-                            strokeWidth={2}
-                            dot={false}
-                        />
-                        <Line
-                            dataKey="mobile"
-                            type="monotone"
-                            stroke="var(--color-mobile)"
-                            strokeWidth={2}
-                            dot={false}
-                        />
-                    </LineChart>
-                </ChartContainer>
-            </CardContent>
-        </Card>
-    );
+export function ChartLineMultiple({
+  title,
+  data,
+  xKey,
+  yKeys,
+  config,
+  yDomain = [0, "auto"],
+}: Readonly<ChartLineMultipleProps>) {
+  return (
+    <Card className="flex min-h-[58rem] flex-col justify-between pt-7">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">
+          {title || "Dynamic Line Chart"}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="h-[40rem]">
+        <ChartContainer config={config} className="size-full">
+          <LineChart
+            accessibilityLayer
+            data={data}
+            margin={{ left: 5, right: 12, bottom: 12 }}
+          >
+            <CartesianGrid vertical={false} strokeDasharray="10" />
+            <XAxis
+              dataKey={xKey}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 3) : value
+              }
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              domain={yDomain}
+              tick={{ fontSize: 12 }}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Legend
+              verticalAlign="top"
+              height={40}
+              formatter={(value) => (
+                <span className="text-sm font-medium text-gray-700">
+                  {config[value]?.label || value}
+                </span>
+              )}
+            />
+            {yKeys.map((key) => (
+              <Line
+                key={key}
+                dataKey={key}
+                type="monotone"
+                stroke={config[key]?.color || "#000"}
+                strokeWidth={2}
+                dot={false}
+              />
+            ))}
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
 }

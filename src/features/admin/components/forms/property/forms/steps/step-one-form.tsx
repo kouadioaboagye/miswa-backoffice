@@ -10,7 +10,7 @@ import { AddPropertyForm } from './schemas';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
 import { useListMunicipalitiesQuery } from '@/lib/data-service/general/general.queries';
 import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
-import { useListBuildingsQuery } from '@/lib/data-service/property/property.queries';
+import { useListBuildingsQuery } from '@/lib/data-service/property/building.queries';
 
 interface StepOneFormProps {
   form: UseFormReturn<AddPropertyForm>;
@@ -116,12 +116,12 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
 
   // Trouver le propriétaire correspondant au bâtiment sélectionné
   const correspondingOwner = selectedBuilding && selectedBuilding.id_business
-    ? businesses.find(business => business.id.toString() === selectedBuilding.id_business.toString())
+    ? businesses.find(business => business.id.toString() === selectedBuilding.id_business?.toString())
     : null;
 
   // Trouver la municipalité correspondante au bâtiment sélectionné
   const correspondingMunicipality = selectedBuilding && selectedBuilding.id_municipality
-    ? municipalities.find(municipality => municipality.id.toString() === selectedBuilding.id_municipality.toString())
+    ? municipalities.find(municipality => municipality.id.toString() === selectedBuilding.id_municipality?.toString())
     : null;
 
   // Fonction pour gérer la sélection manuelle du propriétaire

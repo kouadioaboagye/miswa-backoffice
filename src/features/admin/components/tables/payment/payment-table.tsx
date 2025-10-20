@@ -1,8 +1,37 @@
-import { DataTable } from '@/shared/components/ui/data-table/data-table';
-import { columns, fakeProperties } from './columns';
+import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
+import { ColumnDef } from '@tanstack/react-table';
+import { Payment } from './columns';
 
-const PaymentTable = () => {
-    return <DataTable columns={columns} data={fakeProperties} />;
+interface PaymentTableProps {
+    data: Payment[];
+    columns: ColumnDef<Payment>[];
+    totalItems?: number;
+    pageSize?: number;
+    onPageChange?: (page: number) => void;
+    currentPage?: number;
+    isLoading?: boolean;
+}
+
+const PaymentTable = ({
+    data,
+    columns,
+    totalItems = 0,
+    pageSize = 10,
+    onPageChange,
+    currentPage = 1,
+    isLoading = false
+}: PaymentTableProps) => {
+    return (
+        <DataTable
+            columns={columns}
+            data={data}
+            totalItems={totalItems}
+            pageSize={pageSize}
+            onPageChange={onPageChange}
+            currentPage={currentPage}
+            isLoading={isLoading}
+        />
+    );
 };
 
 export default PaymentTable;

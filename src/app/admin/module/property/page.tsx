@@ -1,7 +1,7 @@
-import PropertyView from '@/features/admin/views/property/property-view';
+import DashboardPropertyView from '@/features/admin/module/property/views/dashboard-view';
 
 const page = () => {
-    return <PropertyView />;
+    return <DashboardPropertyView />;
 };
 
 export default page;

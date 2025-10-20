@@ -6,32 +6,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Loading from '@/app/loading';
 import { toast } from 'sonner';
 import SuccessModal from '@/shared/components/ui/success-modal';
-import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/add-building-form/schemas';
-import StepOneForm from '../../components/forms/add-building-form/step-one-form';
-import StepTwoForm from '../../components/forms/add-building-form/step-two-forn';
-import StepThreeForm from '../../components/forms/add-building-form/step-three-form';
+import { addBuildingFormData, addBuildingFormSchema } from '../../components/forms/building/add-building-form/schemas';
+import StepOneForm from '../../components/forms/building/add-building-form/step-one-form';
+import StepTwoForm from '../../components/forms/building/add-building-form/step-two-forn';
+import StepThreeForm from '../../components/forms/building/add-building-form/step-three-form';
 import Stepper from '@/shared/components/ui/stepper';
+import { uploadAllFiles, uploadFile } from '@/app/api/files/upload';
 import { fetchWrapper } from '@/lib/http-client/ fetchWrapper';
 import { useRouter } from 'next/navigation';
 
-function AddBuildingView() {
+function AddPropertyView() {
     const [currentStep, setCurrentStep] = useState(1);
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [successModalOpen, setSuccessModalOpen] = useState(false)
-    const router = useRouter()
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
+    const router = useRouter();
 
     const form = useForm<addBuildingFormData>({
         resolver: zodResolver(addBuildingFormSchema),
-        defaultValues: {
-            elevator: false,
-            internet: false,
-            water: false,
-            parking: { available: false, amount: 0 },
-            security: { available: false, amount: 0 },
-            commonSpaces: { available: false, amount: 0 },
-            documents: [],
-            media: { coverPicture: undefined, otherMedia: [] },
-        },
     });
 
     const handleNext = async () => {
@@ -39,6 +30,7 @@ function AddBuildingView() {
         const isValid = await form.trigger(fields as any);
 
         if (!isValid) {
+            console.log(form.formState.errors, "form.formState.errors");
             toast.warning("Veuillez remplir tous les champs obligatoires de cette étape!");
             return;
         }
@@ -46,7 +38,6 @@ function AddBuildingView() {
         if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         } else {
-            console.log(form.getValues(), form.formState.isValid)
             form.handleSubmit(onSubmit)();
         }
     };
@@ -56,6 +47,7 @@ function AddBuildingView() {
             setCurrentStep(currentStep - 1);
         }
     };
+
     const getStepFields = (step: number): string[] => {
         switch (step) {
             case 1:
@@ -65,7 +57,9 @@ function AddBuildingView() {
                     'adresse',
                     'quartier',
                     'municipality',
-                    'business'
+                    'business',
+                    'longitude',
+                    'latitude',
                 ];
             case 2:
                 return [
@@ -73,23 +67,10 @@ function AddBuildingView() {
                     'buildingYear',
                     'landSurface',
                     'floorNumber',
-                    'elevator',
-                    'internet',
-                    'water',
-                    'parking.available',
-                    'parking.amount',
-                    'security.available',
-                    'security.amount',
-                    'commonSpaces.available',
-                    'commonSpaces.amount',
-                    'description',
+                    'description'
                 ];
             case 3:
-                return [
-                    'documents',
-                    'media.coverPicture',
-                    'media.otherMedia',
-                ];
+                return ['documents', 'media.coverPicture', 'media.otherMedia'];
             default:
                 return [];
         }
@@ -112,13 +93,18 @@ function AddBuildingView() {
         return {
             name: values.nomBatiment,
             description: values.description,
-            cover_url: values.media?.coverPicture,
-            photos: values.media?.otherMedia,
-            is_public: true,
             street: values.quartier,
             address: values.adresse,
             id_business: values.business,
             id_municipality: values.municipality,
+            city: values.municipality,
+            longitude: values.longitude,
+            latitude: values.latitude,
+            totalUnit: values.totalUnit,
+            construction_year: values.buildingYear,
+            landSurface: values.landSurface,
+            floorNumber: values.floorNumber,
+            building_type: values.typeBatiment,
         };
     }
 
@@ -130,15 +116,40 @@ function AddBuildingView() {
         setIsSubmitting(true);
 
         try {
-            const apiData = mapFormDataToAPI(values);
-            await fetchWrapper("buildings/", {
-                method: "POST",
-                body: apiData
-            })
+            let coverUrl = values.coverUrl || '';
+            let otherMediaUrls = values.otherMediaUrls || [];
+            let documentUrls = values.documentUrls || []
+
+            if (values.media.coverPicture instanceof File) {
+                coverUrl = await uploadFile(values.media.coverPicture);
+            }
+
+            if (values.media.otherMedia && values.media.otherMedia.length > 0) {
+                const files = values.media.otherMedia.filter((m): m is File => m instanceof File);
+                const newMediaUrls = await uploadAllFiles(files);
+                otherMediaUrls = [...otherMediaUrls, ...newMediaUrls];
+            }
+
+            if (values.documents && values.documents.length > 0) {
+                const files = values.documents.filter((d): d is File => d instanceof File);
+                const newDocumentUrls = await uploadAllFiles(files);
+                documentUrls = [...documentUrls, ...newDocumentUrls];
+            }
+
+            const apiData = {
+                ...mapFormDataToAPI(values),
+                cover_url: coverUrl,
+                photos: otherMediaUrls,
+                documents: documentUrls,
+            };
+
+            await fetchWrapper(`buildings/`, {
+                method: 'POST',
+                body: apiData,
+            });
             setSuccessModalOpen(true);
-            form.reset()
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : 'Une erreur est survenue lors de la soumission.');
+            toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
         } finally {
             setIsSubmitting(false);
         }
@@ -149,11 +160,11 @@ function AddBuildingView() {
             {isSubmitting && <Loading />}
             <SuccessModal
                 isOpen={successModalOpen}
-                title='Bâtiment #id_batiment crée avec succès'
-                description='Votre bien #Nom_complet_du_batiment à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications'
+                title='Bâtiment crée avec succès'
+                description={`Votre bien ${form.getValues('nomBatiment')} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
                 confirmText='Liste des bâtiments'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => router.push("/admin/module/property/building")}
+                onConfirm={() => router.push('/admin/module/property/building')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bâtiment</h1>
             <Stepper
@@ -173,4 +184,4 @@ function AddBuildingView() {
     )
 }
 
-export default AddBuildingView
+export default AddPropertyView

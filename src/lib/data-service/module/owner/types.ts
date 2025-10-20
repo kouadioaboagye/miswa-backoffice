@@ -3,6 +3,7 @@ export type IOwnerDataModel = {
     name: string;
     description?: string | null;
     cover_url?: string | null;
+    document_urls?: string[];
     is_default: boolean;
     owner?: {
         legal_form: string;
@@ -27,5 +28,14 @@ export type IOwnerDataModel = {
         avg_monthly_income?: number;
         payment_mode?: string;
         id: number;
+        cover_url?: string;
     };
+};
+
+export type APIResponseDashboardOwner = {
+  overview: {
+    total_businesses: number;
+    active_businesses: number;
+    default_businesses: number;
+  }
 };

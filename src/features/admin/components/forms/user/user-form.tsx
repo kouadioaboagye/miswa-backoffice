@@ -33,7 +33,18 @@ const UserForm = () => {
     const [dragActive, setDragActive] = useState(false);
 
     const form = useForm({
-        defaultValues: {}
+        defaultValues: {
+            docs: null,
+            fullName: '',
+            email: '',
+            username: '',
+            dob: undefined,
+            phone: '',
+            gender: '',
+            status: '',
+            role: '',
+            modules: ''
+        }
     });
 
     const onSubmit: SubmitHandler<any> = async (credentials) => {
@@ -114,7 +125,7 @@ const UserForm = () => {
                 <div className="grid grid-cols-3 gap-5">
                     <FormField
                         control={form.control}
-                        name=""
+                        name="fullName"
                         render={({ field }) => (
                             <FormItem className="col-span-3 -mt-[0.8rem]">
                                 <Label>Nom et prénom</Label>
@@ -130,14 +141,14 @@ const UserForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="email"
                         render={({ field }) => (
                             <FormItem className="-mt-[0.8rem]">
                                 <Label>E-mail</Label>
                                 <FormControl>
                                     <Input
                                         type="email"
-                                        placeholder="Entrez l’email"
+                                        placeholder="Entrez l'email"
                                         {...field}
                                     />
                                 </FormControl>
@@ -147,13 +158,13 @@ const UserForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="username"
                         render={({ field }) => (
                             <FormItem className="col-span-2 -mt-[0.8rem]">
                                 <Label>Username</Label>
                                 <FormControl>
                                     <Input
-                                        placeholder="Entrez username de l’utilisateur"
+                                        placeholder="Entrez username de l'utilisateur"
                                         {...field}
                                     />
                                 </FormControl>
@@ -210,7 +221,7 @@ const UserForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="phone"
                         render={({ field }) => (
                             <FormItem className="-mt-[0.8rem]">
                                 <Label>Numéro de telephone</Label>
@@ -227,7 +238,7 @@ const UserForm = () => {
                     <div>
                         <FormField
                             control={form.control}
-                            name=""
+                            name="gender"
                             render={({ field }) => (
                                 <FormItem className="col-span-2 -mt-3">
                                     <Label>Sexe</Label>
@@ -241,11 +252,11 @@ const UserForm = () => {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="option1">
-                                                Option 1
+                                            <SelectItem value="masculin">
+                                                Masculin
                                             </SelectItem>
-                                            <SelectItem value="option2">
-                                                Option 2
+                                            <SelectItem value="feminin">
+                                                Féminin
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -256,7 +267,7 @@ const UserForm = () => {
                     </div>
                     <FormField
                         control={form.control}
-                        name=""
+                        name="status"
                         render={({ field }) => (
                             <FormItem className="col-span-3 -mt-3">
                                 <Label>Statut du compte</Label>
@@ -270,11 +281,11 @@ const UserForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="actif">
+                                            Actif
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="inactif">
+                                            Inactif
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -284,7 +295,7 @@ const UserForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="role"
                         render={({ field }) => (
                             <FormItem className="col-span-3 -mt-3">
                                 <Label>Selectionner le role</Label>
@@ -298,11 +309,11 @@ const UserForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="admin">
+                                            Admin
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="user">
+                                            Utilisateur
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -312,7 +323,7 @@ const UserForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="modules"
                         render={({ field }) => (
                             <FormItem className="col-span-3 -mt-3">
                                 <Label>Selectionner les modules</Label>
@@ -326,11 +337,14 @@ const UserForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="locataire">
+                                            Locataire
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="biens">
+                                            Biens
+                                        </SelectItem>
+                                        <SelectItem value="proprietaire">
+                                            Propriétaire
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
