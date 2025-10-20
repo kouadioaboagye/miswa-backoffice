@@ -22,7 +22,10 @@ export const paths = {
     admin: {
         root: ROOTS.ADMIN,
         dashboard: `${ROOTS.ADMIN}/dashboard`,
-        property: `${ROOTS.ADMIN}/property`,
+        property: {
+            root: `${ROOTS.ADMIN}/property`,
+            propertyForm: `${ROOTS.ADMIN}/property/property-form-page`
+        },
         payments: `${ROOTS.ADMIN}/payments`,
         contracts: `${ROOTS.ADMIN}/contracts`,
         interventions: `${ROOTS.ADMIN}/interventions`,

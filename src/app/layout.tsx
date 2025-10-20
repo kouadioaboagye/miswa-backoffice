@@ -1,7 +1,5 @@
 // Supports weights 100-900
 import '@fontsource-variable/inter';
-import '@fontsource-variable/urbanist';
-import '@fontsource/dm-serif-display';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 

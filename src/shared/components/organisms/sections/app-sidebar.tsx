@@ -1,6 +1,8 @@
 'use client';
 import { paths } from '@/config/app-route.config';
+import { logout } from '@/lib/auth/utils';
 import { getMainNav, menus } from '@/shared/data/menu.data';
+import { menu } from '@/shared/types/menu';
 import { ChevronDown, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -38,8 +40,6 @@ import {
     SidebarMenuItem,
     SidebarMenuSub
 } from '../../ui/sidebar';
-import { menu } from '@/shared/types/menu';
-import { logout } from '@/lib/auth/utils';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const path = usePathname();
@@ -52,7 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         if (path.includes(paths.admin.module.tenant.root)) return 'tenant';
         if (path.includes(paths.admin.module.advertisement.root)) return 'advertisement';
         if (path.includes(paths.admin.module.contract.root)) return 'contract';
-        return "default";
+        return 'default';
     };
 
     const activeModule = getActiveModule();
@@ -106,7 +106,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarContent className="mt-12 px-5">
                 <SidebarGroup>
                     <SidebarMenu className="gap-3">
-                        {mainNav?.map((menu, index: number) => (
+                        {mainNav?.map((menu, index: number) =>
                             menu.items?.length > 0 ? (
                                 <Collapsible
                                     key={index + 1}
@@ -119,7 +119,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             <SidebarMenuButton
                                                 tooltip={menu.label}
                                                 className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center [&_svg]:size-8"
-                                                isActive={path.includes(menu.href)}
+                                                isActive={path.includes(
+                                                    menu.href
+                                                )}
                                             >
                                                 {menu.icon}
                                                 <span className="text-[1.4rem] font-semibold group-data-[collapsible=icon]:hidden">
@@ -131,11 +133,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                         <CollapsibleContent>
                                             <SidebarMenuSub>
                                                 {menu.items?.map((item) => (
-                                                    <SidebarMenuItem key={item.label}>
+                                                    <SidebarMenuItem
+                                                        key={item.label}
+                                                    >
                                                         <SidebarMenuButton
                                                             asChild
                                                             className="flex gap-4 rounded-[0.8rem] px-7 py-8 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
-                                                            isActive={path.includes(item.href)}
+                                                            isActive={path.includes(
+                                                                item.href
+                                                            )}
                                                             tooltip={item.label}
                                                         >
                                                             <Link
@@ -176,7 +182,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             )
-                        ))}
+                        )}
                     </SidebarMenu>
                 </SidebarGroup>
                 <SidebarGroup className="mt-14 gap-4">
@@ -190,7 +196,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         className="text-white [&>svg]:size-7"
                         title="Add Project"
                     >
-                        <Plus className="size-7" onClick={()=> router.push(paths.admin.module.root)}/>{' '}
+                        <Plus
+                            className="size-7"
+                            onClick={() => router.push(paths.admin.module.root)}
+                        />{' '}
                         <span className="sr-only">Add Project</span>
                     </SidebarGroupAction>
                     <SidebarGroupContent>
@@ -226,8 +235,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
                         leftIcon={<LogoutIcon className="mr-2" />}
                         onClick={() => {
-                            logout()
-                            window.location.href = '/auth/login'
+                            logout();
+                            window.location.href = '/auth/login';
                         }}
                     >
                         Se déconnecter
