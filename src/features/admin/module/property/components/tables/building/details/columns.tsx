@@ -90,11 +90,11 @@ export const columns: ColumnDef<Apartment>[] = [
             const router = useRouter();
 
             const handleDetails = () => {
-                router.push(`/admin/property/details/${String(row.original.id)}`);
+                router.push(`/admin/module/property/asset/details/${String(row.original.id)}`);
             };
 
             const handleEdit = () => {
-                router.push(`/admin/property/edit/${String(row.original.id)}`);
+                router.push(`/admin/module/property/asset/edit/${String(row.original.id)}`);
             };
 
             const handleDelete = async () => {
