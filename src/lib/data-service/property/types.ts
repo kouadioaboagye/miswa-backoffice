@@ -1,5 +1,6 @@
 import { Apartment } from "@/features/admin/module/property/components/tables/building/details/columns";
 import { IOwnerDataModel } from "../module/owner/types";
+import { Feature } from "../feature/types";
 
 export type IAssetDataModel = {
   id: string | number;
@@ -51,12 +52,7 @@ export type IAssetDataModel = {
     };
   };
   images?: string[];
-  features?: {
-    id: number;
-    name: string;
-    description?: string;
-    icon_url?: string;
-  }[];
+  features?: Feature[];
   created_at: string;
   updated_at: string;
 }

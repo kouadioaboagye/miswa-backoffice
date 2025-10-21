@@ -102,9 +102,9 @@ function AddPropertyView() {
             latitude: values.latitude,
             totalUnit: values.totalUnit,
             construction_year: values.buildingYear,
-            landSurface: values.landSurface,
+            total_area: values.landSurface,
             floorNumber: values.floorNumber,
-            building_type: values.typeBatiment,
+            building_type: values.typeBatiment
         };
     }
 
