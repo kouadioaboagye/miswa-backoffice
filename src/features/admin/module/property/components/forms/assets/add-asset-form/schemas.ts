@@ -1,3 +1,4 @@
+import { features } from "process";
 import z from "zod";
 
 export const addAssetFormSchema = z.object({
@@ -8,9 +9,6 @@ export const addAssetFormSchema = z.object({
         required_error: 'Le superficie est requise',
         invalid_type_error: 'La superficie doit être positive'
     }).min(0),
-    internet: z.boolean(),
-    water: z.boolean(),
-    parking: z.boolean(),
     description: z.string().optional(),
     building_steps_level: z.number({        
         required_error: 'Le niveau est requis',
@@ -43,10 +41,10 @@ export const addAssetFormSchema = z.object({
         required_error: 'Le nombre de pièces est requis',
         invalid_type_error: 'Veuillez entrer un chiffre valide'
     }).min(1),
-    built_year: z.number({
-        required_error: 'L\'année de construction est requise',
-        invalid_type_error: 'L\'année doit être supérieure ou égale à 1900'
-    }).min(1900),
+    // built_year: z.number({
+    //     required_error: 'L\'année de construction est requise',
+    //     invalid_type_error: 'L\'année doit être supérieure ou égale à 1900'
+    // }).min(1900),
     monthly_rent_amount: z.number({        
         required_error: 'Le loyer est requis',
         invalid_type_error: 'Le montant du loyer doit être positif'
@@ -55,7 +53,7 @@ export const addAssetFormSchema = z.object({
     is_active: z.boolean().optional(),
     longitude: z.number().optional(),
     latitude: z.number().optional(),
-    id_business: z.number().optional(),
+    features: z.array(z.number()).optional(),
 });
 
 export type addAssetFormData = z.infer<typeof addAssetFormSchema>;

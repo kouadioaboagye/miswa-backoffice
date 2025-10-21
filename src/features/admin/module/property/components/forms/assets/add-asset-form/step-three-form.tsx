@@ -84,6 +84,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                             </div>
                         </div>
                         <Button
+                            type='button'
                             variant="outline_success"
                             className="mt-4 ml-[20%]"
                             onClick={() => document.getElementById('documentUpload')?.click()}
@@ -135,6 +136,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                                 onChange={handleCoverPictureChange}
                             />
                             <Button
+                            type='button'
                                 variant="outline_success"
                                 onClick={() => document.getElementById('coverPictureUpload')?.click()}
                             >
@@ -163,6 +165,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                                     </div>
                                 </div>
                                 <Button
+                                type='button'
                                     variant="outline_success"
                                     onClick={() => document.getElementById('otherMediaUpload')?.click()}
                                 >

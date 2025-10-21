@@ -2,7 +2,7 @@
 
 import { Button } from "@/shared/components/ui/button";
 import Image from "next/image";
-import { Calendar, Check, Edit, Map, MapPin, Presentation, Star, Trash, Trash2, User } from "lucide-react";
+import { Check, Edit, MapPin, Star } from "lucide-react";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 import ConfirmModal from "@/shared/components/ui/confirm-modal";
@@ -45,23 +45,23 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                         </div>
                         <div className="flex px-10 bg-white shadow-[0px_8px_10px_0px_#11928F66] rounded-full py-4 items-center justify-center border-1 border-[#11928F66]">
                             <Image
-                                src={asset?.business?.cover_url || "/assets/images/pp.png"}
+                                src={asset?.building?.business?.cover_url || "/assets/images/pp.png"}
                                 width={25}
                                 height={25}
                                 alt="Profile picture"
                                 className="h-[35px] w-[35px] rounded-full object-cover"
                             />
-                            <span className="ml-4 text-2xl text-gray-700">{asset?.business?.name}</span>
+                            <span className="ml-4 text-2xl text-gray-700">{asset?.building?.business?.name}</span>
                         </div>
                         <div className="flex px-10 bg-white shadow-[0px_8px_10px_0px_#11928F66] rounded-full py-4 items-center justify-center border-1 border-[#11928F66]">
                             <Image
-                                src={asset?.business?.owner?.cover_url || "/assets/images/pp.png"}
+                                src={asset?.building?.business?.owner?.cover_url || "/assets/images/pp.png"}
                                 width={25}
                                 height={25}
                                 alt="Profile picture"
                                 className="h-[35px] w-[35px] rounded-full object-cover"
                             />
-                            <span className="ml-4 text-2xl text-gray-700">{asset?.business?.owner?.legal_name}</span>
+                            <span className="ml-4 text-2xl text-gray-700">{asset?.building?.business?.owner?.legal_name}</span>
                         </div>
                     </div>
                     <div className="rounded-3xl bg-white p-4">
@@ -104,7 +104,7 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                         <div className="flex space-x-10">
                             <div className="flex items-center gap-2 text-[#778088]">
                                 <MapPin className="w-5 h-5" />
-                                <span>{asset?.address}</span>
+                                <span>{asset?.building?.address}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="flex items-center">
@@ -123,19 +123,43 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                         </p>
                     </div>
                     <div>
+                        <h2 className="text-[24px] font-bold mb-2">Caractéristiques</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className="border border-gray-200 rounded-lg p-4 shadow-sm">
+                                <div className="flex items-start gap-3">
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900 mb-1">Loyer</h3>
+                                        <p className="text-lg text-gray-600">{asset?.monthly_rent_amount} FCFA/Mois</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border border-gray-200 rounded-lg p-4 shadow-sm">
+                                <div className="flex items-start gap-3">
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900 mb-1">Superficie</h3>
+                                        <p className="text-lg text-gray-600">{asset?.area_m2} m²</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border border-gray-200 rounded-lg p-4 shadow-sm">
+                                <div className="flex items-start gap-3">
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900 mb-1">Nombre de pièces</h3>
+                                        <p className="text-lg text-gray-600">{asset?.rooms_count} pièces</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
                         <h2 className="text-[24px] font-bold mb-2">Commodités</h2>
                         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                            {amenities.map((amenity, index) => (
+                            {asset?.features?.map((feature, index) => (
                                 <div key={index + 1} className="border border-gray-200 rounded-lg p-4">
-                                    <div className="flex items-start gap-3">
+                                    <div className="flex items-center gap-3">
                                         <Check className="w-7 h-7 text-teal-600 bg-teal-100 rounded-full" />
                                         <div>
-                                            <h3 className="font-semibold text-gray-900 mb-2">{amenity.category}</h3>
-                                            <div className="flex items-center flex-wrap">
-                                                {amenity.items.map((item, idx) => (
-                                                    <p key={idx + 1} className="text-lg text-gray-600 mr-1">{item}, </p>
-                                                ))}
-                                            </div>
+                                            <h3 className="font-semibold text-gray-900 mb-2">{feature.name}</h3>
                                         </div>
                                     </div>
                                 </div>
