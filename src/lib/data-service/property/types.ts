@@ -33,21 +33,22 @@ export type IAssetDataModel = {
   building?: {
     id: number;
     name: string;
-    description?: string | null;
-      business?: {
-    name: string;
-    description?: string | null;
-    cover_url?: string | null;
-    is_default?: boolean;
-    id: number;
-    owner?: {
-      legal_form: string;
-      legal_name: string;
-      birth_date?: string;
-      birth_place?: string;
+    description?: string;
+    address?: string;
+    business?: {
+      name: string;
+      description?: string;
       cover_url?: string;
-    }
-  };
+      is_default?: boolean;
+      id: number;
+      owner?: {
+        legal_form: string;
+        legal_name: string;
+        birth_date?: string;
+        birth_place?: string;
+        cover_url?: string;
+      }
+    };
   };
   images?: string[];
   features?: {

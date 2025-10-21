@@ -104,7 +104,7 @@ const DetailsAssetView = ({ idAsset }: { idAsset: string }) => {
                         <div className="flex space-x-10">
                             <div className="flex items-center gap-2 text-[#778088]">
                                 <MapPin className="w-5 h-5" />
-                                <span>{asset?.address}</span>
+                                <span>{asset?.building?.address}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="flex items-center">
