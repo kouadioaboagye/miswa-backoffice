@@ -66,6 +66,7 @@ export type IBuildingDataModel = {
   address?: string;
   longitude?: number;
   latitude?: number;
+  total_area?: number;
   photos?: string[];
   building_type?: string;
   construction_year?: number;
