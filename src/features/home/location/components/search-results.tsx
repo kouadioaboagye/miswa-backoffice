@@ -18,9 +18,17 @@ import {
     TabsList,
     TabsTrigger
 } from '@/shared/components/ui/tabs';
+import {
+    useNeighborhoods,
+    useSearchData
+} from '@/shared/hooks/use-search-data';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MiswaLoading } from '../../../../../public/assets/icons/miswa-loading';
+import {
+    buildSearchParams,
+    useGetAllPropertiesQuery
+} from '../api/get-all-properties';
 
 interface SearchFilters {
     city: string;
@@ -29,9 +37,10 @@ interface SearchFilters {
     budgetMin: number;
     budgetMax: number;
     buildingType?: string;
-    bedrooms?: number;
+    rooms_count?: number;
     surfaceMin?: number;
     surfaceMax?: number;
+    search?: string;
 }
 
 interface Property {
@@ -42,15 +51,96 @@ interface Property {
     reference: string;
     street: string;
     address: string;
+    google_plus_code: string;
     latitude: number;
     longitude: number;
     rooms_count: number;
     likes_count: number;
     views_count: number;
+    building_steps_level: number;
+    built_year: number;
     area_m2: number;
     monthly_rent_amount: number;
     is_busy: boolean;
+    is_public: boolean;
+    busy_until: string;
+    is_active: boolean;
+    is_banned: boolean;
     photos: string[];
+    videos: string[];
+    official_documents: string[];
+    building: {
+        name: string;
+        description: string;
+        cover_url: string;
+        street: string;
+        address: string;
+        longitude: number;
+        latitude: number;
+        photos: string[];
+        is_public: boolean;
+        building_type: string;
+        city: string;
+        construction_year: number;
+        total_area: number;
+        amenities: string[];
+        floors_count: number;
+        document_urls: string[];
+        id: number;
+        id_business: number;
+        id_municipality: number;
+        business: {
+            name: string;
+            description: string;
+            cover_url: string;
+            document_urls: string[];
+            is_default: boolean;
+            id: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+            is_active: boolean;
+            created_at: string;
+            updated_at: string;
+        };
+        municipality: {
+            name: string;
+            id: number;
+            id_country: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+        };
+    };
+    municipality: {
+        name: string;
+        id: number;
+        id_country: number;
+        country: {
+            name: string;
+            flag_url: string;
+            phone_code: string;
+            country_code: string;
+            id: number;
+        };
+    };
+    created_at: string;
+    updated_at: string;
+    features: Array<{
+        name: string;
+        description: string;
+        cover_url: string;
+        id: number;
+    }>;
+    phonenumbers: string[];
 }
 
 interface ApiResponse {
@@ -74,12 +164,57 @@ const SearchResults = () => {
     const [selectedBedrooms, setSelectedBedrooms] = useState('');
     const [surfaceRange, setSurfaceRange] = useState([50, 200]);
 
-    const [properties, setProperties] = useState<Property[]>([]);
     const [filteredProperties, setFilteredProperties] = useState<Property[]>(
         []
     );
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+
+    // Charger les données de référence
+    const {
+        municipalities,
+        propertyTypes,
+        buildingTypes,
+        priceRanges,
+        surfaceRanges,
+        roomOptions,
+        isLoading: isLoadingData,
+        isError: isErrorData
+    } = useSearchData();
+
+    // Utilisation du hook React Query pour récupérer les propriétés
+    const {
+        data: propertiesData,
+        isLoading: loading,
+        error: queryError,
+        refetch
+    } = useGetAllPropertiesQuery(
+        buildSearchParams({
+            page: currentPage,
+            limit: itemsPerPage,
+            budgetRange: budgetRange as [number, number],
+            surfaceRange: surfaceRange as [number, number],
+            selectedBedrooms,
+            selectedCity,
+            selectedType,
+            selectedBuildingType,
+            selectedNeighborhood,
+            searchTerm,
+            municipalities:
+                municipalities.data && Array.isArray(municipalities.data)
+                    ? municipalities.data
+                    : []
+        })
+    );
+
+    const properties = propertiesData?.data || [];
+    const totalCount = propertiesData?.total || 0;
+    const error = queryError ? 'Impossible de charger les propriétés' : null;
+
+    // Charger les quartiers selon la ville sélectionnée
+    const selectedCityId =
+        municipalities.data && Array.isArray(municipalities.data)
+            ? municipalities.data.find((m: any) => m.name === selectedCity)?.id
+            : undefined;
+    const neighborhoods = useNeighborhoods(selectedCityId);
 
     // Charger les paramètres depuis l'URL au montage du composant
     useEffect(() => {
@@ -103,20 +238,105 @@ const SearchResults = () => {
     }, [searchParams]);
 
     const formatPropertyForCard = (property: Property) => {
+        // Utiliser la vraie image de couverture ou la première photo disponible
+        const getImageUrl = () => {
+            if (property.cover_url && property.cover_url !== '') {
+                return property.cover_url;
+            }
+            if (property.photos && property.photos.length > 0) {
+                return property.photos[0];
+            }
+            // Image de fallback seulement si aucune image n'est disponible
+            return 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center';
+        };
+
+        // Utiliser l'adresse du bâtiment si disponible, sinon celle de la propriété
+        const getLocation = () => {
+            if (property.address && property.address !== '') {
+                return property.address;
+            }
+            if (property.street && property.street !== '') {
+                return property.street;
+            }
+            if (
+                property.building?.address &&
+                property.building.address !== ''
+            ) {
+                return property.building.address;
+            }
+            if (property.building?.street && property.building.street !== '') {
+                return property.building.street;
+            }
+            if (property.municipality?.name) {
+                return property.municipality.name;
+            }
+            return 'Adresse non disponible';
+        };
+
+        // Compter les salles de bain depuis les features
+        const getBathroomsCount = () => {
+            if (!property.features || property.features.length === 0) {
+                return 'N/A';
+            }
+            const bathroomFeatures = property.features.filter(
+                (feature) =>
+                    feature.name.toLowerCase().includes('baignoire') ||
+                    feature.name.toLowerCase().includes('douche') ||
+                    feature.name.toLowerCase().includes('salle de bain')
+            );
+            return bathroomFeatures.length > 0
+                ? `${bathroomFeatures.length}`
+                : 'N/A';
+        };
+
+        // Compter les places de parking depuis les features
+        const getParkingCount = () => {
+            if (!property.features || property.features.length === 0) {
+                return 'N/A';
+            }
+            const parkingFeatures = property.features.filter(
+                (feature) =>
+                    feature.name.toLowerCase().includes('parking') ||
+                    feature.name.toLowerCase().includes('garage')
+            );
+            return parkingFeatures.length > 0
+                ? `${parkingFeatures.length}`
+                : 'N/A';
+        };
+
         return {
             id: property.id,
             title: property.name,
-            location: property.address || property.street,
+            location: getLocation(),
             rooms: `${property.rooms_count} Chambre${
                 property.rooms_count > 1 ? 's' : ''
             }`,
-            bathrooms: 'Aucun', // L'API ne semble pas fournir cette information
+            bathrooms: getBathroomsCount(),
             area: `${property.area_m2}m²`,
-            parking: 'Aucun', // L'API ne semble pas fournir cette information
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            price: property.monthly_rent_amount
-                ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois`
-                : '0 FCFA'
+            parking: getParkingCount(),
+            image: getImageUrl(),
+            price:
+                property.monthly_rent_amount && property.monthly_rent_amount > 0
+                    ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois`
+                    : 'Prix sur demande',
+            // Propriétés supplémentaires pour les détails
+            description: property.description,
+            cover_url: property.cover_url,
+            reference: property.reference,
+            street: property.street,
+            address: property.address,
+            latitude: property.latitude,
+            longitude: property.longitude,
+            rooms_count: property.rooms_count,
+            likes_count: property.likes_count,
+            views_count: property.views_count,
+            area_m2: property.area_m2,
+            monthly_rent_amount: property.monthly_rent_amount,
+            is_busy: property.is_busy,
+            photos: property.photos,
+            features: property.features,
+            building: property.building,
+            municipality: property.municipality
         };
     };
 
@@ -211,74 +431,78 @@ const SearchResults = () => {
             article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
             article.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    const fetchProperties = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch('/api/properties', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP: ${response.status}`);
-            }
 
-            const data: ApiResponse = await response.json();
-            setProperties(data.data);
-            setFilteredProperties(data.data); // Initialiser les propriétés filtrées
-        } catch (err) {
-            setError('Impossible de charger les propriétés');
-        } finally {
-            setLoading(false);
+    // Fonction pour construire les filtres à partir des états
+    const buildFilters = useCallback((): SearchFilters => {
+        const filters: SearchFilters = {
+            city: selectedCity,
+            budgetMin: budgetRange[0],
+            budgetMax: budgetRange[1],
+            surfaceMin: surfaceRange[0],
+            surfaceMax: surfaceRange[1]
+        };
+
+        // Ajouter les filtres spécifiques selon l'onglet actif
+        if (activeTab === 'budget') {
+            filters.neighborhood = selectedNeighborhood;
+            filters.propertyType = selectedType;
+        } else if (activeTab === 'batiment') {
+            filters.buildingType = selectedBuildingType;
+            filters.rooms_count = selectedBedrooms
+                ? parseInt(selectedBedrooms)
+                : undefined;
         }
-    };
 
+        return filters;
+    }, [
+        selectedCity,
+        budgetRange,
+        surfaceRange,
+        activeTab,
+        selectedNeighborhood,
+        selectedType,
+        selectedBuildingType,
+        selectedBedrooms
+    ]);
+
+    // Fonction pour déclencher la recherche
+
+    // Mettre à jour les propriétés filtrées quand les données changent
     useEffect(() => {
-        fetchProperties();
-    }, []);
+        setFilteredProperties(properties);
+    }, [properties]);
 
-    // Filtrer les propriétés selon le terme de recherche
-    useEffect(() => {
-        if (searchTerm.trim() === '') {
-            setFilteredProperties(properties);
-        } else {
-            const filtered = properties.filter(
-                (property) =>
-                    property.name
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    property.description
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    property.address
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    property.street
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-            );
-            setFilteredProperties(filtered);
-        }
-        setCurrentPage(1); // Reset à la première page lors d'une nouvelle recherche
-    }, [searchTerm, properties]);
-
-    // Calculer la pagination
-    const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentProperties = filteredProperties.slice(startIndex, endIndex);
+    // États pour la pagination backend
+    const totalPages = Math.ceil(totalCount / itemsPerPage);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+        // React Query se chargera automatiquement de refetch avec la nouvelle page
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    // Gestion des erreurs de chargement des données de référence
+    if (isErrorData) {
+        return (
+            <div className="w-full px-4 sm:px-6 lg:px-8">
+                <div className="text-center text-red-500 py-16">
+                    Erreur lors du chargement des données de référence
+                </div>
+                <Button
+                    onClick={() => window.location.reload()}
+                    className="mx-auto"
+                >
+                    Réessayer
+                </Button>
+            </div>
+        );
+    }
 
     if (error) {
         return (
             <div className="w-full px-4 sm:px-6 lg:px-8">
                 <div className="text-center text-red-500 py-16">{error}</div>
-                <Button onClick={fetchProperties} className="mx-auto">
+                <Button onClick={() => refetch()} className="mx-auto">
                     Réessayer
                 </Button>
             </div>
@@ -286,8 +510,8 @@ const SearchResults = () => {
     }
 
     return (
-        <section className="flex justify-center py-20 w-full bg-white sm:max-w-[95%] md:max-w-[90%]">
-            <div className="w-full px-4 sm:px-6 lg:px-8">
+        <section className="w-full bg-white py-20">
+            <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto sm:w-[95%] md:w-[90%]">
                 {/* Header avec barre de recherche */}
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-20">
                     <div>
@@ -347,21 +571,45 @@ const SearchResults = () => {
                                     <div className="relative">
                                         <Select
                                             value={selectedCity}
-                                            onValueChange={setSelectedCity}
+                                            onValueChange={(value) => {
+                                                setSelectedCity(value);
+                                                setSelectedNeighborhood(''); // Reset quartier quand ville change
+                                            }}
+                                            disabled={municipalities.isLoading}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Grand-Bassam" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        municipalities.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner une ville'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Grand-Bassam">
-                                                    Grand-Bassam
-                                                </SelectItem>
-                                                <SelectItem value="Abidjan">
-                                                    Abidjan
-                                                </SelectItem>
-                                                <SelectItem value="Yamoussoukro">
-                                                    Yamoussoukro
-                                                </SelectItem>
+                                                {municipalities.data &&
+                                                Array.isArray(
+                                                    municipalities.data
+                                                )
+                                                    ? municipalities.data.map(
+                                                          (
+                                                              municipality: any
+                                                          ) => (
+                                                              <SelectItem
+                                                                  key={
+                                                                      municipality.id
+                                                                  }
+                                                                  value={
+                                                                      municipality.name
+                                                                  }
+                                                              >
+                                                                  {
+                                                                      municipality.name
+                                                                  }
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -378,20 +626,46 @@ const SearchResults = () => {
                                             onValueChange={
                                                 setSelectedNeighborhood
                                             }
+                                            disabled={
+                                                !selectedCity ||
+                                                neighborhoods.isLoading
+                                            }
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Cocody" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        !selectedCity
+                                                            ? "Sélectionnez d'abord une ville"
+                                                            : neighborhoods.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner un quartier'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Cocody">
-                                                    Cocody
-                                                </SelectItem>
-                                                <SelectItem value="Plateau">
-                                                    Plateau
-                                                </SelectItem>
-                                                <SelectItem value="Marcory">
-                                                    Marcory
-                                                </SelectItem>
+                                                {neighborhoods.data &&
+                                                Array.isArray(
+                                                    neighborhoods.data
+                                                )
+                                                    ? neighborhoods.data.map(
+                                                          (
+                                                              neighborhood: any
+                                                          ) => (
+                                                              <SelectItem
+                                                                  key={
+                                                                      neighborhood.id
+                                                                  }
+                                                                  value={
+                                                                      neighborhood.name
+                                                                  }
+                                                              >
+                                                                  {
+                                                                      neighborhood.name
+                                                                  }
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -406,20 +680,35 @@ const SearchResults = () => {
                                         <Select
                                             value={selectedType}
                                             onValueChange={setSelectedType}
+                                            disabled={propertyTypes.isLoading}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Appartement" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        propertyTypes.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner un type'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Appartement">
-                                                    Appartement
-                                                </SelectItem>
-                                                <SelectItem value="Maison">
-                                                    Maison
-                                                </SelectItem>
-                                                <SelectItem value="Studio">
-                                                    Studio
-                                                </SelectItem>
+                                                {propertyTypes.data &&
+                                                Array.isArray(
+                                                    propertyTypes.data
+                                                )
+                                                    ? propertyTypes.data.map(
+                                                          (type: any) => (
+                                                              <SelectItem
+                                                                  key={type.id}
+                                                                  value={
+                                                                      type.name
+                                                                  }
+                                                              >
+                                                                  {type.name}
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -559,6 +848,7 @@ const SearchResults = () => {
                                     variant="secondary"
                                     size="default"
                                     className="transition-colors shadow-md shadow-[#1ea64a]"
+                                    onClick={() => refetch()}
                                 >
                                     Rechercher
                                 </Button>
@@ -576,21 +866,45 @@ const SearchResults = () => {
                                     <div className="relative">
                                         <Select
                                             value={selectedCity}
-                                            onValueChange={setSelectedCity}
+                                            onValueChange={(value) => {
+                                                setSelectedCity(value);
+                                                setSelectedNeighborhood(''); // Reset quartier quand ville change
+                                            }}
+                                            disabled={municipalities.isLoading}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Grand-Bassam" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        municipalities.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner une ville'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Grand-Bassam">
-                                                    Grand-Bassam
-                                                </SelectItem>
-                                                <SelectItem value="Abidjan">
-                                                    Abidjan
-                                                </SelectItem>
-                                                <SelectItem value="Yamoussoukro">
-                                                    Yamoussoukro
-                                                </SelectItem>
+                                                {municipalities.data &&
+                                                Array.isArray(
+                                                    municipalities.data
+                                                )
+                                                    ? municipalities.data.map(
+                                                          (
+                                                              municipality: any
+                                                          ) => (
+                                                              <SelectItem
+                                                                  key={
+                                                                      municipality.id
+                                                                  }
+                                                                  value={
+                                                                      municipality.name
+                                                                  }
+                                                              >
+                                                                  {
+                                                                      municipality.name
+                                                                  }
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -607,20 +921,35 @@ const SearchResults = () => {
                                             onValueChange={
                                                 setSelectedBuildingType
                                             }
+                                            disabled={buildingTypes.isLoading}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Résidentiel" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        buildingTypes.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner un type'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Résidentiel">
-                                                    Résidentiel
-                                                </SelectItem>
-                                                <SelectItem value="Commercial">
-                                                    Commercial
-                                                </SelectItem>
-                                                <SelectItem value="Mixte">
-                                                    Mixte
-                                                </SelectItem>
+                                                {buildingTypes.data &&
+                                                Array.isArray(
+                                                    buildingTypes.data
+                                                )
+                                                    ? buildingTypes.data.map(
+                                                          (type: any) => (
+                                                              <SelectItem
+                                                                  key={type.id}
+                                                                  value={
+                                                                      type.name
+                                                                  }
+                                                              >
+                                                                  {type.name}
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -635,23 +964,35 @@ const SearchResults = () => {
                                         <Select
                                             value={selectedBedrooms}
                                             onValueChange={setSelectedBedrooms}
+                                            disabled={roomOptions.isLoading}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="2 chambres" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        roomOptions.isLoading
+                                                            ? 'Chargement...'
+                                                            : 'Sélectionner le nombre'
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="1">
-                                                    1 chambre
-                                                </SelectItem>
-                                                <SelectItem value="2">
-                                                    2 chambres
-                                                </SelectItem>
-                                                <SelectItem value="3">
-                                                    3 chambres
-                                                </SelectItem>
-                                                <SelectItem value="4+">
-                                                    4+ chambres
-                                                </SelectItem>
+                                                {roomOptions.data &&
+                                                Array.isArray(roomOptions.data)
+                                                    ? roomOptions.data.map(
+                                                          (option: any) => (
+                                                              <SelectItem
+                                                                  key={
+                                                                      option.id
+                                                                  }
+                                                                  value={
+                                                                      option.value
+                                                                  }
+                                                              >
+                                                                  {option.label}
+                                                              </SelectItem>
+                                                          )
+                                                      )
+                                                    : null}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -781,6 +1122,7 @@ const SearchResults = () => {
                                     variant="secondary"
                                     size="default"
                                     className="transition-colors shadow-md shadow-[#1ea64a]"
+                                    onClick={() => refetch()}
                                 >
                                     Rechercher
                                 </Button>
@@ -790,39 +1132,73 @@ const SearchResults = () => {
                 </div>
 
                 <div className="flex flex-col items-center w-full pt-12">
+                    {/* Indicateur de chargement des données de référence */}
+                    {isLoadingData && (
+                        <div className="flex size-full items-center justify-center h-[200px] z-50 bg-opacity-40">
+                            <div className="text-center">
+                                <MiswaLoading className="size-16 mx-auto mb-4" />
+                                <p className="text-gray-600">
+                                    Chargement des données de référence...
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Grille de propriétés */}
-                    {loading && (
+                    {loading && !isLoadingData && (
                         <div className="flex size-full items-center justify-center h-[500px] z-50 bg-opacity-40">
                             <MiswaLoading className="size-24" />
                         </div>
                     )}
                     <div className="w-full mb-12">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
-                            {currentProperties.map((property) => (
-                                <PropertyCardGrid
-                                    key={property.id}
-                                    {...formatPropertyForCard(property)}
-                                    className="hover:scale-105 transition-transform duration-300"
-                                    // Propriétés supplémentaires pour les détails
-                                    description={property.description}
-                                    cover_url={property.cover_url}
-                                    reference={property.reference}
-                                    street={property.street}
-                                    address={property.address}
-                                    latitude={property.latitude}
-                                    longitude={property.longitude}
-                                    rooms_count={property.rooms_count}
-                                    likes_count={property.likes_count}
-                                    views_count={property.views_count}
-                                    area_m2={property.area_m2}
-                                    monthly_rent_amount={
-                                        property.monthly_rent_amount
-                                    }
-                                    is_busy={property.is_busy}
-                                    photos={property.photos}
-                                />
-                            ))}
-                        </div>
+                        {filteredProperties.length === 0 && !loading ? (
+                            <div className="text-center py-16">
+                                <div className="text-6xl mb-4">🏠</div>
+                                <h3 className="text-2xl font-semibold text-gray-700 mb-2">
+                                    Aucune propriété trouvée
+                                </h3>
+                                <p className="text-gray-500 mb-6">
+                                    Essayez de modifier vos critères de
+                                    recherche
+                                </p>
+                                <Button
+                                    onClick={() => refetch()}
+                                    className="bg-[#1EA64A] hover:bg-[#1a8a3e] text-white"
+                                >
+                                    Actualiser la recherche
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+                                {filteredProperties.map((property) => (
+                                    <PropertyCardGrid
+                                        key={property.id}
+                                        {...formatPropertyForCard(property)}
+                                        className="hover:scale-105 transition-transform duration-300"
+                                        // Propriétés supplémentaires pour les détails
+                                        description={property.description}
+                                        cover_url={property.cover_url}
+                                        reference={property.reference}
+                                        street={property.street}
+                                        address={property.address}
+                                        latitude={property.latitude}
+                                        longitude={property.longitude}
+                                        rooms_count={property.rooms_count}
+                                        likes_count={property.likes_count}
+                                        views_count={property.views_count}
+                                        area_m2={property.area_m2}
+                                        monthly_rent_amount={
+                                            property.monthly_rent_amount
+                                        }
+                                        is_busy={property.is_busy}
+                                        photos={property.photos}
+                                        features={property.features}
+                                        building={property.building}
+                                        municipality={property.municipality}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Pagination */}

@@ -11,8 +11,8 @@ import {
 } from '@/shared/components/ui/select';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { OnMapIcon } from '../../../../../public/assets/icons/on-map-icon';
+import { useGetAllPropertiesQuery } from '../api/get-all-properties';
 
 interface Property {
     id: number;
@@ -22,15 +22,96 @@ interface Property {
     reference: string;
     street: string;
     address: string;
+    google_plus_code: string;
     latitude: number;
     longitude: number;
     rooms_count: number;
     likes_count: number;
     views_count: number;
+    building_steps_level: number;
+    built_year: number;
     area_m2: number;
     monthly_rent_amount: number;
     is_busy: boolean;
+    is_public: boolean;
+    busy_until: string;
+    is_active: boolean;
+    is_banned: boolean;
     photos: string[];
+    videos: string[];
+    official_documents: string[];
+    building: {
+        name: string;
+        description: string;
+        cover_url: string;
+        street: string;
+        address: string;
+        longitude: number;
+        latitude: number;
+        photos: string[];
+        is_public: boolean;
+        building_type: string;
+        city: string;
+        construction_year: number;
+        total_area: number;
+        amenities: string[];
+        floors_count: number;
+        document_urls: string[];
+        id: number;
+        id_business: number;
+        id_municipality: number;
+        business: {
+            name: string;
+            description: string;
+            cover_url: string;
+            document_urls: string[];
+            is_default: boolean;
+            id: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+            is_active: boolean;
+            created_at: string;
+            updated_at: string;
+        };
+        municipality: {
+            name: string;
+            id: number;
+            id_country: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+        };
+    };
+    municipality: {
+        name: string;
+        id: number;
+        id_country: number;
+        country: {
+            name: string;
+            flag_url: string;
+            phone_code: string;
+            country_code: string;
+            id: number;
+        };
+    };
+    created_at: string;
+    updated_at: string;
+    features: Array<{
+        name: string;
+        description: string;
+        cover_url: string;
+        id: number;
+    }>;
+    phonenumbers: string[];
 }
 
 interface ApiResponse {
@@ -40,57 +121,127 @@ interface ApiResponse {
 
 const PropertiesSection = () => {
     const router = useRouter();
-    const [properties, setProperties] = useState<Property[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
-    // Fonction pour récupérer les propriétés depuis l'API
-    const fetchProperties = async () => {
-        try {
-            setLoading(true);
+    // Utilisation du hook React Query pour récupérer les propriétés
+    const {
+        data: propertiesData,
+        isLoading: loading,
+        error: queryError,
+        refetch
+    } = useGetAllPropertiesQuery({
+        page: 1,
+        limit: 20
+        // all: true,
+        // is_public: true,
+        // is_active: true
+    });
 
-            const response = await fetch('/api/properties', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+    console.log('propertiesData', propertiesData);
 
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP: ${response.status}`);
-            }
-
-            const data: ApiResponse = await response.json();
-            setProperties(data.data);
-        } catch (err) {
-            console.error('Erreur lors du chargement des propriétés:', err);
-            setError('Impossible de charger les propriétés');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProperties();
-    }, []);
+    const properties = propertiesData?.data || [];
+    const error = queryError ? 'Impossible de charger les propriétés' : null;
 
     // Fonction pour formater les données de l'API vers le format attendu par PropertyCard
     const formatPropertyForCard = (property: Property) => {
+        // Utiliser la vraie image de couverture ou la première photo disponible
+        const getImageUrl = () => {
+            if (property.cover_url && property.cover_url !== '') {
+                return property.cover_url;
+            }
+            if (property.photos && property.photos.length > 0) {
+                return property.photos[0];
+            }
+            // Image de fallback seulement si aucune image n'est disponible
+            return 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center';
+        };
+
+        // Utiliser l'adresse du bâtiment si disponible, sinon celle de la propriété
+        const getLocation = () => {
+            if (property.address && property.address !== '') {
+                return property.address;
+            }
+            if (property.street && property.street !== '') {
+                return property.street;
+            }
+            if (
+                property.building?.address &&
+                property.building.address !== ''
+            ) {
+                return property.building.address;
+            }
+            if (property.building?.street && property.building.street !== '') {
+                return property.building.street;
+            }
+            if (property.municipality?.name) {
+                return property.municipality.name;
+            }
+            return 'Adresse non disponible';
+        };
+
+        // Compter les salles de bain depuis les features
+        const getBathroomsCount = () => {
+            if (!property.features || property.features.length === 0) {
+                return 'N/A';
+            }
+            const bathroomFeatures = property.features.filter(
+                (feature) =>
+                    feature.name.toLowerCase().includes('baignoire') ||
+                    feature.name.toLowerCase().includes('douche') ||
+                    feature.name.toLowerCase().includes('salle de bain')
+            );
+            return bathroomFeatures.length > 0
+                ? `${bathroomFeatures.length}`
+                : 'N/A';
+        };
+
+        // Compter les places de parking depuis les features
+        const getParkingCount = () => {
+            if (!property.features || property.features.length === 0) {
+                return 'N/A';
+            }
+            const parkingFeatures = property.features.filter(
+                (feature) =>
+                    feature.name.toLowerCase().includes('parking') ||
+                    feature.name.toLowerCase().includes('garage')
+            );
+            return parkingFeatures.length > 0
+                ? `${parkingFeatures.length}`
+                : 'N/A';
+        };
+
         return {
             id: property.id,
             title: property.name,
-            location: property.address || property.street,
+            location: getLocation(),
             rooms: `${property.rooms_count} Chambre${
                 property.rooms_count > 1 ? 's' : ''
             }`,
-            bathrooms: 'Aucun', // L'API ne semble pas fournir cette information
+            bathrooms: getBathroomsCount(),
             area: `${property.area_m2}m²`,
-            parking: 'Aucun', // L'API ne semble pas fournir cette information
-            image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center',
-            // image: property.cover_url || (property.photos.length > 0 ? property.photos[0] : 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=604&h=550&fit=crop&crop=center'),
-            price: property.monthly_rent_amount
-                ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois`
-                : 'Prix non disponible'
+            parking: getParkingCount(),
+            image: getImageUrl(),
+            price:
+                property.monthly_rent_amount && property.monthly_rent_amount > 0
+                    ? `${property.monthly_rent_amount.toLocaleString()} FCFA/mois`
+                    : 'Prix sur demande',
+            // Propriétés supplémentaires pour les détails
+            description: property.description,
+            cover_url: property.cover_url,
+            reference: property.reference,
+            street: property.street,
+            address: property.address,
+            latitude: property.latitude,
+            longitude: property.longitude,
+            rooms_count: property.rooms_count,
+            likes_count: property.likes_count,
+            views_count: property.views_count,
+            area_m2: property.area_m2,
+            monthly_rent_amount: property.monthly_rent_amount,
+            is_busy: property.is_busy,
+            photos: property.photos,
+            features: property.features,
+            building: property.building,
+            municipality: property.municipality
         };
     };
 
@@ -111,7 +262,7 @@ const PropertiesSection = () => {
             <section className="bg-white py-16 sm:py-20 md:py-24">
                 <div className="mx-auto flex max-w-[90%] flex-col gap-12 mt-32">
                     <div className="text-center text-red-500">{error}</div>
-                    <Button onClick={fetchProperties} className="mx-auto">
+                    <Button onClick={() => refetch()} className="mx-auto">
                         Réessayer
                     </Button>
                 </div>
@@ -188,7 +339,7 @@ const PropertiesSection = () => {
                             {properties.length > 0 ? (
                                 <div className=" flex gap-6">
                                     {/* Premier set de cartes */}
-                                    {properties.map((property) => (
+                                    {properties.map((property: Property) => (
                                         <PropertyCard
                                             key={`first-${property.id}`}
                                             {...formatPropertyForCard(property)}
@@ -196,7 +347,7 @@ const PropertiesSection = () => {
                                     ))}
 
                                     {/* Deuxième set de cartes pour l'effet infini */}
-                                    {properties.map((property) => (
+                                    {properties.map((property: Property) => (
                                         <PropertyCard
                                             key={`second-${property.id}`}
                                             {...formatPropertyForCard(property)}

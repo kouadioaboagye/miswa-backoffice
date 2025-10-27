@@ -49,6 +49,75 @@ export interface PropertyCardProps {
     monthly_rent_amount?: number;
     is_busy?: boolean;
     photos?: string[];
+    features?: Array<{
+        name: string;
+        description: string;
+        cover_url: string;
+        id: number;
+    }>;
+    building?: {
+        name: string;
+        description: string;
+        cover_url: string;
+        street: string;
+        address: string;
+        longitude: number;
+        latitude: number;
+        photos: string[];
+        is_public: boolean;
+        building_type: string;
+        city: string;
+        construction_year: number;
+        total_area: number;
+        amenities: string[];
+        floors_count: number;
+        document_urls: string[];
+        id: number;
+        id_business: number;
+        id_municipality: number;
+        business: {
+            name: string;
+            description: string;
+            cover_url: string;
+            document_urls: string[];
+            is_default: boolean;
+            id: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+            is_active: boolean;
+            created_at: string;
+            updated_at: string;
+        };
+        municipality: {
+            name: string;
+            id: number;
+            id_country: number;
+            country: {
+                name: string;
+                flag_url: string;
+                phone_code: string;
+                country_code: string;
+                id: number;
+            };
+        };
+    };
+    municipality?: {
+        name: string;
+        id: number;
+        id_country: number;
+        country: {
+            name: string;
+            flag_url: string;
+            phone_code: string;
+            country_code: string;
+            id: number;
+        };
+    };
 }
 // Version originale (conservée pour le scroll horizontal)
 const PropertyCard = ({
@@ -124,7 +193,6 @@ const PropertyCard = ({
                             </div>
                         </div>
 
-
                         {/* Location */}
                         <div className="mb-4 flex items-center gap-2 text-gray-600">
                             <MapIcon className="size-8 text-gray-600" />
@@ -167,7 +235,10 @@ const PropertyCardGrid = ({
     area_m2,
     monthly_rent_amount,
     is_busy,
-    photos
+    photos,
+    features,
+    building,
+    municipality
 }: PropertyCardProps) => {
     const router = useRouter();
     return (
@@ -276,6 +347,30 @@ const PropertyCardGrid = ({
                     </div>
                 </div>
 
+                {/* Équipements disponibles */}
+                {features && features.length > 0 && (
+                    <div className="border-t border-gray-100 pt-4">
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                            Équipements disponibles
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                            {features.slice(0, 4).map((feature, index) => (
+                                <span
+                                    key={index}
+                                    className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                                >
+                                    {feature.name}
+                                </span>
+                            ))}
+                            {features.length > 4 && (
+                                <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                    +{features.length - 4} autres
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {/* Bouton Action */}
                 <button
                     onClick={() => {
@@ -308,6 +403,15 @@ const PropertyCardGrid = ({
                         if (bathrooms)
                             params.set('bathrooms', bathrooms.toString());
                         if (parking) params.set('parking', parking.toString());
+                        if (features && features.length > 0)
+                            params.set('features', JSON.stringify(features));
+                        if (building)
+                            params.set('building', JSON.stringify(building));
+                        if (municipality)
+                            params.set(
+                                'municipality',
+                                JSON.stringify(municipality)
+                            );
                         params.set('name', title);
 
                         router.push(`/propriete/${id}?${params.toString()}`);

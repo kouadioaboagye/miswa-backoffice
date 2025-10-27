@@ -737,7 +737,7 @@ const SearchWithMap = () => {
                 {/* Contenu principal avec carte et résultats */}
                 <div
                     className={`grid grid-cols-1 ${
-                        viewMode === 'grid' ? 'lg:grid-cols-2' : 'w-full'
+                        viewMode === 'grid' ? 'lg:grid-cols-1' : 'w-full'
                     }`}
                 >
                     <div
