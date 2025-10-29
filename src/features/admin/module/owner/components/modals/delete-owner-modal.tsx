@@ -1,8 +1,17 @@
 'use client';
 
+import { useDeleteOwnerMutation } from '@/lib/data-service/module/owner/owner.hooks';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from '@/shared/components/ui/alert-dialog';
 import { Button } from '@/shared/components/ui/button';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/shared/components/ui/alert-dialog';
-import { useDeleteOwnerMutation } from '@/lib/data-service/module/owner/owner.queries';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,11 +22,11 @@ interface DeleteOwnerModalProps {
     ownerName: string;
 }
 
-export const DeleteOwnerModal = ({ 
-    isOpen, 
-    onClose, 
-    ownerId, 
-    ownerName 
+export const DeleteOwnerModal = ({
+    isOpen,
+    onClose,
+    ownerId,
+    ownerName
 }: DeleteOwnerModalProps) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const deleteOwnerMutation = useDeleteOwnerMutation();
@@ -26,11 +35,15 @@ export const DeleteOwnerModal = ({
         try {
             setIsDeleting(true);
             await deleteOwnerMutation.mutateAsync(ownerId);
-            toast.success(`Le propriétaire "${ownerName}" a été supprimé avec succès`);
+            toast.success(
+                `Le propriétaire "${ownerName}" a été supprimé avec succès`
+            );
             onClose();
         } catch (error) {
             console.error('Erreur lors de la suppression:', error);
-            toast.error('Erreur lors de la suppression du propriétaire. Veuillez réessayer.');
+            toast.error(
+                'Erreur lors de la suppression du propriétaire. Veuillez réessayer.'
+            );
         } finally {
             setIsDeleting(false);
         }
@@ -45,10 +58,13 @@ export const DeleteOwnerModal = ({
                     </AlertDialogTitle>
                     <AlertDialogDescription className="text-base leading-relaxed">
                         <p>
-                            Êtes-vous sûr de vouloir supprimer le propriétaire <strong>"{ownerName}"</strong> ?
+                            Êtes-vous sûr de vouloir supprimer le propriétaire{' '}
+                            <strong>"{ownerName}"</strong> ?
                             <br />
                             <br />
-                            Cette action est irréversible et supprimera définitivement toutes les données associées à ce propriétaire.
+                            Cette action est irréversible et supprimera
+                            définitivement toutes les données associées à ce
+                            propriétaire.
                         </p>
                     </AlertDialogDescription>
                 </AlertDialogHeader>
@@ -57,8 +73,8 @@ export const DeleteOwnerModal = ({
                         Annuler
                     </AlertDialogCancel>
                     <AlertDialogAction asChild>
-                        <Button 
-                            variant="destructive" 
+                        <Button
+                            variant="destructive"
                             onClick={handleDelete}
                             disabled={isDeleting}
                             className="bg-red-600 hover:bg-red-700"

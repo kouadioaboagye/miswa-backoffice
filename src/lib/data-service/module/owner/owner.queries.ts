@@ -1,31 +1,17 @@
-import { useQuery, useMutation, useQueryClient, UseQueryResult } from "@tanstack/react-query";
-import { APIResponseList } from "../../types";
-import { IOwnerDataModel } from "./types";
-import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
+import { endpoints, ListParams } from '@/features/admin/api/endpoints';
+import apiClient from '@/shared/lib/axios';
 
-export const useListOwnersQuery = (): UseQueryResult<APIResponseList<IOwnerDataModel>> => {
-    return useQuery({
-        queryKey: ['businesses'],
-        queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IOwnerDataModel>>('businesses/', {
-                method: 'GET',
-            });
-        },
-    });
+export const createBusiness = async (data: any) => {
+    const response = await apiClient.post(endpoints.businesses.create, data);
+    return response.data;
 };
-
-export const useDeleteOwnerMutation = () => {
-    const queryClient = useQueryClient();
-    
-    return useMutation({
-        mutationFn: async (ownerId: number) => {
-            return await fetchWrapper(`business-owners/${ownerId}/`, {
-                method: 'DELETE',
-            });
-        },
-        onSuccess: () => {
-            // Invalidate and refetch owners list
-            queryClient.invalidateQueries({ queryKey: ['businesses'] });
-        },
+export const deleteBusiness = async (id: number) => {
+    const response = await apiClient.delete(endpoints.businesses.delete(id));
+    return response.data;
+};
+export const getOwners = async (params?: ListParams) => {
+    const response = await apiClient.get(endpoints.businesses.list, {
+        params
     });
+    return response.data;
 };

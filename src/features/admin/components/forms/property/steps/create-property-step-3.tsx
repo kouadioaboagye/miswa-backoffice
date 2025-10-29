@@ -1,3 +1,4 @@
+import { Input } from '@/shared/components/form-components/input';
 import { Button } from '@/shared/components/ui/button';
 import { useRef, useState } from 'react';
 import FeatherUploadCloud from '../../../../../../../public/assets/icons/feather_upload-cloud';
@@ -55,7 +56,7 @@ const CreatePropertyStep3 = () => {
                         onDrop={onDrop}
                     >
                         {/* NOTE: on évite `display:none`; on utilise sr-only / off-screen */}
-                        <input
+                        <Input
                             id="justificatif"
                             ref={fileInputRef}
                             type="file"

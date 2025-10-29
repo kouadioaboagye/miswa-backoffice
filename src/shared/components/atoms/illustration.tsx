@@ -7,7 +7,7 @@ type IllustrationProps = {
 const Illustration = ({ src, libelle, email }: IllustrationProps) => {
     return (
         <div className="flex items-center gap-4">
-            <div className="size-16 overflow-hidden rounded-2xl bg-red-200">
+            <div className="size-16 overflow-hidden rounded-2xl bg-gray-100 shadow">
                 <img
                     src={src}
                     alt={libelle}

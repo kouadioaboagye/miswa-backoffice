@@ -1,5 +1,5 @@
-"use client"
-import { useListPropertiesQuery } from '@/lib/data-service/property/property.queries';
+'use client';
+import { useListPropertiesQuery } from '@/lib/data-service/property/property.hooks';
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
@@ -13,9 +13,14 @@ import PropertyTable from '../../components/tables/property/property-table';
 const PropertyView = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
-    
-    const { data: response, isLoading, error, refetch } = useListPropertiesQuery(currentPage, pageSize)
-    const {data, total} = response || {data: [], total: 0}
+
+    const {
+        data: response,
+        isLoading,
+        error,
+        refetch
+    } = useListPropertiesQuery({ page: currentPage, limit: pageSize });
+    const { data, total } = response || { data: [], total: 0 };
 
     const router = useRouter();
 
@@ -67,9 +72,7 @@ const PropertyView = () => {
                             disabled={isLoading}
                         >
                             <RefreshIcon />{' '}
-                            <span className="text-[1.3rem]">
-                                {isLoading ? 'CHARGEMENT...' : 'RAFRAICHIR'}
-                            </span>
+                            <span className="text-[1.3rem]">RAFRAICHIR</span>
                         </Button>
                     ),
                     add: (
@@ -77,7 +80,7 @@ const PropertyView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={()=>router.push("/admin/property/add")}
+                            onClick={() => router.push('/admin/property/add')}
                         >
                             <Plus />{' '}
                             <span className="text-[1.3rem]">NOUVEAU BIEN</span>
@@ -85,8 +88,8 @@ const PropertyView = () => {
                     )
                 }}
             >
-                <PropertyTable 
-                    data={data} 
+                <PropertyTable
+                    data={data}
                     columns={columns}
                     totalItems={total}
                     pageSize={pageSize}

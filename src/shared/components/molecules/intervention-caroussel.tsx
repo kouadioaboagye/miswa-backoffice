@@ -51,7 +51,7 @@ const InterventionCaroussel = ({ images }: PropertyGalleryProps) => {
     }, [images.length]);
 
     return (
-        <div className="grid grid-cols-6 h-[30rem] gap-10">
+        <div className="grid grid-cols-6 h-[35rem] gap-10">
             <div className="col-span-5 h-full bg-red-300 rounded-[1rem] flex relative justify-center items-end overflow-hidden">
                 <Image
                     src={mainImage?.url || '/placeholder.svg'}
@@ -60,10 +60,9 @@ const InterventionCaroussel = ({ images }: PropertyGalleryProps) => {
                     className="object-cover"
                     priority
                 />
-                <div className="flex gap-4 h-[6rem] absolute mb-16 z-10">
+                <div className="flex gap-4 h-[6rem]  mb-16 z-10">
                     {bottomThumbnails.map((image, index) => {
                         const isSelected = index === selectedIndex;
-                        console.log(isSelected);
                         return (
                             <div
                                 key={index}

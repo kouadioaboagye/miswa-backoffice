@@ -1,4 +1,5 @@
-"use client"
+'use client';
+import { checkAuthSession } from '@/lib/auth/utils';
 import { AppSidebar } from '@/shared/components/organisms/sections/app-sidebar';
 import {
     Avatar,
@@ -17,32 +18,31 @@ import {
 import { SearchForm } from '@/shared/components/ui/search-icon';
 import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
 import { ChevronDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import MenuIcon from '../../../public/assets/icons/menu';
 import RingIcon from '../../../public/assets/icons/ring';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { checkAuthSession } from '@/lib/auth/utils';
 
 export default function DashboardLayout({
     children
 }: {
     children: React.ReactNode;
 }) {
-    const router = useRouter()
+    const router = useRouter();
     useEffect(() => {
-        if(!checkAuthSession()) {
-            router.push('/auth/login')
+        if (!checkAuthSession()) {
+            router.push('/auth/login');
         }
-    }, [])
-    
+    }, []);
+
     return (
         <SidebarProvider className="bg-[#14385C] h-screen">
             <AppSidebar variant="inset" />
-            <SidebarInset className="px-14">
+            <SidebarInset className="px-10">
                 <header className="flex h-32 items-center justify-between border-b border-b-[#E5E7EB] px-4">
                     <SearchForm
                         inputClassNames="rounded-md w-[300px]"
-                        className="w-full"
+                        className="w-full rounded-[1rem] max-w-[500px] bg-[#F3F4F6] h-14"
                     />
                     <div className="flex h-full w-fit items-center gap-6">
                         <Button
@@ -93,7 +93,7 @@ export default function DashboardLayout({
                         </DropdownMenu>
                     </div>
                 </header>
-                <main className="overflow-y-auto py-4">
+                <main className="overflow-y-auto py-8 h-[calc(100vh-8rem)]">
                     {/* <SidebarTrigger /> */}
                     {children}
                 </main>

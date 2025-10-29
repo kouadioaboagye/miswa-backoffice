@@ -1,13 +1,22 @@
 'use client';
 
+import {
+    useDetailsUserQuery,
+    useUpdateUserStatusMutation
+} from '@/lib/data-service/users/users.hooks';
 import { Button } from '@/shared/components/ui/button';
-import Image from 'next/image';
 import CadenasIcon from '../../../../public/assets/icons/cadenas';
 import DeleteWhiteIcon from '../../../../public/assets/icons/delete-icon';
 import EditIcon2 from '../../../../public/assets/icons/edit-icon2';
 import MedalIcon from '../../../../public/assets/icons/medal-icon';
+import { RiUserLine } from '../../../../public/assets/icons/userl-icon';
 
-const UserDetails = () => {
+const UserDetails = ({ id }: { id: number }) => {
+    const { data: user } = useDetailsUserQuery(id);
+    const { mutate: updateUserStatus } = useUpdateUserStatusMutation();
+
+    console.log('user', user);
+
     return (
         <div className="flex flex-col gap-12 px-4">
             <div className="flex items-center justify-between p-2">
@@ -23,6 +32,7 @@ const UserDetails = () => {
                     <Button
                         variant={'destructive'}
                         size={'add'}
+                        onClick={() => updateUserStatus(id)}
                         className="text-white [&_svg]:size-6 w-[26rem]"
                     >
                         <DeleteWhiteIcon />
@@ -46,13 +56,19 @@ const UserDetails = () => {
                     <div className="flex justify-center gap-10 w-[90rem] bg-background rounded-t-3xl px-10 py-14 h-[58rem] -mt-44">
                         <div className="w-1/2 h-full flex flex-col items-center justify-between pb-7">
                             <div className="size-[40rem] rounded-2xl overflow-hidden">
-                                <Image
-                                    alt=""
-                                    src="/assets/images/man.png"
-                                    width={400}
-                                    height={400}
-                                    className="w-full h-full object-cover"
-                                />
+                                {user?.avatar && user?.avatar.trim === '' ? (
+                                    <img
+                                        alt="avatar"
+                                        src={user.avatar}
+                                        width={400}
+                                        height={400}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+                                        <RiUserLine className="size-[10rem]" />
+                                    </div>
+                                )}
                             </div>
                             <Button
                                 variant={'add'}
@@ -74,7 +90,8 @@ const UserDetails = () => {
                                                 Nom et Prenom
                                             </span>
                                             <span className="text-[#1F1F1F] text-[1.2rem]">
-                                                N’DOUFFOU SILVER
+                                                {user?.first_name || '-'}{' '}
+                                                {user?.last_name || '-'}
                                             </span>
                                         </div>
                                         <button className="bg-[#F0EFFA] flex justify-center items-center py-1 px-3 text-[1.1rem] rounded-full">
@@ -87,7 +104,7 @@ const UserDetails = () => {
                                                 Email
                                             </span>
                                             <span className="text-[#1F1F1F] text-[1.2rem]">
-                                                silverdoufou@gmail.com
+                                                {user?.email || '-'}
                                             </span>
                                         </div>
                                         <button className="bg-[#F0EFFA] flex justify-center items-center py-1 px-3 text-[1.1rem] rounded-full">
@@ -100,7 +117,7 @@ const UserDetails = () => {
                                                 Date de naissance
                                             </span>
                                             <span className="text-[#1F1F1F] text-[1.2rem]">
-                                                24 juin 1992
+                                                {user?.birth_date || '-'}
                                             </span>
                                         </div>
                                         <button className="bg-[#F0EFFA] flex justify-center items-center py-1 px-3 text-[1.1rem] rounded-full">
@@ -113,7 +130,7 @@ const UserDetails = () => {
                                                 Téléphone
                                             </span>
                                             <span className="text-[#1F1F1F] text-[1.2rem]">
-                                                +225 07 45 25 14 96
+                                                {user?.phone_number || '-'}
                                             </span>
                                         </div>
                                         <button className="bg-[#F0EFFA] flex justify-center items-center py-1 px-3 text-[1.1rem] rounded-full">

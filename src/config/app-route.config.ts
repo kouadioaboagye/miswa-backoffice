@@ -19,7 +19,7 @@ export const paths = {
     },
     admin: {
         root: ROOTS.ADMIN,
-        dashboard: `${ROOTS.ADMIN}/dashboard`,
+        dashboard: `${ROOTS.ADMIN}`,
         property: {
             root: `${ROOTS.ADMIN}/property`,
             propertyForm: `${ROOTS.ADMIN}/property/property-form-page`
@@ -45,10 +45,16 @@ export const paths = {
             property: {
                 root: `${ROOTS.ADMIN}/module/property`,
                 building: {
-                    list:`${ROOTS.ADMIN}/module/property/building`,
+                    list: `${ROOTS.ADMIN}/module/property/building`
                 }
-            },
-        
+            }
+        }
     }
-}
+};
+
+export const APP_ROUTES = {
+    login: '/auth/login',
+    dashboard: {
+        root: '/admin'
+    }
 };

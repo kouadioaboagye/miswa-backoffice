@@ -34,7 +34,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
         return (
             <RPNInput.default
                 ref={ref}
-                className={cn('flex rounded-full', className)}
+                className={cn('flex rounded-xl overflow-hidden', className)}
                 flagComponent={FlagComponent}
                 countrySelectComponent={CountrySelect}
                 inputComponent={InputComponent}
@@ -63,7 +63,7 @@ const InputComponent = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <Input
         className={cn(
-            '-ms-px w-[48rem] rounded-l-none rounded-r-full shadow-none focus-visible:z-10 focus-within:ring-0 focus-within:ring-[#0E4D79] focus-within:ring-offset-0',
+            '-ms-px w-[48rem] rounded-l-none rounded-r-xl border-0 shadow-none focus-visible:z-10 focus-within:ring-0 focus-within:ring-[#0E4D79] focus-within:ring-offset-0',
             className
         )}
         {...props}
@@ -92,8 +92,8 @@ const CountrySelect = ({
             <PopoverTrigger asChild>
                 <Button
                     type="button"
-                    variant="outline"
-                    className="border-r-1 flex h-[4.5rem] w-24 gap-1 rounded-none rounded-l-full border-none bg-white px-3"
+                    variant="outline_header"
+                    className="border-r-1 flex h-[4.5rem] w-24 gap-1 rounded-none  border-none bg-white px-3"
                     disabled={disabled}
                 >
                     <FlagComponent
@@ -108,7 +108,7 @@ const CountrySelect = ({
                     />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[45rem] overflow-hidden rounded-[0.8rem] p-0">
+            <PopoverContent className="w-[45rem] overflow-hidden rounded-[0.8rem] p-0 z-[100]">
                 <Command>
                     <CommandInput
                         placeholder="Search country..."

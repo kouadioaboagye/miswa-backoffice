@@ -17,7 +17,6 @@ interface ModalSlice {
     goBackModal: () => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createModalSlice = (set: any): ModalSlice => ({
     isOpen: false,
     views: [],

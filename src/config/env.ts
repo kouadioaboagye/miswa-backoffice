@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import chalk from 'chalk';
 import * as z from 'zod';
 
@@ -43,6 +42,7 @@ export const formatEnvError = (error: any) => {
 export const $env = {
     server: {
         NODE_ENV: process.env.NODE_ENV,
+        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
         SESSION_SECRET: process.env.SESSION_SECRET
     },
     client: {

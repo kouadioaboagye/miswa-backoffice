@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 'use client';
 
-import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import {
     Controller,
     FormProvider,
@@ -160,7 +160,7 @@ const FormMessage = React.forwardRef<
             ref={ref}
             id={formMessageId}
             className={cn(
-                'text-[0.8rem] font-medium text-destructive',
+                'text-[1rem] font-medium text-destructive',
                 className
             )}
             {...props}
@@ -172,12 +172,12 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = 'FormMessage';
 
 export {
-    useFormField,
     Form,
-    FormItem,
-    FormLabel,
     FormControl,
     FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
     FormMessage,
-    FormField
+    useFormField
 };

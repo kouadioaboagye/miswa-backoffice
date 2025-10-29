@@ -3,9 +3,10 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { SvgSpinnersBarsScaleFade } from '../../../../public/assets/icons/button-loader-2';
 
 const buttonVariants = cva(
-    'inline-flex h-full items-center justify-center gap-[10px] whitespace-nowrap text-[1.5rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+    'inline-flex h-full items-center justify-center gap-[10px] whitespace-nowrap text-[1.5rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-9 [&_svg]:shrink-0',
     {
         variants: {
             variant: {
@@ -96,15 +97,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
                 disabled={isLoading || props.disabled}
             >
-                {/* {isLoading ? (
-                    <ButtonLoader style={{ fontSize: '3rem' }} />
+                {isLoading ? (
+                    <SvgSpinnersBarsScaleFade style={{ fontSize: '3rem' }} />
                 ) : (
                     <div className="flex items-center justify-center gap-4 [&_svg]:size-11">
                         {leftIcon}
                         {props.children}
                         {rightIcon}
                     </div>
-                )} */}
+                )}
             </Comp>
         );
     }

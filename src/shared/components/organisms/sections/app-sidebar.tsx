@@ -1,11 +1,13 @@
 'use client';
 import { paths } from '@/config/app-route.config';
-import { logout } from '@/lib/auth/utils';
+import { getCurrentUser } from '@/features/admin/api/auth/auth.queries';
 import { getMainNav, menus } from '@/shared/data/menu.data';
 import { menu } from '@/shared/types/menu';
 import { ChevronDown, Plus } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { TablerChevronRight } from '../../../../../public/assets/icons/chevron-right-icon';
 import LogoutIcon from '../../../../../public/assets/icons/logout-icon';
 import Logo from '../../atoms/logo';
@@ -56,8 +58,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     };
 
     const activeModule = getActiveModule();
-
     const mainNav: menu[] = getMainNav(activeModule);
+
+    useEffect(() => {
+        void (async () => {
+            try {
+                const current_user = await getCurrentUser();
+                // TODO: use current_user as needed
+                void current_user;
+                console.log('current_user', current_user);
+                // Do not mutate session.data directly; use mergedUser or update session via proper APIs
+            } catch (error) {
+                console.error('Failed to fetch current user', error);
+            }
+        })();
+    }, []);
 
     return (
         <Sidebar className="bg-[#14385C]" collapsible="icon" {...props}>
@@ -235,8 +250,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         className="h-[4.5rem] w-full shadow-[0px_8px_20px_0px_#11928F66] [&_svg]:size-8"
                         leftIcon={<LogoutIcon className="mr-2" />}
                         onClick={() => {
-                            logout();
-                            window.location.href = '/auth/login';
+                            signOut();
+                            // window.location.href = '/auth/login';
                         }}
                     >
                         Se déconnecter

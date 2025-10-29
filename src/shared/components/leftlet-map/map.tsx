@@ -4,6 +4,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
+type Props = {
+    point: [number, number];
+    building: [number, number];
+};
+
 // Fix icônes manquantes dans Leaflet avec Webpack / Next.js
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -13,10 +18,10 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
 });
 
-export default function MapLeftlet() {
+export default function MapLeftlet({ point, building }: Props) {
     return (
         <MapContainer
-            center={[5.345317, -4.024429]} // Paris par défaut
+            center={point} // Paris par défaut
             zoom={13}
             scrollWheelZoom={true}
             // style={{ height: '300px', width: '100%', borderRadius: '12px' }}
@@ -27,7 +32,7 @@ export default function MapLeftlet() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            <Marker position={[5.345317, -4.024429]}>
+            <Marker position={point}>
                 <Popup>
                     📍 <b>Paris</b>
                     <br />

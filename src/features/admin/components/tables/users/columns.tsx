@@ -1,92 +1,98 @@
 'use client';
 
+import { useDeleteUserMutation } from '@/lib/data-service/users/users.hooks';
 import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
+import { useModalStore } from '@/shared/store/useModalStore';
 import type { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
 import Link from 'next/link';
 import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 import EditIcon from '../../../../../../public/assets/icons/edit-icon';
 import EyeIcon2 from '../../../../../../public/assets/icons/eye-icon-2';
+import { RiUserLine } from '../../../../../../public/assets/icons/userl-icon';
+import UserForm from '../../forms/user/user-form';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Intervention = {
-    id: string;
-    user: {
-        fullName: string;
-        email: string;
-        img: string;
+export type User = {
+    id: number;
+    id_role: number;
+    id_country: number | null;
+    username: string;
+    email: string | null;
+    first_name: string | null;
+    last_name: string | null;
+    avatar: string | null;
+    auth_provider: string;
+    is_active: boolean;
+    is_valid: boolean;
+    living_country_code: string | null;
+    living_city_name: string | null;
+    last_login: string | null;
+    last_request_password_reset_at: string | null;
+    last_password_reseted_at: string | null;
+    token_password_reset: string | null;
+    created_at: string;
+    updated_at: string;
+    role: {
+        id: number;
+        name: string;
+        description: string;
+        is_active: boolean;
+        created_at: string;
+        updated_at: string;
     };
-    role: string;
-    sexe: 'Masculin' | 'Feminin';
-    createdAt: string;
-    status: 'Active' | 'Inactive';
 };
 
-export const fakeProperties: Intervention[] = Array.from({ length: 10 }).map(
-    (_, idx) => ({
-        id: `property-${idx}`,
-        user: {
-            fullName: `Utilisateur`,
-            email: `user-${idx}@example.com`,
-            img: `https://picsum.photos/1024/1024`
-        },
-        role: `Manager`,
-        sexe: idx % 2 === 0 ? 'Masculin' : 'Feminin',
-        createdAt: new Date().toISOString(),
-        status: idx % 2 === 0 ? 'Active' : 'Inactive'
-    })
-);
-
-export const columns: ColumnDef<Intervention>[] = [
+export const columns: ColumnDef<User>[] = [
     {
-        accessorKey: 'user.fullName',
+        accessorKey: 'avatar',
         header: 'Utilisateur',
-        cell: ({ row }) => (
-            <Illustration
-                src={row.original.user.img}
-                libelle={row.original.user.fullName}
-                email={row.original.user.email}
-            />
-        )
+        cell: ({ row }) => {
+            const avatar = row.original.avatar;
+            return avatar && avatar.trim() !== '' ? (
+                <Illustration
+                    src={avatar}
+                    libelle={row.original.first_name || ''}
+                    email={row.original.email || ''}
+                />
+            ) : (
+                <div className="flex items-center justify-center size-16 rounded-2xl bg-gray-100 shadow">
+                    <RiUserLine className="text-[1.6rem] text-gray-500" />
+                </div>
+            );
+        }
     },
     {
         accessorKey: 'role',
         header: 'Créer par',
         cell: ({ row }) => (
-            <p className="text-[1.3rem] font-semibold">{row.original.role}</p>
+            <p className="text-[1.3rem] font-semibold">
+                {row.original.role.name}
+            </p>
         )
     },
     {
         accessorKey: 'role',
         header: 'Role(s)',
         cell: ({ row }) => (
-            <p className="text-[1.3rem] font-semibold">{row.original.role}</p>
+            <p className="text-[1.3rem] font-semibold">
+                {row.original.role.name}
+            </p>
         )
     },
     {
         accessorKey: 'createdAt',
         header: 'Ajouté le',
-        cell: ({ row }) => formatDate(row.original.createdAt, 'dd/MM/yyyy')
+        cell: ({ row }) => formatDate(row.original.created_at, 'dd/MM/yyyy')
     },
     {
-        accessorKey: 'sexe',
-        header: 'Sexe',
-        cell: ({ row }) => (
-            <p className="text-[1.3rem] font-semibold">{row.original.sexe}</p>
-        )
-    },
-    {
-        accessorKey: 'status',
+        accessorKey: 'is_active',
         header: 'Statut compte',
         cell: ({ row }) => (
-            <Badge
-                variant={
-                    row.original.status === 'Active' ? 'success' : 'destructive'
-                }
-            >
-                {row.original.status}
+            <Badge variant={row.original.is_active ? 'success' : 'destructive'}>
+                {row.original.is_active ? 'Actif' : 'Inactif'}
             </Badge>
         )
     },
@@ -94,17 +100,35 @@ export const columns: ColumnDef<Intervention>[] = [
         accessorKey: '',
         header: 'Actions',
         cell: ({ row }) => {
+            const openModal = useModalStore((state) => state.openModal);
+            const { mutate: deleteUser } = useDeleteUserMutation();
+
+            const handleOpenUserModal = () => {
+                openModal({
+                    view: <UserForm user={row.original} />,
+                    isOverlayCanClosed: true
+                });
+            };
+
             return (
                 <div className="flex items-center gap-6">
-                    <Link href={`/admin/configs/users/details`}>
+                    <Link
+                        href={`/admin/configs/users/${row.original.id}/details`}
+                    >
                         <button className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10">
                             <EyeIcon2 />
                         </button>
                     </Link>
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10">
+                    <button
+                        onClick={handleOpenUserModal}
+                        className="flex size-12 items-center justify-center rounded-full bg-[#5D5FEF]/10"
+                    >
                         <EditIcon />
                     </button>
-                    <button className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10">
+                    <button
+                        onClick={() => deleteUser(row.original.id)}
+                        className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10"
+                    >
                         <DeleteIcon2 />
                     </button>
                 </div>

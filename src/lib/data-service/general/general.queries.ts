@@ -1,27 +1,12 @@
-import { httpAuthClient } from "@/lib/http-client";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { fetchWrapper } from "@/lib/http-client/ fetchWrapper";
-import { APIResponseList } from "../types";
-import { ICountryDataModel, IMunicipalityDataModel } from "./types";
+import { endpoints, ListParams } from '@/features/admin/api/endpoints';
+import apiClient from '@/shared/lib/axios';
 
-export const useListCountriesQuery = (): UseQueryResult<APIResponseList<ICountryDataModel>> => {
-    return useQuery({
-        queryKey: ['countries'],
-        queryFn: async () => {
-            return await fetchWrapper<APIResponseList<ICountryDataModel>>('countries/', {
-                method: 'GET',
-            });
-        },
-    });
+export const getCountries = async (params?: ListParams) => {
+    const response = await apiClient.get(endpoints.countries, { params });
+    return response.data;
 };
 
-export const useListMunicipalitiesQuery = (): UseQueryResult<APIResponseList<IMunicipalityDataModel>> => {
-    return useQuery({
-        queryKey: ['municipalities'],
-        queryFn: async () => {
-            return await fetchWrapper<APIResponseList<IMunicipalityDataModel>>('municipalities/', {
-                method: 'GET',
-            });
-        },
-    });
+export const getMunicipalities = async (params?: ListParams) => {
+    const response = await apiClient.get(endpoints.municipalities, { params });
+    return response.data;
 };

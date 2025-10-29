@@ -1,9 +1,9 @@
-import Axios from '@/shared/lib/axios';
+import apiClient from '../axios';
 
 export const setAuthToken = (token: string | null) => {
     if (token) {
-        Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
-        delete Axios.defaults.headers.common.Authorization;
+        delete apiClient.defaults.headers.common.Authorization;
     }
 };

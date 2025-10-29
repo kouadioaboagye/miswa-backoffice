@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetPropertyQuery } from '@/lib/data-service/property/property.hooks';
 import UserPill from '@/shared/components/atoms/user-pill';
 import MapLeftlet from '@/shared/components/leftlet-map/map';
 import InterventionCaroussel from '@/shared/components/molecules/intervention-caroussel';
@@ -10,15 +11,21 @@ import EditIcon2 from '../../../../../../public/assets/icons/edit-icon2';
 import LocationIcon2 from '../../../../../../public/assets/icons/location_2';
 import PointLocationIcon from '../../../../../../public/assets/icons/point-loaction';
 
-const PropertyViewDetails = () => {
-    // const { openModal } = useModalStore();
+const PropertyViewDetails = ({ id }: { id: string }) => {
+    console.log('id', id);
+    const { data: propertyDetails } = useGetPropertyQuery(id);
 
-    // const handleOpenTreateInterventionModal = () => {
-    //     openModal({
-    //         view: <TreateIntervention />,
-    //         isOverlayCanClosed: true
-    //     });
-    // };
+    const point: [number, number] = [
+        propertyDetails?.latitude ?? 0,
+        propertyDetails?.longitude ?? 0
+    ];
+
+    const building: [number, number] = [
+        propertyDetails?.building?.latitude ?? 0,
+        propertyDetails?.building?.longitude ?? 0
+    ];
+
+    console.log('propertyDetails', propertyDetails);
 
     const imageTable: { url: string; alt: string }[] = [
         {
@@ -176,7 +183,7 @@ const PropertyViewDetails = () => {
                     <h3>Géolocalisation du bien</h3>
                 </div>
                 <div className="h-[30rem] border border-[#16527D33] rounded-[1.2rem]">
-                    <MapLeftlet />
+                    <MapLeftlet building={building} point={point} />
                 </div>
             </div>
         </div>

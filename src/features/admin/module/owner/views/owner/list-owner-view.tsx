@@ -1,21 +1,32 @@
-"use client"
+'use client';
 
+import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.hooks';
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
-import { Plus, UsersIcon, UserCheckIcon, UserXIcon, BuildingIcon, PhoneIcon, MailIcon } from 'lucide-react';
-import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
-import GlobeIcon from '../../../../../../../public/assets/icons/globe-icon';
-import DocIcon from '../../../../../../../public/assets/icons/doc-icon';
+import {
+    BuildingIcon,
+    MailIcon,
+    PhoneIcon,
+    Plus,
+    UserCheckIcon,
+    UsersIcon
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import OwnerTable from '../../components/tables/owner/owner-table';
-import { useListOwnersQuery } from '@/lib/data-service/module/owner/owner.queries';
 import { toast } from 'sonner';
+import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
+import OwnerTable from '../../components/tables/owner/owner-table';
 
 const ListOwnerView = () => {
-    const { data: response, isLoading, error, refetch, isRefetching } = useListOwnersQuery()
-    const { data, total } = response || { data: [], total: 0 }
-    const router = useRouter()
+    const {
+        data: response,
+        isLoading,
+        error,
+        refetch,
+        isRefetching
+    } = useListOwnersQuery();
+    const { data, total } = response || { data: [], total: 0 };
+    const router = useRouter();
 
     const handleRefresh = async () => {
         try {
@@ -28,11 +39,21 @@ const ListOwnerView = () => {
 
     // Calculer les métriques basées sur les données réelles
     const totalOwners = total || 0;
-    const activeOwners = data.filter(owner => owner.owner?.phonenumber).length;
-    const ownersWithEmail = data.filter(owner => owner.owner?.email && owner.owner.email !== '').length;
-    const individualOwners = data.filter(owner => owner.owner?.legal_form === 'individuals').length;
-    const companyOwners = data.filter(owner => owner.owner?.legal_form === 'company').length;
-    const whatsappUsers = data.filter(owner => owner.owner?.is_whatsapp).length;
+    const activeOwners = data.filter(
+        (owner) => owner.owner?.phonenumber
+    ).length;
+    const ownersWithEmail = data.filter(
+        (owner) => owner.owner?.email && owner.owner.email !== ''
+    ).length;
+    const individualOwners = data.filter(
+        (owner) => owner.owner?.legal_form === 'individuals'
+    ).length;
+    const companyOwners = data.filter(
+        (owner) => owner.owner?.legal_form === 'company'
+    ).length;
+    const whatsappUsers = data.filter(
+        (owner) => owner.owner?.is_whatsapp
+    ).length;
 
     const dataItems = [
         {
@@ -96,10 +117,14 @@ const ListOwnerView = () => {
                             variant={'add'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
-                            onClick={() => router.push("/admin/module/owner/add")}
+                            onClick={() =>
+                                router.push('/admin/module/owner/add')
+                            }
                         >
                             <Plus />{' '}
-                            <span className="text-[1.3rem]">NOUVEAU PROPRIÉTAIRE</span>
+                            <span className="text-[1.3rem]">
+                                NOUVEAU PROPRIÉTAIRE
+                            </span>
                         </Button>
                     )
                 }}

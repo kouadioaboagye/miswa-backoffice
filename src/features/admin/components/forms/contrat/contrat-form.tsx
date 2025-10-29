@@ -1,8 +1,9 @@
 'use client';
 
+import { useListContractTypesQuery } from '@/lib/data-service/contract-type/contract.hooks';
+import { useListTenantsQuery } from '@/lib/data-service/tenant/tenants.hooks';
 import { cn } from '@/lib/utils';
 import { Button } from '@/shared/components/ui/button';
-import { Calendar } from '@/shared/components/ui/calendar';
 import {
     Form,
     FormControl,
@@ -13,28 +14,37 @@ import {
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from '@/shared/components/ui/popover';
-import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue
 } from '@/shared/components/ui/select';
-import { format } from 'date-fns';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { BasilArrowRightOutline } from '../../../../../../public/assets/icons/arrow-right';
 import FeatherUploadCloud from '../../../../../../public/assets/icons/feather_upload-cloud';
 import FileIcon from '../../../../../../public/assets/icons/file-icon';
+import { contractFormSchema } from './contract-schema';
 
 const ContratForm = () => {
+    const { data: tenants } = useListTenantsQuery();
+    const { data: contractTypes } = useListContractTypesQuery();
+
     const [dragActive, setDragActive] = useState(false);
     const form = useForm({
-        defaultValues: {}
+        resolver: zodResolver(contractFormSchema),
+        defaultValues: {
+            contract_document_type: '',
+            contract_type: '',
+            start_date: '',
+            end_date: '',
+            document_urls: [],
+            property_id: '',
+            rent_amount: '',
+            tenant_id: ''
+        }
     });
 
     const onSubmit: SubmitHandler<any> = async (credentials) => {
@@ -48,8 +58,9 @@ const ContratForm = () => {
                 className="flex flex-col gap-12 px-4"
             >
                 <div className="flex items-center justify-between p-4">
-                    <h1>Enregistrement d’un nouveau Contrat</h1>
+                    <h2>Enregistrement d’un nouveau Contrat</h2>
                     <Button
+                        type="submit"
                         variant={'add'}
                         size={'add'}
                         className="text-white [&_svg]:size-8"
@@ -61,7 +72,7 @@ const ContratForm = () => {
                 <div className="grid grid-cols-6 gap-10">
                     <FormField
                         control={form.control}
-                        name=""
+                        name="contract_type"
                         render={({ field }) => (
                             <FormItem className="col-span-3">
                                 <Label>Type de contrat</Label>
@@ -92,7 +103,7 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="property_id"
                         render={({ field }) => (
                             <FormItem className="col-span-3">
                                 <Label>Bien concerné</Label>
@@ -123,7 +134,7 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="tenant_id"
                         render={({ field }) => (
                             <FormItem className="col-span-6">
                                 <Label>Locataire</Label>
@@ -154,46 +165,18 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="start_date"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1 col-span-2">
                                 <Label>Date de debut du contrat</Label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={'outline_header'}
-                                                className={cn(
-                                                    'pl-3 text-left font-normal h-[48px] rounded-xl justify-between border border-gray-300',
-                                                    !field.value &&
-                                                        'text-muted-foreground'
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(field.value, 'PPP')
-                                                ) : (
-                                                    <span>JJ/MM/AAAA</span>
-                                                )}
-                                                {/* <CalendarIcon className="ml-auto h-4 w-4 opacity-50" /> */}
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent
-                                        className="w-auto p-0"
-                                        align="start"
-                                    >
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() ||
-                                                date < new Date('1900-01-01')
-                                            }
-                                            captionLayout="dropdown"
-                                        />
-                                    </PopoverContent>
-                                </Popover>
+                                <FormControl>
+                                    <Input
+                                        type="date"
+                                        placeholder="JJ/MM/AAAA"
+                                        {...field}
+                                        className="placeholder:text-gray-400"
+                                    />
+                                </FormControl>
 
                                 <FormMessage />
                             </FormItem>
@@ -201,60 +184,35 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="end_date"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1 col-span-2">
                                 <Label>Date de fin du contrat</Label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={'outline_header'}
-                                                className={cn(
-                                                    'pl-3 text-left font-normal h-[48px] justify-between rounded-xl border-gray-300',
-                                                    !field.value &&
-                                                        'text-muted-foreground'
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(field.value, 'PPP')
-                                                ) : (
-                                                    <span>JJ/MM/AAAA</span>
-                                                )}
-                                                {/* <CalendarIcon className="ml-auto h-4 w-4 opacity-50" /> */}
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent
-                                        className="w-auto p-0"
-                                        align="start"
-                                    >
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() ||
-                                                date < new Date('1900-01-01')
-                                            }
-                                            captionLayout="dropdown"
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-
+                                <FormControl>
+                                    <Input
+                                        type="date"
+                                        placeholder="JJ/MM/AAAA"
+                                        {...field}
+                                        className="placeholder:text-gray-400"
+                                    />
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="rent_amount"
                         render={({ field }) => (
                             <FormItem className="col-span-2 -mt-[0.8rem]">
                                 <Label>Montant du Loyer</Label>
                                 <FormControl>
                                     <Input
-                                        placeholder="250 000 F CFA"
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        autoComplete="off"
+                                        placeholder="Saisir le montant"
                                         {...field}
                                     />
                                 </FormControl>
@@ -264,7 +222,7 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="doc"
+                        name="document_urls"
                         render={({ field }) => (
                             <FormItem className="col-span-6 mt-9">
                                 <div className="flex h-fit w-full flex-col gap-3">

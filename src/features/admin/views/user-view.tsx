@@ -1,11 +1,14 @@
 'use client';
+import { useListUsersQuery } from '@/lib/data-service/users/users.hooks';
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { useModalStore } from '@/shared/store/useModalStore';
 import { Plus, WalletIcon } from 'lucide-react';
+import { useState } from 'react';
 import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
 import UserForm from '../components/forms/user/user-form';
+import { columns } from '../components/tables/users/columns';
 import UserTable from '../components/tables/users/user-table';
 
 const UserView = () => {
@@ -32,6 +35,16 @@ const UserView = () => {
         }
     ];
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
+    const {
+        data: users,
+        isLoading,
+        refetch
+    } = useListUsersQuery({ page: currentPage, limit: pageSize });
+    const { data, total } = users || { data: [], total: 0 };
+
     const handleOpenUserModal = () => {
         openModal({
             view: <UserForm />,
@@ -50,6 +63,7 @@ const UserView = () => {
                             variant={'refresh'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={() => refetch()}
                         >
                             <RefreshIcon />{' '}
                             <span className="text-[1.3rem]">RAFRAICHIR</span>
@@ -70,7 +84,15 @@ const UserView = () => {
                     )
                 }}
             >
-                <UserTable />
+                <UserTable
+                    data={data}
+                    isLoading={isLoading}
+                    totalItems={total}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    columns={columns}
+                />
             </DataTableLayout>
         </div>
     );

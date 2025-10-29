@@ -1,12 +1,11 @@
-import { Label } from '@/shared/components/ui/label';
 import { Input } from '@/shared/components/ui/input';
-import { SectionTitle } from '@/shared/components/ui/section-title';
-import React from 'react'
-import { Controller, UseFormReturn } from 'react-hook-form';
 import InputErrorMessage from '@/shared/components/ui/input-error-message';
-import { addBuildingFormData } from './schemas';
+import { Label } from '@/shared/components/ui/label';
+import { SectionTitle } from '@/shared/components/ui/section-title';
 import { Switch } from '@/shared/components/ui/switch';
 import { Textarea } from '@/shared/components/ui/textarea';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { addBuildingFormData } from './schemas';
 
 interface StepTwoFormProps {
     form: UseFormReturn<addBuildingFormData>;
@@ -16,30 +15,71 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
     const { errors } = form.formState;
 
     return (
-        <div className='space-y-20'>
-            <section className='space-y-6'>
+        <div className="space-y-20">
+            <section className="space-y-6">
                 <SectionTitle content="1. Identification" />
                 <div className="grid grid-cols-2 gap-10">
                     <div>
-                        <Label htmlFor="totalUnit" isRequired>Nombre total d'unités</Label>
-                        <Input id="totalUnit" type='number' placeholder="10" {...form.register('totalUnit', { valueAsNumber: true })} />
-                        <InputErrorMessage message={errors.totalUnit?.message} />
+                        <Label htmlFor="totalUnit" isRequired>
+                            Nombre total d'unités
+                        </Label>
+                        <Input
+                            id="totalUnit"
+                            type="number"
+                            placeholder="10"
+                            {...form.register('totalUnit', {
+                                valueAsNumber: true
+                            })}
+                        />
+                        <InputErrorMessage
+                            message={errors.totalUnit?.message}
+                        />
                     </div>
-                    <div className='grid grid-cols-3 gap-10'>
+                    <div className="grid grid-cols-3 gap-10">
                         <div>
-                            <Label htmlFor="buildingYear" isRequired>Années de construction</Label>
-                            <Input id="buildingYear" placeholder="2020" {...form.register('buildingYear')} />
-                            <InputErrorMessage message={errors.buildingYear?.message} />
+                            <Label htmlFor="buildingYear" isRequired>
+                                Années de construction
+                            </Label>
+                            <Input
+                                id="buildingYear"
+                                placeholder="2020"
+                                {...form.register('buildingYear')}
+                            />
+                            <InputErrorMessage
+                                message={errors.buildingYear?.message}
+                            />
                         </div>
                         <div>
-                            <Label htmlFor="landSurface" isRequired>Superficie totale(m2)</Label>
-                            <Input id="landSurface" type='number' placeholder="10" {...form.register('landSurface', { valueAsNumber: true })} />
-                            <InputErrorMessage message={errors.landSurface?.message} />
+                            <Label htmlFor="landSurface" isRequired>
+                                Superficie totale(m2)
+                            </Label>
+                            <Input
+                                id="landSurface"
+                                type="number"
+                                placeholder="10"
+                                {...form.register('landSurface', {
+                                    valueAsNumber: true
+                                })}
+                            />
+                            <InputErrorMessage
+                                message={errors.landSurface?.message}
+                            />
                         </div>
                         <div>
-                            <Label htmlFor="floorNumber" isRequired>Nombre d'étages</Label>
-                            <Input id="floorNumber" type='number' placeholder="10" {...form.register('floorNumber', { valueAsNumber: true })} />
-                            <InputErrorMessage message={errors.floorNumber?.message} />
+                            <Label htmlFor="floorNumber" isRequired>
+                                Nombre d'étages
+                            </Label>
+                            <Input
+                                id="floorNumber"
+                                type="number"
+                                placeholder="10"
+                                {...form.register('floorNumber', {
+                                    valueAsNumber: true
+                                })}
+                            />
+                            <InputErrorMessage
+                                message={errors.floorNumber?.message}
+                            />
                         </div>
                     </div>
                 </div>
@@ -49,7 +89,7 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                 <SectionTitle content="2. Équipements et commodités" />
                 <div className="space-y-6">
                     <div className="flex w-full">
-                        <div className='w-1/4 space-y-10'>
+                        <div className="w-1/4 space-y-10">
                             <div className="flex items-center space-x-4">
                                 <Controller
                                     name="elevator"
@@ -62,10 +102,10 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                         />
                                     )}
                                 />
-                                <Label htmlFor="elevator">
-                                    Ascenseur
-                                </Label>
-                                <InputErrorMessage message={errors.elevator?.message} />
+                                <Label htmlFor="elevator">Ascenseur</Label>
+                                <InputErrorMessage
+                                    message={errors.elevator?.message}
+                                />
                             </div>
                             <div className="flex items-center space-x-4">
                                 <Controller
@@ -82,7 +122,9 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                 <Label htmlFor="internet">
                                     Accès internet/fibre
                                 </Label>
-                                <InputErrorMessage message={errors.internet?.message} />
+                                <InputErrorMessage
+                                    message={errors.internet?.message}
+                                />
                             </div>
                             <div className="flex items-center space-x-4">
                                 <Controller
@@ -99,11 +141,12 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                 <Label htmlFor="water">
                                     Système eau/électricité
                                 </Label>
-                                <InputErrorMessage message={errors.water?.message} />
+                                <InputErrorMessage
+                                    message={errors.water?.message}
+                                />
                             </div>
-                            <div></div>
                         </div>
-                        <div className='w-3/4 grid grid-cols-3 gap-4'>
+                        <div className="w-3/4 grid grid-cols-3 gap-4">
                             <div>
                                 <div className="flex items-center space-x-4">
                                     <Controller
@@ -120,10 +163,21 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                     <Label htmlFor="parking.available">
                                         Parking
                                     </Label>
-                                    <InputErrorMessage message={errors.parking?.available?.message} />
+                                    <InputErrorMessage
+                                        message={
+                                            errors.parking?.available?.message
+                                        }
+                                    />
                                 </div>
-                                <div className='mt-4'>
-                                    <Input id="parking.amount" type='number' placeholder="10" {...form.register('parking.amount', { valueAsNumber: true })} />
+                                <div className="mt-4">
+                                    <Input
+                                        id="parking.amount"
+                                        type="number"
+                                        placeholder="10"
+                                        {...form.register('parking.amount', {
+                                            valueAsNumber: true
+                                        })}
+                                    />
                                 </div>
                             </div>
                             <div>
@@ -142,10 +196,21 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                     <Label htmlFor="security.available">
                                         Sécurité
                                     </Label>
-                                    <InputErrorMessage message={errors.security?.available?.message} />
+                                    <InputErrorMessage
+                                        message={
+                                            errors.security?.available?.message
+                                        }
+                                    />
                                 </div>
-                                <div className='mt-4'>
-                                    <Input id="security.amount" type='number' placeholder="10" {...form.register('security.amount', { valueAsNumber: true })} />
+                                <div className="mt-4">
+                                    <Input
+                                        id="security.amount"
+                                        type="number"
+                                        placeholder="10"
+                                        {...form.register('security.amount', {
+                                            valueAsNumber: true
+                                        })}
+                                    />
                                 </div>
                             </div>
                             <div>
@@ -164,24 +229,46 @@ function StepTwoForm({ form }: Readonly<StepTwoFormProps>) {
                                     <Label htmlFor="commonSpaces.available">
                                         Espaces communs
                                     </Label>
-                                    <InputErrorMessage message={errors.commonSpaces?.available?.message} />
+                                    <InputErrorMessage
+                                        message={
+                                            errors.commonSpaces?.available
+                                                ?.message
+                                        }
+                                    />
                                 </div>
-                                <div className='mt-4'>
-                                    <Input id="commonSpaces.amount" type='number' placeholder="10" {...form.register('commonSpaces.amount', { valueAsNumber: true })} />
+                                <div className="mt-4">
+                                    <Input
+                                        id="commonSpaces.amount"
+                                        type="number"
+                                        placeholder="10"
+                                        {...form.register(
+                                            'commonSpaces.amount',
+                                            { valueAsNumber: true }
+                                        )}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <Label htmlFor="description" isRequired>Description du bien</Label><br />
+                        <Label htmlFor="description" isRequired>
+                            Description du bien
+                        </Label>
+                        <br />
                         <Controller
                             name="description"
                             control={form.control}
                             render={({ field }) => (
-                                <Textarea id="description" rows={5} {...field} />
+                                <Textarea
+                                    id="description"
+                                    rows={5}
+                                    {...field}
+                                />
                             )}
                         />
-                        <InputErrorMessage message={errors.description?.message} />
+                        <InputErrorMessage
+                            message={errors.description?.message}
+                        />
                     </div>
                 </div>
             </section>

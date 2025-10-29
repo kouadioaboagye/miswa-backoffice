@@ -9,7 +9,6 @@ interface UISlice {
     setTheme: (theme: Theme) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createUISlice = (set: any): UISlice => ({
     theme: 'main-theme',
     setTheme: (theme: Theme) => set({ theme }),
