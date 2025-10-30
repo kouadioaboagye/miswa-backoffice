@@ -1,5 +1,6 @@
 import { Apartment } from "@/features/admin/module/property/components/tables/building/details/columns";
 import { IOwnerDataModel } from "../module/owner/types";
+import { Feature } from "../feature/types";
 
 export type IAssetDataModel = {
   id: string | number;
@@ -30,21 +31,28 @@ export type IAssetDataModel = {
   id_building?: number;
   id_business?: number;
   id_municipality?: number;
-  business?: {
-    name: string;
-    description?: string | null;
-    cover_url?: string | null;
-    is_default?: boolean;
+  building?: {
     id: number;
-    owner?: {
-      legal_form: string;
-      legal_name: string;
-      birth_date?: string;
-      birth_place?: string;
+    name: string;
+    description?: string;
+    address?: string;
+    business?: {
+      name: string;
+      description?: string;
       cover_url?: string;
-    }
+      is_default?: boolean;
+      id: number;
+      owner?: {
+        legal_form: string;
+        legal_name: string;
+        birth_date?: string;
+        birth_place?: string;
+        cover_url?: string;
+      }
+    };
   };
   images?: string[];
+  features?: Feature[];
   created_at: string;
   updated_at: string;
 }
@@ -58,6 +66,7 @@ export type IBuildingDataModel = {
   address?: string;
   longitude?: number;
   latitude?: number;
+  total_area?: number;
   photos?: string[];
   building_type?: string;
   construction_year?: number;

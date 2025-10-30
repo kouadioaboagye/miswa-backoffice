@@ -21,19 +21,16 @@ function mapFormDataToAPI(values: addAssetFormData): any {
         description: values.description,
         reference: values.reference,
         rooms_count: values.rooms_count,
-        built_year: values.built_year,
+        // built_year: values.built_year,
         building_steps_level: values.building_steps_level,
         area_m2: values.area_m2,
         monthly_rent_amount: values.monthly_rent_amount,
         is_public: values.is_public,
         is_active: values.is_active,
         id_building: values.building,
-        internet: values.internet,
-        water: values.water,
-        parking: values.parking,
         longitude: values.longitude,
         latitude: values.latitude,
-        id_business: values.id_business,
+        features: values.features,
     };
 }
 
@@ -46,9 +43,6 @@ function AddAssetView() {
     const form = useForm<addAssetFormData>({
         resolver: zodResolver(addAssetFormSchema),
         defaultValues: {
-            internet: false,
-            parking: false,
-            water: false,
             is_public: false,
             is_active: false,
             description: '',
@@ -59,7 +53,6 @@ function AddAssetView() {
             documentUrls: [],
             longitude: 0,
             latitude: 0,
-            id_business: 1
         },
     });
 
@@ -78,12 +71,10 @@ function AddAssetView() {
                 ];
             case 2:
                 return [
-                    'internet',
-                    'water',
-                    'parking',
                     'is_public',
                     'is_active',
                     'description',
+                    'features',
                 ];
             case 3:
                 return ['documents', 'media.coverPicture', 'media.otherMedia'];
@@ -185,7 +176,7 @@ function AddAssetView() {
                 description={`Votre bien ${form.getValues("name")} à été crée avec succès, vous pouvez consulter la liste des biens pour apporter des modifications`}
                 confirmText='Liste des bien'
                 onClose={() => setSuccessModalOpen(false)}
-                onConfirm={() => router.push('/admin/property/module/asset')}
+                onConfirm={() => router.push('/admin/module/property/asset')}
             />
             <h1 className="text-4xl font-bold text-gray-900 mb-20">Enregistrement d&apos;un nouveau bien</h1>
             <Stepper
