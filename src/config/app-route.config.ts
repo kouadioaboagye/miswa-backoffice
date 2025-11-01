@@ -62,9 +62,7 @@ export const paths = {
             },
             advertisement: {
                 root: `${ROOTS.ADMIN}/module/advertisement`,
-                inprogress: `${ROOTS.ADMIN}/module/advertisement/inprogress`,
-                archived: `${ROOTS.ADMIN}/module/advertisement/archived`,
-                draft: `${ROOTS.ADMIN}/module/advertisement/draft`,
+                list: `${ROOTS.ADMIN}/module/advertisement/list`,
                 visit: {
                     list: `${ROOTS.ADMIN}/module/advertisement/visit/list`,
                     terminated: `${ROOTS.ADMIN}/module/advertisement/visit/terminated`,

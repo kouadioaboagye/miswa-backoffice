@@ -185,27 +185,11 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             items: []
         },
         {
-            label: 'Annonces en cours',
+            label: 'Annonces',
             icon: (
                 <LucideShoppingCart className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.advertisement.inprogress,
-            items: []
-        },
-        {
-            label: 'Annonces achevées',
-            icon: (
-                <TablerCalendarFilled className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.advertisement.archived,
-            items: []
-        },
-        {
-            label: 'Annonces en brouillon',
-            icon: (
-                <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
-            ),
-            href: paths.admin.module.advertisement.draft,
+            href: paths.admin.module.advertisement.list,
             items: []
         },
         {
@@ -213,7 +197,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.advertisement.draft,
+            href: paths.admin.module.advertisement.visit.list,
             items: [
                 {
                     label: 'Liste des visites',
