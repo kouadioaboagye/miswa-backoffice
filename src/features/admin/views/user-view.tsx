@@ -8,7 +8,6 @@ import { Plus, WalletIcon } from 'lucide-react';
 import { useState } from 'react';
 import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
 import UserForm from '../components/forms/user/user-form';
-import { columns } from '../components/tables/users/columns';
 import UserTable from '../components/tables/users/user-table';
 
 const UserView = () => {
@@ -43,7 +42,8 @@ const UserView = () => {
         isLoading,
         refetch
     } = useListUsersQuery({ page: currentPage, limit: pageSize });
-    const { data, total } = users || { data: [], total: 0 };
+
+    console.log('users', users);
 
     const handleOpenUserModal = () => {
         openModal({
@@ -85,13 +85,12 @@ const UserView = () => {
                 }}
             >
                 <UserTable
-                    data={data}
+                    data={users?.data || []}
                     isLoading={isLoading}
-                    totalItems={total}
-                    pageSize={pageSize}
+                    totalItems={users?.data?.pagination?.total}
+                    pageSize={users?.data?.pagination?.pages}
                     currentPage={currentPage}
                     onPageChange={(page) => setCurrentPage(page)}
-                    columns={columns}
                 />
             </DataTableLayout>
         </div>

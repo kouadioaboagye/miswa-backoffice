@@ -40,7 +40,7 @@ export const useListCountriesQuery = (params?: ListParams) => {
 
 export const useDetailsUserQuery = (id: number) => {
     return useQuery({
-        queryKey: ['user'],
+        queryKey: ['user', id],
         queryFn: () => getUser(id)
     });
 };

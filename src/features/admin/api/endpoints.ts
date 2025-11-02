@@ -57,6 +57,7 @@ export const endpoints = {
         delete: (roleId: number) => `/roles/${roleId}/`,
         update: (roleId: number) => `/roles/${roleId}/`
     },
+    dashboard: '/dashboard/general/',
     countries: '/countries/',
     municipalities: '/municipalities/',
     upload: '/upload/'

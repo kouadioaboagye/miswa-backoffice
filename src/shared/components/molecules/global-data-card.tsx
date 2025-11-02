@@ -4,7 +4,7 @@ type GlobalDataCardProps = {
     data: {
         title: string;
         value: string | number;
-        percentageChange: number;
+        percentageChange?: number;
         icon: React.ReactNode;
     }[];
 };

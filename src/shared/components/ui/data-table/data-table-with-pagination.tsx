@@ -4,10 +4,13 @@ import type { ColumnDef } from '@tanstack/react-table';
 import {
     flexRender,
     getCoreRowModel,
-    useReactTable,
     getPaginationRowModel,
-    PaginationState
+    PaginationState,
+    useReactTable
 } from '@tanstack/react-table';
+import { useState } from 'react';
+import { SvgSpinnersGooeyBalls2 } from '../../../../../public/assets/icons/loader';
+import Pagination from '../pagination';
 import {
     Table,
     TableBody,
@@ -16,8 +19,6 @@ import {
     TableHeader,
     TableRow
 } from '../table';
-import Pagination from '../pagination';
-import { useState } from 'react';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -40,7 +41,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: currentPage - 1,
-        pageSize: pageSize,
+        pageSize: pageSize
     });
 
     const table = useReactTable({
@@ -51,9 +52,9 @@ export function DataTable<TData, TValue>({
         manualPagination: true,
         pageCount: Math.ceil(totalItems / pageSize),
         state: {
-            pagination,
+            pagination
         },
-        onPaginationChange: setPagination,
+        onPaginationChange: setPagination
     });
 
     const totalPages = Math.ceil(totalItems / pageSize);
@@ -62,7 +63,7 @@ export function DataTable<TData, TValue>({
         if (onPageChange) {
             onPageChange(page);
         }
-        setPagination(prev => ({
+        setPagination((prev) => ({
             ...prev,
             pageIndex: page - 1
         }));
@@ -99,26 +100,30 @@ export function DataTable<TData, TValue>({
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}
-                                    className="h-24 text-center text-[1.1rem]"
+                                    className="h-24 text-center text-[1.1rem] py-8"
                                 >
-                                    Chargement...
+                                    <SvgSpinnersGooeyBalls2 className="mx-auto text-[#14385c]" />
                                 </TableCell>
                             </TableRow>
                         ) : table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row, index) => (
                                 <TableRow
                                     key={index + 1}
-                                    data-state={row.getIsSelected() && 'selected'}
+                                    data-state={
+                                        row.getIsSelected() && 'selected'
+                                    }
                                     className="text-[1.1rem]"
                                 >
-                                    {row.getVisibleCells().map((cell, index) => (
-                                        <TableCell key={index + 1}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
+                                    {row
+                                        .getVisibleCells()
+                                        .map((cell, index) => (
+                                            <TableCell key={index + 1}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
                                 </TableRow>
                             ))
                         ) : (
@@ -134,7 +139,7 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            
+
             {totalPages > 1 && (
                 <Pagination
                     currentPage={currentPage}

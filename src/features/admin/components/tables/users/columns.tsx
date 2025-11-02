@@ -3,6 +3,7 @@
 import { useDeleteUserMutation } from '@/lib/data-service/users/users.hooks';
 import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
+import { useAlertStore } from '@/shared/store/use-alert-store';
 import { useModalStore } from '@/shared/store/useModalStore';
 import type { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
@@ -47,15 +48,20 @@ export type User = {
 
 export const columns: ColumnDef<User>[] = [
     {
-        accessorKey: 'avatar',
+        accessorKey: 'first_name',
         header: 'Utilisateur',
         cell: ({ row }) => {
             const avatar = row.original.avatar;
+            const email = row.original.email;
+            const firstName = row.original.first_name;
+            const lastName = row.original.last_name;
             return avatar && avatar.trim() !== '' ? (
                 <Illustration
                     src={avatar}
-                    libelle={row.original.first_name || ''}
-                    email={row.original.email || ''}
+                    libelle={
+                        firstName && lastName ? `${firstName} ${lastName}` : ''
+                    }
+                    email={email || ''}
                 />
             ) : (
                 <div className="flex items-center justify-center size-16 rounded-2xl bg-gray-100 shadow">
@@ -101,12 +107,24 @@ export const columns: ColumnDef<User>[] = [
         header: 'Actions',
         cell: ({ row }) => {
             const openModal = useModalStore((state) => state.openModal);
-            const { mutate: deleteUser } = useDeleteUserMutation();
+            const openAlert = useAlertStore((state) => state.openAlert);
+            const { mutateAsync: deleteUser } = useDeleteUserMutation();
 
             const handleOpenUserModal = () => {
                 openModal({
                     view: <UserForm user={row.original} />,
                     isOverlayCanClosed: true
+                });
+            };
+            const handleOpenAlert = () => {
+                openAlert({
+                    title: 'Suppression utilisateur',
+                    description:
+                        'Etes-vous sur de vouloir supprimer cet utilisateur ?',
+                    onConfirm: () => {
+                        deleteUser(row.original.id);
+                    },
+                    onClose: () => {}
                 });
             };
 
@@ -126,7 +144,7 @@ export const columns: ColumnDef<User>[] = [
                         <EditIcon />
                     </button>
                     <button
-                        onClick={() => deleteUser(row.original.id)}
+                        onClick={handleOpenAlert}
                         className="flex size-12 items-center justify-center rounded-full bg-[#FF0000]/10"
                     >
                         <DeleteIcon2 />

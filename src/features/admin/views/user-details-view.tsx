@@ -7,13 +7,13 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import CadenasIcon from '../../../../public/assets/icons/cadenas';
 import DeleteWhiteIcon from '../../../../public/assets/icons/delete-icon';
-import EditIcon2 from '../../../../public/assets/icons/edit-icon2';
 import MedalIcon from '../../../../public/assets/icons/medal-icon';
 import { RiUserLine } from '../../../../public/assets/icons/userl-icon';
 
 const UserDetails = ({ id }: { id: number }) => {
     const { data: user } = useDetailsUserQuery(id);
     const { mutate: updateUserStatus } = useUpdateUserStatusMutation();
+    // const openModal = useModalStore((state) => state.openModal);
 
     console.log('user', user);
 
@@ -38,16 +38,21 @@ const UserDetails = ({ id }: { id: number }) => {
                         <DeleteWhiteIcon />
                         <span className="text-[1.3rem]">DESACTIVER</span>{' '}
                     </Button>
-                    <Button
+                    {/* <Button
                         variant={'add'}
                         size={'add'}
                         className="text-white [&_svg]:size-6 w-[26rem]"
+                        // onClick={() =>
+                        //     openModal({
+                        //         view: <UserForm />
+                        //     })
+                        // }
                     >
                         <EditIcon2 />
                         <span className="text-[1.3rem]">
                             MODIFIER PROFILE
                         </span>{' '}
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             <div className="flex flex-col">

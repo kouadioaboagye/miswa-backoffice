@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { siteConfig } from '@/config';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
+import { GlobalAlert } from '@/shared/components/atoms/global-alert';
 import GlobalModal from '@/shared/components/atoms/global-modal';
 import GoogleMapsScript from '@/shared/components/GoogleMapsScript';
 import { Provider } from './provider';
@@ -23,6 +24,7 @@ export default async function RootLayout({
             <body>
                 <Provider>
                     <GlobalModal />
+                    <GlobalAlert />
                     <NuqsAdapter>{children}</NuqsAdapter>
                 </Provider>
                 <GoogleMapsScript />

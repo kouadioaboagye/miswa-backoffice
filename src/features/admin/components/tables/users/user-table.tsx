@@ -1,9 +1,8 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
-import { ColumnDef } from '@tanstack/react-table';
+import { columns } from './columns';
 
 interface UsersTableProps {
     data: any[];
-    columns: ColumnDef<any>[];
     totalItems?: number;
     pageSize?: number;
     onPageChange?: (page: number) => void;
@@ -13,7 +12,6 @@ interface UsersTableProps {
 
 const UserTable = ({
     data,
-    columns,
     totalItems = 0,
     pageSize = 10,
     onPageChange,

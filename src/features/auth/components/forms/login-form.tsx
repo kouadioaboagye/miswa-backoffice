@@ -142,6 +142,7 @@ const LoginForm = () => {
                     size="default"
                     className="mt-6 h-[4.5rem]"
                     isLoading={isLoading}
+                    disabled={isLoading}
                 >
                     Sign In
                 </Button>

@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export function SvgSpinnersBarsScaleFade(props: SVGProps<SVGSVGElement>) {
+export function SvgSpinnersBarsScale(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -9,89 +9,96 @@ export function SvgSpinnersBarsScaleFade(props: SVGProps<SVGSVGElement>) {
             viewBox="0 0 24 24"
             {...props}
         >
-            <rect width={6} height={14} x={1} y={4} fill="currentColor">
+            <rect width={2.8} height={12} x={1} y={6} fill="currentColor">
                 <animate
-                    id="SVGBoZ3Ab9F"
-                    fill="freeze"
+                    id="SVGLQdHQe4p"
                     attributeName="y"
-                    begin="0;SVG0XJl4OCs.end-0.25s"
-                    dur="0.75s"
-                    values="1;5"
+                    begin="0;SVGg3vsIeGm.end-0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
                 ></animate>
                 <animate
-                    fill="freeze"
                     attributeName="height"
-                    begin="0;SVG0XJl4OCs.end-0.25s"
-                    dur="0.75s"
-                    values="22;14"
-                ></animate>
-                <animate
-                    fill="freeze"
-                    attributeName="opacity"
-                    begin="0;SVG0XJl4OCs.end-0.25s"
-                    dur="0.75s"
-                    values="1;0.2"
+                    begin="0;SVGg3vsIeGm.end-0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
                 ></animate>
             </rect>
-            <rect
-                width={6}
-                height={14}
-                x={9}
-                y={4}
-                fill="currentColor"
-                opacity={0.4}
-            >
+            <rect width={2.8} height={12} x={5.8} y={6} fill="currentColor">
                 <animate
-                    fill="freeze"
                     attributeName="y"
-                    begin="SVGBoZ3Ab9F.begin+0.15s"
-                    dur="0.75s"
-                    values="1;5"
+                    begin="SVGLQdHQe4p.begin+0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
                 ></animate>
                 <animate
-                    fill="freeze"
                     attributeName="height"
-                    begin="SVGBoZ3Ab9F.begin+0.15s"
-                    dur="0.75s"
-                    values="22;14"
-                ></animate>
-                <animate
-                    fill="freeze"
-                    attributeName="opacity"
-                    begin="SVGBoZ3Ab9F.begin+0.15s"
-                    dur="0.75s"
-                    values="1;0.2"
+                    begin="SVGLQdHQe4p.begin+0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
                 ></animate>
             </rect>
-            <rect
-                width={6}
-                height={14}
-                x={17}
-                y={4}
-                fill="currentColor"
-                opacity={0.3}
-            >
+            <rect width={2.8} height={12} x={10.6} y={6} fill="currentColor">
                 <animate
-                    id="SVG0XJl4OCs"
-                    fill="freeze"
                     attributeName="y"
-                    begin="SVGBoZ3Ab9F.begin+0.3s"
-                    dur="0.75s"
-                    values="1;5"
+                    begin="SVGLQdHQe4p.begin+0.2s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
                 ></animate>
                 <animate
-                    fill="freeze"
                     attributeName="height"
-                    begin="SVGBoZ3Ab9F.begin+0.3s"
-                    dur="0.75s"
-                    values="22;14"
+                    begin="SVGLQdHQe4p.begin+0.2s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                ></animate>
+            </rect>
+            <rect width={2.8} height={12} x={15.4} y={6} fill="currentColor">
+                <animate
+                    attributeName="y"
+                    begin="SVGLQdHQe4p.begin+0.3s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
                 ></animate>
                 <animate
-                    fill="freeze"
-                    attributeName="opacity"
-                    begin="SVGBoZ3Ab9F.begin+0.3s"
-                    dur="0.75s"
-                    values="1;0.2"
+                    attributeName="height"
+                    begin="SVGLQdHQe4p.begin+0.3s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                ></animate>
+            </rect>
+            <rect width={2.8} height={12} x={20.2} y={6} fill="currentColor">
+                <animate
+                    id="SVGg3vsIeGm"
+                    attributeName="y"
+                    begin="SVGLQdHQe4p.begin+0.4s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                ></animate>
+                <animate
+                    attributeName="height"
+                    begin="SVGLQdHQe4p.begin+0.4s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
                 ></animate>
             </rect>
         </svg>

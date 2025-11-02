@@ -17,9 +17,11 @@ const Illustration = ({ src, libelle, email }: IllustrationProps) => {
                 />
             </div>
             <div className="flex flex-col justify-center gap-2">
-                <p className="text-[1.2rem] font-semibold">{libelle}</p>
+                <p className="text-[1.2rem] font-semibold">{libelle || ''}</p>
                 {email && (
-                    <p className="text-[1.1rem] text-[#718096]">{email}</p>
+                    <p className="text-[1.1rem] text-[#718096]">
+                        {email || ''}
+                    </p>
                 )}
             </div>
         </div>

@@ -65,8 +65,10 @@ const UserForm = ({ user }: UserFormProps) => {
         }
     });
 
-    const { mutate: createUser } = useCreateUserMutation();
-    const { mutate: updateUser } = useUpdateUserMutation();
+    const { mutate: createUser, isPending: isCreating } =
+        useCreateUserMutation();
+    const { mutate: updateUser, isPending: isUpdating } =
+        useUpdateUserMutation();
 
     // Afficher l’avatar du backend en modification
     useEffect(() => {
@@ -492,6 +494,8 @@ const UserForm = ({ user }: UserFormProps) => {
                         type="button"
                         className="w-1/2 h-[48px]"
                         variant={'outline_header'}
+                        isLoading={isCreating || isUpdating}
+                        disabled={isCreating || isUpdating}
                         onClick={closeModal}
                     >
                         Retour
