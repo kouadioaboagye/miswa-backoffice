@@ -1,7 +1,7 @@
 'use client';
 
 import { useDeletePropertyMutation } from '@/lib/data-service/property/property.hooks';
-import { IPropertyDataModel } from '@/lib/data-service/property/types';
+import { IAssetDataModel } from '@/lib/data-service/property/types';
 import Illustration from '@/shared/components/atoms/illustration';
 import { Badge } from '@/shared/components/ui/badge';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -17,7 +17,7 @@ import { DeletePropertyModal } from '../../modals/delete-property-modal';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Property = Partial<IPropertyDataModel> & {
+export type Property = Partial<IAssetDataModel> & {
     id: string | number;
     name: string;
     cover_url?: string;

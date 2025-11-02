@@ -13,7 +13,9 @@ import DeleteIcon2 from '../../../../../../public/assets/icons/delete-icon-2';
 
 const RejectRequestInterventionForm = () => {
     const form = useForm({
-        defaultValues: {}
+        defaultValues: {
+            content: ''
+        }
     });
 
     const onSubmit: SubmitHandler<any> = async (credentials) => {
@@ -31,17 +33,17 @@ const RejectRequestInterventionForm = () => {
                         <DeleteIcon2 />
                     </div>
                 </div>
-                <h3>Rejeter la demande d’intervention</h3>
+                <h3>Rejeter la demande d'intervention</h3>
                 <FormField
                     control={form.control}
-                    name=""
+                    name="content"
                     render={({ field }) => (
                         <FormItem>
                             <Label>Contenu*</Label>
                             <FormControl>
                                 <Textarea
                                     rows={4}
-                                    placeholder="M..."
+                                    placeholder="Motif du rejet..."
                                     {...field}
                                 />
                             </FormControl>

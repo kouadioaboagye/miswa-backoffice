@@ -1,7 +1,6 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
 import { columns, Property } from './columns';
 import { ColumnDef } from '@tanstack/react-table';
-import { IPropertyDataModel } from '@/lib/data-service/property/types';
 
 interface PropertyTableProps {
     data: Property[];

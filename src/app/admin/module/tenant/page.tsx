@@ -1,5 +1,7 @@
+import DashboardView from "@/features/admin/module/tenant/views/dashboard-view";
+
 const page = () => {
-    return <div>page</div>;
+    return <DashboardView/>;
 };
 
 export default page;

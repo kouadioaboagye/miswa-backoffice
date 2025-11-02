@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { EyeClosedIcon } from 'lucide-react';
+import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import ShouldShow from '../layouts/helpers/should-show';
 import Error from './error';
 
@@ -123,7 +123,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                                 when={isPassword}
                                 show={
                                     showPassword ? (
-                                        <EyeOpenedIcon />
+                                        <EyeIcon />
                                     ) : (
                                         <EyeClosedIcon />
                                     )

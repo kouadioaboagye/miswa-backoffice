@@ -1,11 +1,36 @@
+"use client"
+
 import DataTableLayout from '@/shared/components/layouts/data-table-layout';
 import GlobalDataCard from '@/shared/components/molecules/global-data-card';
 import { Button } from '@/shared/components/ui/button';
 import { WalletIcon, CreditCardIcon, CheckCircleIcon, ClockIcon, DollarSignIcon, TrendingUpIcon } from 'lucide-react';
 import RefreshIcon from '../../../../public/assets/icons/refresh-icon';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import PaymentTable from '../components/tables/payment/payment-table';
+import { useListPaymentsQuery } from '@/lib/data-service/payment/payment.queries';
+import { columns } from '../components/tables/payment/columns';
 
 const PaymentView = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
+    const { data: response, isLoading, error, refetch, isRefetching } = useListPaymentsQuery(currentPage, pageSize);
+    const { data, total } = response || { data: [], total: 0 };
+
+    const handleRefresh = async () => {
+        try {
+            await refetch();
+            toast.success('Liste des paiements actualisée avec succès.');
+        } catch {
+            toast.error('Erreur lors de l\'actualisation des données.');
+        }
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     const dataItems = [
         {
             title: 'Total Paiements',
@@ -49,13 +74,15 @@ const PaymentView = () => {
         <div className="flex flex-col gap-16">
             <GlobalDataCard data={dataItems} />
             <DataTableLayout
-                title="Listes des paiements et statut"
+                title="Liste des paiements et statut"
                 action={{
                     refresh: (
                         <Button
                             variant={'refresh'}
                             size={'add'}
                             className="text-white [&_svg]:size-8"
+                            onClick={handleRefresh}
+                            disabled={isLoading || isRefetching}
                         >
                             <RefreshIcon />{' '}
                             <span className="text-[1.3rem]">RAFRAICHIR</span>
@@ -63,7 +90,15 @@ const PaymentView = () => {
                     )
                 }}
             >
-                <PaymentTable />
+                <PaymentTable
+                    data={data}
+                    totalItems={total}
+                    columns={columns}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoading || isRefetching}
+                />
             </DataTableLayout>
         </div>
     );

@@ -27,7 +27,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               control={form.control}
               render={({ field }) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`typePersonne-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
@@ -85,7 +85,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               rules={{ required: 'Situation familiale requise' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`situationFamiliale-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
@@ -115,7 +115,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
               rules={{ required: 'Type de pièce requis' }}
               render={({ field}) => (
                 <div>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} key={`typePiece-${field.value}`}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez" />
                     </SelectTrigger>
@@ -133,13 +133,13 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
           </div>
 
           <div>
-            <Label htmlFor="numeroCNI" isRequired>Numéro de la carte CNI</Label>
+            <Label htmlFor="identity_card_number" isRequired>Numéro de la pièce</Label>
             <Input
-              id="numeroCNI"
-              placeholder="Numéro CNI"
-              {...form.register('numeroCNI')}
+              id="identity_card_number"
+              placeholder="Numéro pièce"
+              {...form.register('identity_card_number')}
             />
-            <InputErrorMessage message={errors.numeroCNI?.message} />
+            <InputErrorMessage message={errors.identity_card_number?.message} />
           </div>
 
           <div>

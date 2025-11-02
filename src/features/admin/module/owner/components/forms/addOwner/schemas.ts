@@ -9,7 +9,7 @@ export const addOwnerFormSchema = z.object({
     situationFamiliale: z.string().min(1, { message: 'Situation familiale requise' }),
     bienProprietaire: z.string().optional(),
     typePiece: z.string().min(1, { message: 'Type de pièce requis' }),
-    numeroCNI: z.string().min(1, { message: 'Numéro de CNI requis' }),
+    identity_card_number: z.string().min(1, { message: 'Numéro de CNI requis' }),
     dateExpiration: z.string().min(1, { message: 'Date d\'expiration requise' }),
     telephonePrincipal: z
         .string()
@@ -27,12 +27,20 @@ export const addOwnerFormSchema = z.object({
     modeReception: z.string().min(1, { message: 'Mode de réception requis' }),
     banque: z.string().optional(),
     titulaireCompte: z.string().optional(),
+    documentUrls: z.array(z.string()).optional(),
     documents: z
         .array(z.any())
         .optional()
         .refine((files) => !files || files.every((file: File) => file instanceof File), {
             message: 'Veuillez uploader des fichiers valides',
         }),
+    coverPicture: z
+        .any()
+        .optional()
+        .refine((file) => !file || file instanceof File, {
+            message: "Veuillez uploader un fichier valide pour la photo de couverture",
+        }),
+    coverPictureUrl: z.string().optional()
 });
 
 export type addOwnerFormData = z.infer<typeof addOwnerFormSchema>;

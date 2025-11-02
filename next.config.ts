@@ -21,6 +21,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'assets.storage.mahoufarm.bio',
+        port: '',
+        pathname: '/**',
+      },
 
       {
 
@@ -29,7 +35,7 @@ const nextConfig = {
         port: '',
         pathname: '/**',
 
-       
+
       }
     ],
   },

@@ -1,4 +1,4 @@
-import ContractView from '@/features/admin/views/contract-view';
+import ContractView from '@/features/admin/views/contract/contract-view';
 
 const page = () => {
     return <ContractView />;

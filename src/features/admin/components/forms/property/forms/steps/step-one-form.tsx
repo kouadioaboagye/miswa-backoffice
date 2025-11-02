@@ -147,7 +147,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             ? businesses.find(
                   (business) =>
                       business.id.toString() ===
-                      selectedBuilding.id_business.toString()
+                      selectedBuilding.id_business?.toString()
               )
             : null;
 
@@ -157,7 +157,7 @@ function StepOneForm({ form }: Readonly<StepOneFormProps>) {
             ? municipalities.find(
                   (municipality) =>
                       municipality.id.toString() ===
-                      selectedBuilding.id_municipality.toString()
+                      selectedBuilding.id_municipality?.toString()
               )
             : null;
 

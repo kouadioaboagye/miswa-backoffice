@@ -38,8 +38,8 @@ const buttonVariants = cva(
                 // Bouton d'avertissement (jaune)
                 warning:
                     'bg-[#FFC107] text-[#1a1a1a] shadow-sm hover:bg-[#FFC107]/90',
-                // Bouton info (bleu cyan)
-                info: 'bg-[#17A2B8] text-white shadow-sm hover:bg-[#17A2B8]/90',
+                // Bouton info (bleu)
+                info: 'bg-[#0088FF] text-white shadow-sm hover:bg-[#0088FF]/90',
                 outline_header:
                     'border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground',
                 //Bouton for date picker in a form

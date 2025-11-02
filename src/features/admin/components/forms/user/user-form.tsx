@@ -291,7 +291,7 @@ const UserForm = ({ user }: UserFormProps) => {
                                 <FormControl>
                                     <Input
                                         type="email"
-                                        placeholder="Entrez l’email"
+                                        placeholder="Entrez l'email"
                                         {...field}
                                     />
                                 </FormControl>

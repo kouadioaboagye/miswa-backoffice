@@ -1,10 +1,9 @@
 import { DataTable } from '@/shared/components/ui/data-table/data-table-with-pagination';
 import { ColumnDef } from '@tanstack/react-table';
-import { Contrat } from './columns';
 
 interface PropertyTableProps {
     data: any[];
-    columns: ColumnDef<Contrat>[];
+    columns: ColumnDef<any>[];
     totalItems?: number;
     pageSize?: number;
     onPageChange?: (page: number) => void;

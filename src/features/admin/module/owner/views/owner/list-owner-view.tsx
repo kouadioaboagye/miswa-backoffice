@@ -13,31 +13,40 @@ import {
     UsersIcon
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import RefreshIcon from '../../../../../../../public/assets/icons/refresh-icon';
+import { columns } from '../../components/tables/owner/columns';
 import OwnerTable from '../../components/tables/owner/owner-table';
 
 const ListOwnerView = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
     const {
         data: response,
         isLoading,
         error,
         refetch,
         isRefetching
-    } = useListOwnersQuery();
+    } = useListOwnersQuery({ page: currentPage, limit: pageSize });
     const { data, total } = response || { data: [], total: 0 };
     const router = useRouter();
 
     const handleRefresh = async () => {
         try {
             await refetch();
-            toast.success('Liste des propriétaires actualisés avec succès.');
+            toast.success('Liste des propriétaires actualisée avec succès.');
         } catch {
             toast.error('Erreur lors de l’actualisation des données.');
         }
     };
 
-    // Calculer les métriques basées sur les données réelles
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    // Calculate metrics based on paginated data
     const totalOwners = total || 0;
     const activeOwners = data.filter(
         (owner) => owner.owner?.phonenumber
@@ -129,7 +138,15 @@ const ListOwnerView = () => {
                     )
                 }}
             >
-                <OwnerTable data={data} />
+                <OwnerTable
+                    data={data}
+                    columns={columns}
+                    totalItems={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                    isLoading={isLoading || isRefetching}
+                />
             </DataTableLayout>
         </div>
     );
