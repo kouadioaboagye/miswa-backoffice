@@ -1,7 +1,7 @@
 import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { APP_ROUTES } from './config/app-route.config';
+import { paths } from './config/app-route.config';
 import { $env } from './config/env';
 
 const protectedRoutes = ['/admin'];
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
 
     // If the route is protected and the user is not authenticated, redirect to login
     if (!tokenPayload && isProtectedRoute) {
-        return NextResponse.redirect(new URL(APP_ROUTES.login, request.url));
+        return NextResponse.redirect(new URL(paths.auth.login, request.url));
     }
 
     if (isProtectedRoute) {
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
 
     // if the route is not protected and the user is authenticated, redirect to callback url
 
-    if (tokenPayload && pathname.startsWith(APP_ROUTES.login)) {
+    if (tokenPayload && pathname.startsWith(paths.auth.login)) {
         return NextResponse.redirect(new URL(protectedPathname, request.url));
     }
 }

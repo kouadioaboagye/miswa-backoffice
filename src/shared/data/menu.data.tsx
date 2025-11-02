@@ -1,10 +1,8 @@
-// import { HugeiconsComplaint } from '../../../public/assets/icons/claims';
-import { MageDashboardFill } from '../../../public/assets/icons/dashboard-icon';
-// import { TablerLogs } from '../../../public/assets/icons/logs';
 import { paths } from '@/config/app-route.config';
 import { LucideShoppingCart } from 'lucide-react';
 import { TablerCalendarFilled } from '../../../public/assets/icons/beneficiaire-icon';
 import ChatDotsIcon from '../../../public/assets/icons/chat-dots-icon';
+import { MageDashboardFill } from '../../../public/assets/icons/dashboard-icon';
 import { GravityUiSquareListUl } from '../../../public/assets/icons/documents-icon';
 import { HomeHouseIcon } from '../../../public/assets/icons/home-house';
 import { LocataireIcon } from '../../../public/assets/icons/locataire';
@@ -74,7 +72,7 @@ const baseMainNav = [
             }
         ]
     }
-]
+];
 type ModuleKey = 'property' | 'owner' | 'tenant' | 'advertisement' | 'contract';
 
 const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
@@ -172,7 +170,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             ),
             href: paths.admin.module.tenant.contracts,
             items: []
-        },
+        }
     ],
 
     advertisement: [
@@ -226,7 +224,7 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
                     href: paths.admin.module.advertisement.visit.terminated
                 }
             ]
-        },
+        }
     ],
 
     contract: [
@@ -262,8 +260,8 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             href: paths.admin.module.contract.terminated,
             items: []
         }
-    ],
-}
+    ]
+};
 
 const moduleNav: module[] = [
     {
@@ -280,7 +278,7 @@ const moduleNav: module[] = [
             <ProprioIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.owner.root,
-        value: "owner"
+        value: 'owner'
     },
     {
         label: 'Locataires',
@@ -288,7 +286,7 @@ const moduleNav: module[] = [
             <LocataireIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.tenant.root,
-        value: "tenant"
+        value: 'tenant'
     },
     {
         label: 'Annonces',
@@ -296,13 +294,19 @@ const moduleNav: module[] = [
             <MicrophoneIcon className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
         ),
         defaultHref: paths.admin.module.advertisement.root,
-        value: "advertisement"
+        value: 'advertisement'
     }
 ];
 
 // Type guard pour vérifier si c'est une clé valide
 function isModuleKey(key: string): key is ModuleKey {
-    return ['property', 'owner', 'tenant', 'advertisement', 'contract'].includes(key);
+    return [
+        'property',
+        'owner',
+        'tenant',
+        'advertisement',
+        'contract'
+    ].includes(key);
 }
 
 export const getMainNav = (activeModule: string) => {
