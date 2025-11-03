@@ -103,7 +103,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                         </div>
                         <Button
                             type='button'
-                            variant="outline_success"
+                            variant="outline_green"
                             className="mt-4 ml-[15%]"
                             onClick={() => document.getElementById('documentUpload')?.click()}
                         >
@@ -169,7 +169,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                             />
                             <Button
                                 type='button'
-                                variant="outline_success"
+                                variant="outline_green"
                                 onClick={() => document.getElementById('coverPictureUpload')?.click()}
                             >
                                 Parcourir
@@ -205,7 +205,7 @@ function StepThreeForm({ form }: Readonly<StepThreeFormProps>) {
                                 </div>
                                 <Button
                                     type='button'
-                                    variant="outline_success"
+                                    variant="outline_green"
                                     onClick={() => document.getElementById('otherMediaUpload')?.click()}
                                 >
                                     IMAGES

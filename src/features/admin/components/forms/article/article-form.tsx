@@ -16,11 +16,40 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { BasilArrowRightOutline } from '../../../../../../public/assets/icons/arrow-right';
 import FeatherUploadCloud from '../../../../../../public/assets/icons/feather_upload-cloud';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const articleSchema = z.object({
+    title: z
+        .string()
+        .min(3, { message: 'Le titre doit comporter au moins 3 caractères.' }),
+    category: z
+        .string()
+        .min(1, { message: 'Veuillez saisir une catégorie.' }),
+    content: z
+        .string()
+        .min(1, { message: 'Le contenu ne peut pas être vide.' }),
+    doc: z
+        .any()
+        .refine(
+            (file) => !file || file instanceof File,
+            'Veuillez sélectionner un fichier valide.'
+        )
+        .optional()
+});
+
+type ArticleFormValues = z.infer<typeof articleSchema>;
 
 const ArticleForm = () => {
     const [dragActive, setDragActive] = useState(false);
-    const form = useForm({
-        defaultValues: {}
+    const form = useForm<ArticleFormValues>({
+        resolver: zodResolver(articleSchema),
+        defaultValues: {
+            title: '',
+            category: '',
+            content: '',
+            doc: undefined
+        }
     });
 
     const onSubmit: SubmitHandler<any> = async (credentials) => {
@@ -137,7 +166,7 @@ const ArticleForm = () => {
                     <div className="flex flex-col justify-between ">
                         <FormField
                             control={form.control}
-                            name=""
+                            name="title"
                             render={({ field }) => (
                                 <FormItem>
                                     <Label>Titre de l’article</Label>
@@ -153,7 +182,7 @@ const ArticleForm = () => {
                         />
                         <FormField
                             control={form.control}
-                            name=""
+                            name="category"
                             render={({ field }) => (
                                 <FormItem>
                                     <Label>Catégorie</Label>
@@ -170,7 +199,7 @@ const ArticleForm = () => {
                     </div>
                     <FormField
                         control={form.control}
-                        name=""
+                        name="content"
                         render={({ field }) => (
                             <FormItem className="col-span-2">
                                 <Label>Contenu</Label>
