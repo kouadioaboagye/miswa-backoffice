@@ -3,6 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { ButtonLoader } from '../../../../public/assets/icons/button-loader';
 
 const buttonVariants = cva(
     'inline-flex h-full items-center justify-center gap-[10px] whitespace-nowrap text-[1.5rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
