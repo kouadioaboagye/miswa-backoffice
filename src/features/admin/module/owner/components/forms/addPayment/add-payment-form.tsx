@@ -148,7 +148,7 @@ function AddPaymentForm({ onClose, setLoading, setSuccessModalOpen }: Readonly<A
                             />
                         </label>
                         <Button
-                            variant="outline_success"
+                            variant="outline_green"
                             className="mt-4 ml-[15%]"
                             onClick={() => document.getElementById('documentUpload')?.click()}
                         >

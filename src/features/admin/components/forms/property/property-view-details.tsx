@@ -1,7 +1,6 @@
 'use client';
 
 import UserPill from '@/shared/components/atoms/user-pill';
-import MapLeftlet from '@/shared/components/leftlet-map/map';
 import InterventionCaroussel from '@/shared/components/molecules/intervention-caroussel';
 import { Button } from '@/shared/components/ui/button';
 import Link from 'next/link';
@@ -9,6 +8,11 @@ import CheckCircleIcon from '../../../../../../public/assets/icons/check-circle'
 import EditIcon2 from '../../../../../../public/assets/icons/edit-icon2';
 import LocationIcon2 from '../../../../../../public/assets/icons/location_2';
 import PointLocationIcon from '../../../../../../public/assets/icons/point-loaction';
+import dynamic from 'next/dynamic';
+
+const MapLeftlet = dynamic(() => import('@/shared/components/leftlet-map/map'), {
+  ssr: false, // prevents server-side rendering
+});
 
 const PropertyViewDetails = () => {
     // const { openModal } = useModalStore();

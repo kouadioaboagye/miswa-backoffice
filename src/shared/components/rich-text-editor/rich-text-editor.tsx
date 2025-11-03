@@ -36,15 +36,15 @@ export default function RichTextEditor({
         // }
     });
 
-    const { canUndo, canRedo } = useEditorState({
-        editor,
-        selector: (ctx) => {
-            return {
-                canUndo: ctx?.editor?.can().chain().focus().undo().run(),
-                canRedo: ctx?.editor?.can().chain().focus().redo().run()
-            };
-        }
-    });
+    // const { canUndo, canRedo } = useEditorState({
+    //     editor,
+    //     selector: (ctx) => {
+    //         return {
+    //             canUndo: ctx?.editor?.can().chain().focus().undo().run(),
+    //             canRedo: ctx?.editor?.can().chain().focus().redo().run()
+    //         };
+    //     }
+    // });
 
     if (!editor) return null;
 

@@ -13,7 +13,7 @@ import './styles/globals.css';
 
 export const metadata: Metadata = siteConfig.meta;
 
-export default async function RootLayout({
+export default function RootLayout({
     children
 }: Readonly<{
     children: ReactNode;

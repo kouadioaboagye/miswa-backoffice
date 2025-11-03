@@ -153,7 +153,7 @@ function AddContractForm({ form }: Readonly<FormProps>) {
                     </label>
                     <Button
                         type='button'
-                        variant="outline_success"
+                        variant="outline_green"
                         className="mt-4 ml-[20%]"
                         onClick={() => document.getElementById('documentUpload')?.click()}
                     >
