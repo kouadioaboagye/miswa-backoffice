@@ -1,5 +1,7 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/shared/components/ui/button';
 import { Calendar } from '@/shared/components/ui/calendar';
@@ -26,19 +28,73 @@ import {
 } from '@/shared/components/ui/select';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { BasilArrowRightOutline } from '../../../../../../public/assets/icons/arrow-right';
 import FeatherUploadCloud from '../../../../../../public/assets/icons/feather_upload-cloud';
 import FileIcon from '../../../../../../public/assets/icons/file-icon';
 
+const contratSchema = z
+    .object({
+        contractType: z
+            .string()
+            .min(1, { message: 'Veuillez sélectionner un type de contrat.' }),
+        property: z
+            .string()
+            .min(1, { message: 'Veuillez sélectionner un bien concerné.' }),
+        tenant: z
+            .string()
+            .min(1, { message: 'Veuillez sélectionner un locataire.' }),
+        startDate: z.date({
+            required_error: 'Veuillez choisir la date de début du contrat.'
+        }),
+        endDate: z.date({
+            required_error: 'Veuillez choisir la date de fin du contrat.'
+        }),
+        rentAmount: z
+            .string()
+            .min(1, { message: 'Le montant du loyer est obligatoire.' })
+            .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+                message: 'Le montant doit être un nombre positif.'
+            }),
+        doc: z
+            .any()
+            .refine(
+                (file) => !file || file instanceof File,
+                'Veuillez sélectionner un fichier valide.'
+            )
+            .optional()
+    })
+    .refine(
+        (data) =>
+            !data.startDate ||
+            !data.endDate ||
+            data.endDate >= data.startDate,
+        {
+            message: 'La date de fin doit être postérieure à la date de début.',
+            path: ['endDate']
+        }
+    );
+
+type ContratFormValues = z.infer<typeof contratSchema>;
+
 const ContratForm = () => {
     const [dragActive, setDragActive] = useState(false);
-    const form = useForm({
-        defaultValues: {}
+
+    const form = useForm<ContratFormValues>({
+        resolver: zodResolver(contratSchema),
+        defaultValues: {
+            contractType: '',
+            property: '',
+            tenant: '',
+            startDate: undefined,
+            endDate: undefined,
+            rentAmount: '',
+            doc: undefined
+        }
     });
 
-    const onSubmit: SubmitHandler<any> = async (credentials) => {
-        console.log(credentials);
+    const onSubmit: SubmitHandler<ContratFormValues> = async (data) => {
+        console.log('Form Data:', data);
     };
 
     return (
@@ -58,10 +114,11 @@ const ContratForm = () => {
                         <BasilArrowRightOutline />
                     </Button>
                 </div>
+
                 <div className="grid grid-cols-6 gap-10">
                     <FormField
                         control={form.control}
-                        name=""
+                        name="contractType"
                         render={({ field }) => (
                             <FormItem className="col-span-3">
                                 <Label>Type de contrat</Label>
@@ -75,14 +132,14 @@ const ContratForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="location">
+                                            Location
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="vente">
+                                            Vente
                                         </SelectItem>
-                                        <SelectItem value="option3">
-                                            Option 3
+                                        <SelectItem value="bail">
+                                            Bail commercial
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -92,7 +149,7 @@ const ContratForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="property"
                         render={({ field }) => (
                             <FormItem className="col-span-3">
                                 <Label>Bien concerné</Label>
@@ -106,14 +163,14 @@ const ContratForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="villa">
+                                            Villa
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="appartement">
+                                            Appartement
                                         </SelectItem>
-                                        <SelectItem value="option3">
-                                            Option 3
+                                        <SelectItem value="bureau">
+                                            Bureau
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -121,9 +178,10 @@ const ContratForm = () => {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
-                        name=""
+                        name="tenant"
                         render={({ field }) => (
                             <FormItem className="col-span-6">
                                 <Label>Locataire</Label>
@@ -137,14 +195,14 @@ const ContratForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="option1">
-                                            Option 1
+                                        <SelectItem value="john-doe">
+                                            John Doe
                                         </SelectItem>
-                                        <SelectItem value="option2">
-                                            Option 2
+                                        <SelectItem value="mary-smith">
+                                            Mary Smith
                                         </SelectItem>
-                                        <SelectItem value="option3">
-                                            Option 3
+                                        <SelectItem value="company-xyz">
+                                            Société XYZ
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -152,12 +210,13 @@ const ContratForm = () => {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="startDate"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1 col-span-2">
-                                <Label>Date de debut du contrat</Label>
+                                <Label>Date de début du contrat</Label>
                                 <Popover>
                                     <PopoverTrigger asChild>
                                         <FormControl>
@@ -166,7 +225,7 @@ const ContratForm = () => {
                                                 className={cn(
                                                     'pl-3 text-left font-normal h-[48px] rounded-xl justify-between border border-gray-300',
                                                     !field.value &&
-                                                        'text-muted-foreground'
+                                                    'text-muted-foreground'
                                                 )}
                                             >
                                                 {field.value ? (
@@ -174,7 +233,6 @@ const ContratForm = () => {
                                                 ) : (
                                                     <span>JJ/MM/AAAA</span>
                                                 )}
-                                                {/* <CalendarIcon className="ml-auto h-4 w-4 opacity-50" /> */}
                                             </Button>
                                         </FormControl>
                                     </PopoverTrigger>
@@ -186,22 +244,18 @@ const ContratForm = () => {
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() ||
-                                                date < new Date('1900-01-01')
-                                            }
                                             captionLayout="dropdown"
                                         />
                                     </PopoverContent>
                                 </Popover>
-
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="endDate"
                         render={({ field }) => (
                             <FormItem className="flex flex-col gap-1 col-span-2">
                                 <Label>Date de fin du contrat</Label>
@@ -213,7 +267,7 @@ const ContratForm = () => {
                                                 className={cn(
                                                     'pl-3 text-left font-normal h-[48px] justify-between rounded-xl border-gray-300',
                                                     !field.value &&
-                                                        'text-muted-foreground'
+                                                    'text-muted-foreground'
                                                 )}
                                             >
                                                 {field.value ? (
@@ -221,7 +275,6 @@ const ContratForm = () => {
                                                 ) : (
                                                     <span>JJ/MM/AAAA</span>
                                                 )}
-                                                {/* <CalendarIcon className="ml-auto h-4 w-4 opacity-50" /> */}
                                             </Button>
                                         </FormControl>
                                     </PopoverTrigger>
@@ -233,22 +286,17 @@ const ContratForm = () => {
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() ||
-                                                date < new Date('1900-01-01')
-                                            }
                                             captionLayout="dropdown"
                                         />
                                     </PopoverContent>
                                 </Popover>
-
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
-                        name=""
+                        name="rentAmount"
                         render={({ field }) => (
                             <FormItem className="col-span-2 -mt-[0.8rem]">
                                 <Label>Montant du Loyer</Label>
@@ -286,7 +334,7 @@ const ContratForm = () => {
                                             setDragActive(false);
                                             const files = e.dataTransfer.files;
                                             if (files && files.length > 0) {
-                                                field.onChange(files[0]); // Prendre le premier fichier
+                                                field.onChange(files[0]);
                                             }
                                         }}
                                     >
@@ -304,7 +352,7 @@ const ContratForm = () => {
                                                     ) {
                                                         field.onChange(
                                                             files[0]
-                                                        ); // Prendre le premier fichier
+                                                        );
                                                     }
                                                 }}
                                                 id="docs"
@@ -320,14 +368,13 @@ const ContratForm = () => {
                                                     Sélectionner les documents
                                                 </span>
                                                 <p className="mt-1 text-[1.2rem] font-normal text-gray-400">
-                                                    CNI, Passport......
+                                                    CNI, Passeport...
                                                 </p>
                                             </div>
                                             <Button
                                                 variant={'outline_green'}
                                                 type="button"
                                                 size={'add'}
-                                                // onClick={handleButtonClick}
                                                 className="rounded-[0.9rem] font-normal border border-[#0F91D2B2] px-4 py-2"
                                             >
                                                 <span className="text-[1.2rem] ">
@@ -357,7 +404,6 @@ const ContratForm = () => {
                                             </div>
                                         </div>
                                     )}
-
                                     <FormMessage className="text-[1.2rem]" />
                                 </div>
                             </FormItem>
