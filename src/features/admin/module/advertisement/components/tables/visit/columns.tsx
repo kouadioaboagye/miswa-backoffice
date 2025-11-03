@@ -69,12 +69,12 @@ const VisitActions = ({ visit }: { visit: Visit }) => {
     return (
         <>
             <div className="flex items-center gap-6">
-                <button
+                {/* <button
                     className="flex size-12 items-center justify-center rounded-full bg-[#1EA64A]/10 hover:bg-[#1EA64A]/20 transition-colors"
                     onClick={handleDetails}
                 >
                     <EyeIcon2 />
-                </button>
+                </button> */}
                 {visit.status === 'en-attente' && (
                     <>
                         <button
@@ -194,6 +194,13 @@ export const columns: ColumnDef<Visit>[] = [
         id: 'actions',
         accessorKey: 'actions',
         header: () => <span className="text-lg font-semibold" style={{ fontSize: '14px' }}>Actions</span>,
-        cell: ({ row }) => <VisitActions visit={row.original} />,
+        cell: ({ row }) => {
+            const status = row.original.status;
+            if (status === 'en-attente' || status === 'programmee') {
+                return <VisitActions visit={row.original} />
+            }else{
+                            return <span className="text-gray-500">-</span>;
+            }
+        },
     },
 ];
