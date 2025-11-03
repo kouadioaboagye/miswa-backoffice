@@ -162,8 +162,13 @@ export const colorsConfigFn = () => {
 export const colorsConfig = colorsConfigFn();
 
 export const uniqueColor = {
-    white: '#fff',
-    black: '#000',
-    transparent: 'transparent',
-    currentColor: 'currentColor'
+  white: '#fff',
+  black: '#000',
+  transparent: 'transparent',
+  currentColor: 'currentColor',
+  sky: '#0088FF',       
+  coral: '#FF5F57',      
+  amber: '#FFC107',      
+  midnight: '#14385C',   
+  emerald: '#28A745'    
 };

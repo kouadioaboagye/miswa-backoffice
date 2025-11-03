@@ -197,19 +197,8 @@ const moduleNavigations: Record<ModuleKey, typeof baseMainNav> = {
             icon: (
                 <GravityUiSquareListUl className="-ml-4 text-[2.3rem] group-data-[collapsible=icon]:ml-0" />
             ),
-            href: paths.admin.module.advertisement.visit.list,
-            items: [
-                {
-                    label: 'Liste des visites',
-                    icon: '',
-                    href: paths.admin.module.advertisement.visit.list
-                },
-                {
-                    label: 'Visites terminées',
-                    icon: '',
-                    href: paths.admin.module.advertisement.visit.terminated
-                }
-            ]
+            href: paths.admin.module.advertisement.visit,
+            items: []
         },
     ],
 
