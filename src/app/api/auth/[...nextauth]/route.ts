@@ -1,3 +1,4 @@
+import { paths } from '@/config/app-route.config';
 import { postLogin } from '@/features/auth/api/post-login';
 import jwt from 'jsonwebtoken';
 import type { AuthOptions, User } from 'next-auth';
@@ -5,16 +6,14 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 const authOptions: AuthOptions = {
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
 
     pages: {
-        signIn: '/auth/login', // Page de connexion personnalisée
-
+        signIn: paths.auth.login, // Page de connexion personnalisée
         error: '/auth/error' // Page d'erreur personnalisée
     },
 
     session: { strategy: 'jwt' },
-
     providers: [
         CredentialsProvider({
             name: 'Credentials',
@@ -71,7 +70,6 @@ const authOptions: AuthOptions = {
     ],
 
     callbacks: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async jwt({ token, user }: { token: any; user: User }) {
             // Initial login
             console.log('[JWT - user login] User:', user);

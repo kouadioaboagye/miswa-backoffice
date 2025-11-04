@@ -30,9 +30,9 @@ const Navbar = ({
 
     return (
         <nav
-            className={`h-[84px] rounded-2xl ${
+            className={`h-[84px] rounded-2xl w-full ${
                 backgroundColor === 'white' ? 'bg-white' : 'bg-[#F6FFF9]'
-            } sm:w-[95%] md:w-[90%]`}
+            }`}
         >
             <div className="flex h-full items-center justify-between px-5">
                 {/* Logo */}
