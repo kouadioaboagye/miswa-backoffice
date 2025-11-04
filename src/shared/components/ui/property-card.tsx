@@ -374,47 +374,8 @@ const PropertyCardGrid = ({
                 {/* Bouton Action */}
                 <button
                     onClick={() => {
-                        const params = new URLSearchParams();
-                        if (description) params.set('description', description);
-                        if (cover_url) params.set('cover_url', cover_url);
-                        if (reference) params.set('reference', reference);
-                        if (street) params.set('street', street);
-                        if (address) params.set('address', address);
-                        if (latitude)
-                            params.set('latitude', latitude.toString());
-                        if (longitude)
-                            params.set('longitude', longitude.toString());
-                        if (rooms_count)
-                            params.set('rooms_count', rooms_count.toString());
-                        if (likes_count)
-                            params.set('likes_count', likes_count.toString());
-                        if (views_count)
-                            params.set('views_count', views_count.toString());
-                        if (area_m2) params.set('area_m2', area_m2.toString());
-                        if (monthly_rent_amount)
-                            params.set(
-                                'monthly_rent_amount',
-                                monthly_rent_amount.toString()
-                            );
-                        if (is_busy !== undefined)
-                            params.set('is_busy', is_busy.toString());
-                        if (photos && photos.length > 0)
-                            params.set('photos', photos.join(','));
-                        if (bathrooms)
-                            params.set('bathrooms', bathrooms.toString());
-                        if (parking) params.set('parking', parking.toString());
-                        if (features && features.length > 0)
-                            params.set('features', JSON.stringify(features));
-                        if (building)
-                            params.set('building', JSON.stringify(building));
-                        if (municipality)
-                            params.set(
-                                'municipality',
-                                JSON.stringify(municipality)
-                            );
-                        params.set('name', title);
-
-                        router.push(`/propriete/${id}?${params.toString()}`);
+                        // Simplement naviguer vers la page de détails avec l'ID
+                        router.push(`/propriete/${id}`);
                     }}
                     className="w-full bg-gradient-to-r from-[#14385C] to-[#1e5a9e] text-white py-3 rounded-xl font-semibold text-xl hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
                 >

@@ -5,7 +5,14 @@ import { useQuery } from '@tanstack/react-query';
 export interface Municipality {
     id: number;
     name: string;
-    code?: string;
+    id_country: number;
+    country: {
+        name: string;
+        flag_url: string;
+        phone_code: string;
+        country_code: string;
+        id: number;
+    };
 }
 
 export interface Neighborhood {
@@ -14,37 +21,25 @@ export interface Neighborhood {
     municipality_id: number;
 }
 
-export interface PropertyType {
-    id: number;
-    name: string;
-    code?: string;
-}
+export type PropertyType = string;
 
-export interface BuildingType {
-    id: number;
-    name: string;
-    code?: string;
-}
+export type BuildingType = string;
 
 export interface PriceRange {
     min: number;
     max: number | null;
     label: string;
-    count?: number;
+    count: number;
 }
 
 export interface SurfaceRange {
     min: number;
     max: number | null;
     label: string;
-    count?: number;
+    count: number;
 }
 
-export interface RoomOption {
-    id: number;
-    value: string;
-    label: string;
-}
+export type RoomOption = number;
 
 // Hook pour récupérer les municipalités
 export const useMunicipalities = () => {
@@ -52,10 +47,9 @@ export const useMunicipalities = () => {
         queryKey: ['municipalities'],
         queryFn: async (): Promise<Municipality[]> => {
             const response = await apiClient.get('/municipalities/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30, // 30 minutes
-        gcTime: 1000 * 60 * 60 // 1 heure
+            // L'API renvoie { data: Municipality[], pagination: {...} }
+            return response.data.data || [];
+        }
     });
 };
 
@@ -70,9 +64,7 @@ export const useNeighborhoods = (municipalityId?: number) => {
             const response = await apiClient.get('/neighborhoods/', { params });
             return response.data.data || response.data;
         },
-        enabled: !!municipalityId, // Ne s'exécute que si municipalityId est fourni
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+        enabled: !!municipalityId // Ne s'exécute que si municipalityId est fourni
     });
 };
 
@@ -81,11 +73,10 @@ export const usePropertyTypes = () => {
     return useQuery({
         queryKey: ['property-types'],
         queryFn: async (): Promise<PropertyType[]> => {
-            const response = await apiClient.get('/property-types/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+            const response = await apiClient.get('/properties/property-types/');
+            // L'API renvoie directement un tableau de strings
+            return response.data || [];
+        }
     });
 };
 
@@ -94,11 +85,10 @@ export const useBuildingTypes = () => {
     return useQuery({
         queryKey: ['building-types'],
         queryFn: async (): Promise<BuildingType[]> => {
-            const response = await apiClient.get('/building-types/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+            const response = await apiClient.get('/properties/building-types/');
+            // L'API renvoie directement un tableau de strings
+            return response.data || [];
+        }
     });
 };
 
@@ -108,10 +98,9 @@ export const usePriceRanges = () => {
         queryKey: ['price-ranges'],
         queryFn: async (): Promise<PriceRange[]> => {
             const response = await apiClient.get('/properties/price-ranges/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+            // L'API renvoie directement un tableau d'objets
+            return response.data || [];
+        }
     });
 };
 
@@ -121,10 +110,9 @@ export const useSurfaceRanges = () => {
         queryKey: ['surface-ranges'],
         queryFn: async (): Promise<SurfaceRange[]> => {
             const response = await apiClient.get('/properties/surface-ranges/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+            // L'API renvoie directement un tableau d'objets
+            return response.data || [];
+        }
     });
 };
 
@@ -134,10 +122,9 @@ export const useRoomOptions = () => {
         queryKey: ['room-options'],
         queryFn: async (): Promise<RoomOption[]> => {
             const response = await apiClient.get('/properties/room-options/');
-            return response.data.data || response.data;
-        },
-        staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+            // L'API renvoie directement un tableau de nombres
+            return response.data || [];
+        }
     });
 };
 

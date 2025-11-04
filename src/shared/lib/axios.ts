@@ -2,10 +2,21 @@ import axios from 'axios';
 import { signOut } from 'next-auth/react';
 import { toast } from 'sonner';
 
+// Utiliser le proxy en développement pour éviter les problèmes CORS
+const isDevelopment = process.env.NODE_ENV === 'development';
+const baseURL = isDevelopment 
+    ? '/api/proxy'  // Utilise le proxy Next.js en développement
+    : process.env.NEXT_PUBLIC_API_URL; // Utilise l'API directement en production
+
 const apiClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL,
     headers: { 'Content-Type': 'application/json' }
 });
+
+// Log pour déboguer
+if (typeof window !== 'undefined' && isDevelopment) {
+    console.log('🔧 Mode développement : Utilisation du proxy API');
+}
 
 // Intercepteur pour gérer les erreurs 401 (token expiré)
 apiClient.interceptors.response.use(
